@@ -37,7 +37,7 @@ export default function GlobalNav() {
 
   const handleScrollToPaths = (e: React.MouseEvent) => {
     if (typeof window !== 'undefined') {
-      if (window.location.pathname === '/' || window.location.pathname === '') {
+      if (window.location.pathname === '/un1') {
         e.preventDefault();
         const el = document.getElementById('paths');
         if (el) {
@@ -45,7 +45,7 @@ export default function GlobalNav() {
           return;
         }
       }
-      window.location.href = '/#paths';
+      window.location.href = '/un1#paths';
     }
   };
 
@@ -99,7 +99,7 @@ export default function GlobalNav() {
             {t('nav.genesisCase')}
           </a>
           <a
-            href="/#paths"
+            href="/un1#paths"
             onClick={handleScrollToPaths}
             className="btn-pill-primary text-xs !py-2.5 !px-5"
           >
@@ -152,7 +152,7 @@ export default function GlobalNav() {
           </div>
 
           <a
-            href="/#paths"
+            href="/un1#paths"
             onClick={(e) => {
               setMobileMenuOpen(false);
               handleScrollToPaths(e);

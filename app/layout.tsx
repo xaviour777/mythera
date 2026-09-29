@@ -9,11 +9,11 @@ export const metadata: Metadata = {
   title: 'MYTHRA — AI-Native Film & Drama Studio',
   description:
     'Stories anyone can enter. Studios anyone can build. Films brands can own. Original AI-native cinema, personalized films, and filmmaker education.',
-  metadataBase: new URL('https://mythra.com'),
+  metadataBase: new URL('https://mythralab.com'),
   openGraph: {
     title: 'MYTHRA — AI-Native Film & Drama Studio',
     description: 'Original films, personalized cinema and the production system behind a one-person studio.',
-    url: 'https://mythra.com',
+    url: 'https://mythralab.com',
     siteName: 'MYTHRA Studio',
     type: 'website',
   },

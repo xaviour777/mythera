@@ -4,54 +4,126 @@ import React, { useState } from 'react';
 import CinematicHero from '../../components/CinematicHero';
 import SingleChoiceStep from '../../components/funnels/SingleChoiceStep';
 import ContactStep from '../../components/funnels/ContactStep';
-import { LeadContact, evaluateLead } from '../../lib/lead-scoring';
+import { LeadContact, PersonaType, evaluateLead } from '../../lib/lead-scoring';
 import { trackEvent } from '../../lib/analytics';
-import { ArrowLeft, ArrowRight, CheckCircle2, Compass, TestTube, Globe2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Users, BookOpen, Handshake, GraduationCap, Sparkles } from 'lucide-react';
 
-// Corporate & enterprise brand funnel: short qualifier that books an executive
-// briefing call (no checkout) and feeds the existing STUDIOS lead pipeline.
+// Partner funnel: creators, IP licensing, collaborations, cohort and academy.
+// Routes each track to the matching lead persona and a next-step page.
 const TOTAL_STEPS = 4;
 
-interface JoinAnswers {
-  branch: string;
-  segment: string;
-  objective: string;
-  budget: string;
-  timeline: string;
-  isDecisionMaker: boolean;
+type Track = 'creator' | 'ip' | 'collab' | 'cohort' | 'academy';
+
+interface TrackConfig {
+  icon: typeof Users;
+  title: string;
+  description: string;
+  persona: PersonaType;
+  offer: string;
+  nextHref: string;
+  nextLabel: string;
+  question: string;
+  options: { id: string; title: string; description: string }[];
 }
 
-const PHASES = [
-  {
-    icon: Compass,
-    label: 'PHASE 01 · FIND THE STORY',
-    title: 'Story Opportunity Sprint',
-    desc: 'Before producing anything, discover which story your audience may actually care about. A strategic decision product, not a production package.',
+const TRACKS: Record<Track, TrackConfig> = {
+  creator: {
+    icon: Users,
+    title: 'Creator Partner',
+    description: 'Bring your audience; co-create original stories and share in the upside.',
+    persona: 'STUDIOS',
+    offer: 'Creator Partnership',
+    nextHref: '/cast',
+    nextLabel: 'EXPLORE MYTHRA CAST',
+    question: 'HOW BIG IS YOUR AUDIENCE?',
+    options: [
+      { id: '100M+', title: '100M+ reach', description: 'Network or multi-channel ecosystem' },
+      { id: '10M–100M', title: '10M – 100M', description: 'Established creator or page network' },
+      { id: '1M–10M', title: '1M – 10M', description: 'Growing channel with loyal viewers' },
+      { id: 'Under 1M', title: 'Under 1M', description: 'Early-stage but consistent' },
+    ],
   },
-  {
-    icon: TestTube,
-    label: 'PHASE 02 · PROVE THE STORY',
-    title: 'Audience Proof Pilot',
-    desc: 'You are not buying 45–90 seconds; you are buying evidence. A professionally managed test and a clear scale, revise, or stop decision.',
+  ip: {
+    icon: BookOpen,
+    title: 'IP Licensing',
+    description: 'License a book, comic, game, or character universe for cinematic adaptation.',
+    persona: 'STUDIOS',
+    offer: 'IP Licensing Review',
+    nextHref: '/studios',
+    nextLabel: 'SEE HOW WE ADAPT IP',
+    question: 'WHAT IP ARE YOU BRINGING?',
+    options: [
+      { id: 'Novel / Book Series', title: 'Novel or Book Series', description: 'Published or manuscript-stage' },
+      { id: 'Graphic Novel / Webtoon', title: 'Graphic Novel or Webtoon', description: 'Illustrated panels into motion' },
+      { id: 'Original Character / Lore', title: 'Game Universe or Lore', description: 'Characters and worlds with fans' },
+      { id: 'Screenplay in Development', title: 'Screenplay', description: 'Feature or series script' },
+    ],
   },
-  {
-    icon: Globe2,
-    label: 'PHASE 03 · SCALE THE STORY',
-    title: 'Story World Partnership',
-    desc: 'Series and owned entertainment properties, custom-scoped only after the story has earned it with real audience signal.',
+  collab: {
+    icon: Handshake,
+    title: 'Collaboration',
+    description: 'Co-production, distribution, or strategic partnership on the MYTHRA slate.',
+    persona: 'STUDIOS',
+    offer: 'Collaboration Discussion',
+    nextHref: '/genesis',
+    nextLabel: 'WATCH THE GENESIS CASE STUDY',
+    question: 'WHAT DO YOU BRING TO THE TABLE?',
+    options: [
+      { id: 'Distribution', title: 'Distribution', description: 'Channels, platforms, or FAST/OTT slots' },
+      { id: 'Co-production', title: 'Co-production', description: 'Crew, capacity, or production budget' },
+      { id: 'Capital', title: 'Capital', description: 'Slate financing or territory rights' },
+      { id: 'Technology', title: 'Technology', description: 'Tools, models, or pipeline partnership' },
+    ],
   },
+  cohort: {
+    icon: GraduationCap,
+    title: 'Filmmaker Cohort',
+    description: '6 weeks, live, finish with a publishable portfolio film.',
+    persona: 'FILMMAKER',
+    offer: 'MYTHRA FILMMAKER COHORT',
+    nextHref: '/filmmaker/start?tier=film-cohort',
+    nextLabel: 'RESERVE A COHORT SEAT',
+    question: 'WHERE ARE YOU TODAY?',
+    options: [
+      { id: 'Complete beginner', title: 'Complete Beginner', description: 'New to filmmaking and AI tools' },
+      { id: 'Active creator or editor', title: 'Creator or Editor', description: 'Already publishing, want cinema quality' },
+      { id: 'Running a team or agency', title: 'Running a Team or Agency', description: 'Want a repeatable studio pipeline' },
+    ],
+  },
+  academy: {
+    icon: Sparkles,
+    title: 'Academy',
+    description: 'Self-paced MYTHRA Starter: learn the one-person studio system on your schedule.',
+    persona: 'FILMMAKER',
+    offer: 'MYTHRA STARTER',
+    nextHref: '/filmmaker/start?tier=film-starter',
+    nextLabel: 'START THE ACADEMY',
+    question: 'WHERE ARE YOU TODAY?',
+    options: [
+      { id: 'Complete beginner', title: 'Complete Beginner', description: 'New to filmmaking and AI tools' },
+      { id: 'Active creator or editor', title: 'Creator or Editor', description: 'Already publishing, want cinema quality' },
+      { id: 'Running a team or agency', title: 'Running a Team or Agency', description: 'Want a repeatable studio pipeline' },
+    ],
+  },
+};
+
+const COMMITMENT_OPTIONS = [
+  { id: '10+ hours / week', title: '10+ hours a week', description: 'Ready to go all in' },
+  { id: '5–10 hours / week', title: '5 – 10 hours a week', description: 'Serious side project' },
+  { id: 'Under 5 hours / week', title: 'Under 5 hours a week', description: 'Exploring for now' },
+];
+
+const TIMELINE_OPTIONS = [
+  { id: 'Within 30 days', title: 'Within 30 days', description: 'Ready to start now' },
+  { id: 'Within 60 days', title: 'Within 60 days', description: 'Planning the next quarter' },
+  { id: 'Exploring', title: 'Just exploring', description: 'Opening a conversation' },
 ];
 
 export default function JoinPage() {
   const [step, setStep] = useState(1);
-  const [answers, setAnswers] = useState<JoinAnswers>({
-    branch: 'brand',
-    segment: '',
-    objective: '',
-    budget: '',
-    timeline: '',
-    isDecisionMaker: false,
-  });
+  const [track, setTrack] = useState<Track | ''>('');
+  const [detail, setDetail] = useState('');
+  const [readiness, setReadiness] = useState('');
   const [contact, setContact] = useState<LeadContact>({
     firstName: '',
     lastName: '',
@@ -68,39 +140,50 @@ export default function JoinPage() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const updateAnswer = <K extends keyof JoinAnswers>(key: K, val: JoinAnswers[K]) => setAnswers((prev) => ({ ...prev, [key]: val }));
+  const config = track ? TRACKS[track] : null;
+  const isLearner = config?.persona === 'FILMMAKER';
+
   const nextStep = () => setStep((s) => Math.min(s + 1, TOTAL_STEPS));
   const prevStep = () => setStep((s) => Math.max(s - 1, 1));
 
+  // Map answers onto the keys lib/lead-scoring.ts reads for each persona.
+  const buildAnswers = (): Record<string, string | boolean> => {
+    const base = { door: `join-${track}`, funnel: 'join-partner', track: String(track), recommendedOffer: config?.offer || '' };
+    if (isLearner) {
+      return { ...base, currentStage: detail, timeCommitment: readiness };
+    }
+    return {
+      ...base,
+      branch: track === 'ip' ? 'ip' : track === 'creator' ? 'media' : 'finance',
+      audienceSize: track === 'creator' ? detail : '',
+      objective: detail,
+      strategicContribution: track === 'collab' ? detail : '',
+      timeline: readiness,
+    };
+  };
+
   const handleSubmit = async () => {
+    if (!config) return;
     setIsSubmitting(true);
     setError('');
-    const evaluated = evaluateLead('STUDIOS', { ...answers }, contact);
+    const answers = buildAnswers();
+    const evaluated = evaluateLead(config.persona, answers, contact);
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          persona: 'STUDIOS',
-          answers: {
-            ...answers,
-            door: 'corporate',
-            funnel: 'join-corporate',
-            recommendedOffer: 'Executive Briefing Call',
-          },
-          contact,
-        }),
+        body: JSON.stringify({ persona: config.persona, answers, contact }),
       });
       if (!res.ok) throw new Error(`Lead capture failed (${res.status})`);
       trackEvent('lead_created', {
-        persona: 'STUDIOS',
-        offerCode: 'JOIN_CORPORATE',
+        persona: config.persona,
+        offerCode: `JOIN_${String(track).toUpperCase()}`,
         qualificationCategory: evaluated.category,
       });
       setSubmitted(true);
     } catch (e) {
       console.error('Join lead capture error:', e);
-      setError('Something went wrong sending your brief. Please try again.');
+      setError('Something went wrong sending your application. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -110,75 +193,64 @@ export default function JoinPage() {
     <div className="bg-background text-foreground">
       <CinematicHero
         backgroundImage="/mythra-world.png"
-        eyebrow="MYTHRA STUDIOS · FOR BRANDS & ENTERPRISE"
-        badge="CORPORATE PARTNERSHIPS"
+        eyebrow="MYTHRA · PARTNERS, CREATORS & FILMMAKERS"
+        badge="JOIN THE STUDIO"
         headline={
           <>
-            DON&apos;T MAKE ANOTHER AD.<br />
-            <span className="text-primary">BUILD A STORY PEOPLE CHOOSE TO WATCH.</span>
+            STORIES ANYONE CAN ENTER.<br />
+            <span className="text-primary">STUDIOS ANYONE CAN BUILD.</span>
           </>
         }
-        lead="Original films, audience-tested pilots, and scalable story worlds for brands that want attention they don't have to buy."
-        support="Built for forward-thinking brands, media networks, and intellectual property owners."
-        primaryCtaText="BOOK AN EXECUTIVE BRIEFING"
-        primaryCtaHref="#brief"
+        lead="Partner with MYTHRA as a creator, license your IP, collaborate on the slate, or learn the one-person studio system."
+        support="Pick your track. Four quick answers. We reply within 24 hours."
+        primaryCtaText="CHOOSE YOUR TRACK"
+        primaryCtaHref="#apply"
         secondaryCtaText="VIEW GENESIS CASE STUDY"
         secondaryCtaHref="/genesis"
       />
 
-      {/* Philosophy */}
-      <section className="bg-[var(--surface-dim)] border-y border-[var(--border-subtle)] py-14 px-6 sm:px-12 text-center">
-        <div className="max-w-4xl mx-auto">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-primary font-bold block mb-3">
-            HOW WE WORK WITH BRANDS
-          </span>
-          <h2 className="font-sans text-3xl sm:text-5xl font-black tracking-tight text-foreground uppercase leading-tight">
-            WE DON’T BEGIN WITH PRODUCTION.<br />
-            <span className="text-primary">WE BEGIN BY FINDING THE STORY WORTH PRODUCING.</span>
-          </h2>
-          <p className="mt-5 text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto">
-            Your capital is invested only in stories with verified audience appetite. Start small, prove the signal, then scale.
-          </p>
-        </div>
-      </section>
-
-      {/* 3 phases */}
       <section className="py-20 px-6 sm:px-12 bg-background border-b border-[var(--border-subtle)]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {PHASES.map(({ icon: Icon, label, title, desc }) => (
-            <div key={title} className="p-8 rounded-2xl bg-card border-2 border-border hover:border-primary/60 transition-all shadow-xl">
-              <Icon className="w-6 h-6 text-primary mb-4" />
-              <span className="font-mono text-[10px] uppercase text-primary font-bold block mb-2">{label}</span>
-              <h3 className="font-sans text-2xl font-black text-foreground mb-2">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-            </div>
-          ))}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {(Object.keys(TRACKS) as Track[]).map((id) => {
+            const { icon: Icon, title, description } = TRACKS[id];
+            return (
+              <a
+                key={id}
+                href="#apply"
+                onClick={() => {
+                  setTrack(id);
+                  setStep(2);
+                }}
+                className="p-6 rounded-2xl bg-card border-2 border-border hover:border-primary transition-all shadow-xl no-underline group"
+              >
+                <Icon className="w-6 h-6 text-primary mb-4" />
+                <h3 className="font-sans text-lg font-black text-foreground mb-2 group-hover:text-primary">{title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{description}</p>
+              </a>
+            );
+          })}
         </div>
       </section>
 
-      {/* Qualifying funnel */}
-      <section id="brief" className="py-24 px-6 sm:px-12 bg-[#000000] scroll-mt-24">
+      <section id="apply" className="py-24 px-6 sm:px-12 bg-[#000000] scroll-mt-24">
         <div className="max-w-3xl mx-auto">
           <div className="mb-10 text-center">
-            <span className="eyebrow-text text-xs text-primary font-bold block mb-3">EXECUTIVE BRIEFING · 60 SECONDS</span>
+            <span className="eyebrow-text text-xs text-primary font-bold block mb-3">APPLY · 60 SECONDS</span>
             <h2 className="font-sans text-3xl sm:text-5xl font-black tracking-tight text-[#f3f3eb] uppercase">
-              TELL US ABOUT YOUR BRAND.
+              JOIN MYTHRA.
             </h2>
-            <p className="mt-3 text-sm text-[#a3a89e]">
-              Four quick answers. Our executive creative director replies within 24 hours to schedule a private briefing.
-            </p>
           </div>
 
           <div className="p-6 sm:p-10 rounded-2xl border-2 border-primary/40 bg-[#0a0a0a] shadow-2xl">
-            {submitted ? (
+            {submitted && config ? (
               <div className="text-center py-8">
                 <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-4" />
-                <h3 className="font-sans text-2xl sm:text-3xl font-black text-[#f3f3eb] mb-3 uppercase">Brief received.</h3>
+                <h3 className="font-sans text-2xl sm:text-3xl font-black text-[#f3f3eb] mb-3 uppercase">Application received.</h3>
                 <p className="text-sm text-[#a3a89e] max-w-md mx-auto mb-8">
-                  Thank you{contact.firstName ? `, ${contact.firstName}` : ''}. Check your inbox: we will confirm your executive briefing within 24 hours.
+                  Thank you{contact.firstName ? `, ${contact.firstName}` : ''}. Our team will reply within 24 hours about {config.title.toLowerCase()}.
                 </p>
-                <a href="/genesis" className="btn-pill-primary text-xs !py-3 !px-6 inline-flex">
-                  <span>WATCH THE GENESIS CASE STUDY</span>
+                <a href={config.nextHref} className="btn-pill-primary text-xs !py-3 !px-6 inline-flex">
+                  <span>{config.nextLabel}</span>
                   <ArrowRight className="w-4 h-4 stroke-[3]" />
                 </a>
               </div>
@@ -198,93 +270,56 @@ export default function JoinPage() {
 
                 {step === 1 && (
                   <SingleChoiceStep
-                    eyebrow="QUESTION 1 OF 4 · YOUR ORGANIZATION"
-                    title="WHICH BEST DESCRIBES YOUR COMPANY?"
-                    options={[
-                      { id: 'Enterprise brand', title: 'Enterprise / Global Brand', description: 'Multi-market brand with in-house marketing leadership' },
-                      { id: 'Growth brand', title: 'Growth-Stage Brand', description: 'Scaling consumer or B2B brand ready to own attention' },
-                      { id: 'Agency', title: 'Agency Representing a Brand', description: 'Creative or media agency pitching on behalf of a client' },
-                      { id: 'Media network / IP owner', title: 'Media Network or IP Owner', description: 'Audience, catalog, or story rights to build on' },
-                    ]}
-                    selectedValue={answers.segment}
+                    eyebrow="QUESTION 1 OF 4 · YOUR TRACK"
+                    title="HOW DO YOU WANT TO WORK WITH MYTHRA?"
+                    options={(Object.keys(TRACKS) as Track[]).map((id) => ({
+                      id,
+                      title: TRACKS[id].title,
+                      description: TRACKS[id].description,
+                    }))}
+                    selectedValue={track}
                     onSelect={(v) => {
-                      updateAnswer('segment', v);
-                      updateAnswer('branch', v === 'Media network / IP owner' ? 'media' : 'brand');
+                      setTrack(v as Track);
+                      setDetail('');
                     }}
                     onNext={nextStep}
                   />
                 )}
 
-                {step === 2 && (
+                {step === 2 && config && (
                   <SingleChoiceStep
-                    eyebrow="QUESTION 2 OF 4 · OBJECTIVE"
-                    title="WHAT DO YOU WANT THE STORY TO DO?"
-                    options={[
-                      { id: 'Hero Product Launch', title: 'Launch a Hero Product or Vision', description: 'Position an innovation within an emotional story' },
-                      { id: 'Brand Awareness & Cultural Cachet', title: 'Earn Cultural Relevance', description: 'Move beyond interruptive ads with narrative drama' },
-                      { id: 'Episodic Content System', title: 'Build a Recurring Series', description: 'Audience anticipation across social channels, episode after episode' },
-                      { id: 'Concept Treatment Sprint', title: 'Explore Before Committing', description: 'Find and test the premise before full production' },
-                    ]}
-                    selectedValue={answers.objective}
-                    onSelect={(v) => updateAnswer('objective', v)}
+                    eyebrow={`QUESTION 2 OF 4 · ${config.title.toUpperCase()}`}
+                    title={config.question}
+                    options={config.options}
+                    selectedValue={detail}
+                    onSelect={setDetail}
                     onNext={nextStep}
                   />
                 )}
 
-                {step === 3 && (
+                {step === 3 && config && (
                   <SingleChoiceStep
-                    eyebrow="QUESTION 3 OF 4 · INVESTMENT & TIMING"
-                    title="WHAT BUDGET ARE YOU PLANNING?"
-                    subtitle="Studio production begins at $7,500. Story Opportunity Sprints are $2,500, credited toward production over $15K."
-                    options={[
-                      { id: '$7.5K–$15K', title: '$7,500 – $15,000', description: 'Audience Proof Pilot' },
-                      { id: '$15K–$30K', title: '$15,000 – $30,000', description: 'Branded short film' },
-                      { id: '$30K–$75K', title: '$30,000 – $75,000', description: 'Episodic series system' },
-                      { id: '$75K+', title: '$75,000+', description: 'Long-form, multi-market, or IP slate' },
-                    ]}
-                    selectedValue={answers.budget}
-                    onSelect={(v) => updateAnswer('budget', v)}
+                    eyebrow="QUESTION 3 OF 4 · READINESS"
+                    title={isLearner ? 'HOW MUCH TIME CAN YOU COMMIT?' : 'WHEN DO YOU WANT TO START?'}
+                    options={isLearner ? COMMITMENT_OPTIONS : TIMELINE_OPTIONS}
+                    selectedValue={readiness}
+                    onSelect={setReadiness}
                     onNext={nextStep}
                   />
                 )}
 
-                {step === 4 && (
+                {step === 4 && config && (
                   <>
-                    <div className="mb-8">
-                      <span className="eyebrow-text block mb-3">WHEN DO YOU WANT TO START?</span>
-                      <div className="flex flex-wrap gap-2">
-                        {['Within 30 days', 'Within 60 days', 'This quarter', 'Exploring'].map((t) => (
-                          <button
-                            key={t}
-                            type="button"
-                            onClick={() => updateAnswer('timeline', t)}
-                            className={`px-4 py-2 rounded-full border text-xs font-semibold transition-all ${
-                              answers.timeline === t ? 'border-primary bg-primary text-primary-foreground' : 'border-white/20 text-[#f3f3eb] hover:border-primary'
-                            }`}
-                          >
-                            {t}
-                          </button>
-                        ))}
-                      </div>
-                      <label className="mt-5 flex items-center gap-2 text-xs text-[#a3a89e]">
-                        <input
-                          type="checkbox"
-                          checked={answers.isDecisionMaker === true}
-                          onChange={(e) => updateAnswer('isDecisionMaker', e.target.checked)}
-                        />
-                        I own or sign off on this budget
-                      </label>
-                    </div>
                     <ContactStep
-                      eyebrow="QUESTION 4 OF 4 · LEADERSHIP CONTACT"
-                      title="WHO SHOULD WE BRIEF?"
-                      subtitle="No checkout, no obligation. We reply within 24 hours to schedule a private executive briefing."
+                      eyebrow="QUESTION 4 OF 4 · CONTACT"
+                      title="WHERE SHOULD WE REACH YOU?"
+                      subtitle="No payment now. We reply within 24 hours with your next step."
                       contact={contact}
                       onChange={setContact}
                       onSubmit={handleSubmit}
                       isSubmitting={isSubmitting}
-                      showOrganizationFields={true}
-                      submitLabel="Request Executive Briefing"
+                      showOrganizationFields={!isLearner}
+                      submitLabel="Send My Application"
                     />
                     {error && <p className="mt-4 text-xs text-red-400">{error}</p>}
                   </>
