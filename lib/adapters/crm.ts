@@ -131,9 +131,10 @@ export class GhlCrmProvider implements CrmProvider {
       }
 
       // 2. Add detailed lead dossier Note in GoHighLevel for follow-up
+      // (answers text is also reused in the admin notification email below)
+      let parsedAnswersText = 'None provided';
       try {
         const custom = contact.customFields || {};
-        let parsedAnswersText = 'None provided';
         let doorTitle = '';
         let recipient = '';
         let occasion = '';

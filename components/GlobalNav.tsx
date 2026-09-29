@@ -27,17 +27,17 @@ export default function GlobalNav() {
   }, [pathname]);
 
   const navLinks = [
-    { name: t('nav.stories'), href: '/stories' },
-    { name: t('nav.method'), href: '/method' },
-    { name: t('nav.forYou'), href: '/you' },
-    { name: t('nav.filmmaker'), href: '/filmmaker' },
-    { name: t('nav.studios'), href: '/studios' },
-    { name: t('nav.pricing'), href: '/pricing' },
+    { name: t('nav.stories'), href: '/un1/stories' },
+    { name: t('nav.method'), href: '/un1/method' },
+    { name: t('nav.forYou'), href: '/un1/you' },
+    { name: t('nav.filmmaker'), href: '/un1/filmmaker' },
+    { name: t('nav.studios'), href: '/un1/studios' },
+    { name: t('nav.pricing'), href: '/un1/pricing' },
   ];
 
   const handleScrollToPaths = (e: React.MouseEvent) => {
     if (typeof window !== 'undefined') {
-      if (window.location.pathname === '/' || window.location.pathname === '') {
+      if (window.location.pathname === '/un1') {
         e.preventDefault();
         const el = document.getElementById('paths');
         if (el) {
@@ -45,7 +45,7 @@ export default function GlobalNav() {
           return;
         }
       }
-      window.location.href = '/#paths';
+      window.location.href = '/un1#paths';
     }
   };
 
@@ -59,7 +59,7 @@ export default function GlobalNav() {
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between">
         {/* Logo */}
-        <a href="/" className="group flex items-start gap-1 text-foreground no-underline">
+        <a href="/un1" className="group flex items-start gap-1 text-foreground no-underline">
           <span className="font-sans text-2xl sm:text-3xl font-black tracking-[-0.05em] text-foreground group-hover:text-primary transition-colors">
             MYTHRA
           </span>
@@ -93,13 +93,13 @@ export default function GlobalNav() {
           <LanguageSwitcher />
           <ThemeToggle />
           <a
-            href="/genesis"
+            href="/un1/genesis"
             className="text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 transition-colors font-semibold no-underline"
           >
             {t('nav.genesisCase')}
           </a>
           <a
-            href="/#paths"
+            href="/un1#paths"
             onClick={handleScrollToPaths}
             className="btn-pill-primary text-xs !py-2.5 !px-5"
           >
@@ -132,7 +132,7 @@ export default function GlobalNav() {
               </a>
             ))}
             <a
-              href="/genesis"
+              href="/un1/genesis"
               className="text-sm text-muted-foreground py-2 hover:text-foreground no-underline font-medium"
             >
               {t('nav.genesisCase')}
@@ -152,7 +152,7 @@ export default function GlobalNav() {
           </div>
 
           <a
-            href="/#paths"
+            href="/un1#paths"
             onClick={(e) => {
               setMobileMenuOpen(false);
               handleScrollToPaths(e);

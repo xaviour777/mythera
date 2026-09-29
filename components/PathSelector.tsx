@@ -32,7 +32,7 @@ export default function PathSelector() {
         path: 'MYTHRA YOU',
         name: 'Personalized Film starring you or someone you know',
         desc: t('paths.youDesc'),
-        href: '/you',
+        href: '/un1/you',
       };
 
       if (updated.objective === 'learn_system' || updated.role === 'creator') {
@@ -40,14 +40,14 @@ export default function PathSelector() {
           path: 'MYTHRA FILMMAKER',
           name: 'The One-Person Studio System & Cohort',
           desc: t('paths.filmmakerDesc'),
-          href: '/filmmaker',
+          href: '/un1/filmmaker',
         };
       } else if (updated.objective === 'commission_studio' || updated.role === 'brand_or_ip') {
         result = {
           path: 'MYTHRA STUDIOS',
           name: 'B2B Production, Branded Drama & Co-Production',
           desc: t('paths.studiosDesc'),
-          href: '/studios',
+          href: '/un1/studios',
         };
       }
       setQuizResult(result);
@@ -114,8 +114,8 @@ export default function PathSelector() {
 
             <div className="mt-10 pt-6 border-t border-[var(--border-subtle)]">
               <a
-                href="/you"
-                onClick={() => handleDoorClick('YOU', '/you')}
+                href="/un1/you"
+                onClick={() => handleDoorClick('YOU', '/un1/you')}
                 className="btn-pill-primary w-full text-center text-sm no-underline"
               >
                 <span>{t('paths.youCta')}</span>
@@ -151,8 +151,8 @@ export default function PathSelector() {
 
             <div className="mt-10 pt-6 border-t border-[var(--border-subtle)]">
               <a
-                href="/filmmaker"
-                onClick={() => handleDoorClick('FILMMAKER', '/filmmaker')}
+                href="/un1/filmmaker"
+                onClick={() => handleDoorClick('FILMMAKER', '/un1/filmmaker')}
                 className="btn-pill-primary w-full text-center text-sm no-underline"
               >
                 <span>{t('paths.filmmakerCta')}</span>
@@ -185,8 +185,8 @@ export default function PathSelector() {
 
             <div className="mt-10 pt-6 border-t border-[var(--border-subtle)]">
               <a
-                href="/studios"
-                onClick={() => handleDoorClick('STUDIOS', '/studios')}
+                href="/un1/studios"
+                onClick={() => handleDoorClick('STUDIOS', '/un1/studios')}
                 className="btn-pill-white w-full text-center text-sm no-underline"
               >
                 <span>{t('paths.studiosCta')}</span>

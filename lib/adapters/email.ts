@@ -26,7 +26,7 @@ export async function dispatchLeadEmails(lead: LeadEmailData): Promise<{
   let adminNotified = false;
 
   const adminEmail = process.env.NOTIFY_EMAIL || process.env.GHL_NOTIFY_EMAIL || 'info@zetomate.com';
-  const payoutLink = lead.payoutUrl || process.env.PAYOUT_URL || process.env.STRIPE_PAYOUT_URL || 'https://mythralab.com/pricing';
+  const payoutLink = lead.payoutUrl || process.env.PAYOUT_URL || process.env.STRIPE_PAYOUT_URL || 'https://mythralab.com/un1/pricing';
   const firstName = lead.customerName.trim().split(/\s+/)[0] || 'there';
 
   // 1. HTML Content for Customer Instant Auto-Reply (24h reply notice)

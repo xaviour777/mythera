@@ -81,7 +81,7 @@ export async function getLocaleFromIP(): Promise<Locale | null> {
     const res = await fetch('https://ipapi.co/json/', { signal: controller.signal });
     clearTimeout(timeoutId);
     if (!res.ok) return null;
-    const data = await res.json();
+    const data = (await res.json()) as { country_code?: string };
     const country = data?.country_code?.toUpperCase();
     if (country && COUNTRY_TO_LOCALE[country]) {
       return COUNTRY_TO_LOCALE[country];

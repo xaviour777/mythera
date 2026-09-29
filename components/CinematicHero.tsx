@@ -31,8 +31,8 @@ export default function CinematicHero({
   primaryCtaText = 'Collaborate with MYTHRA',
   primaryCtaHref = '#paths',
   secondaryCtaText = 'Explore the experiment',
-  secondaryCtaHref = '/genesis',
-  backgroundImage = '/mythra-world.png',
+  secondaryCtaHref = '/un1/genesis',
+  backgroundImage = '/un1/mythra-world.png',
   badge,
 }: CinematicHeroProps) {
   const handlePrimaryClick = (e: React.MouseEvent) => {

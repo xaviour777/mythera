@@ -83,7 +83,7 @@ export default function TrustPanel() {
           </div>
           <div className="flex items-center gap-4 shrink-0">
             <a
-              href="/legal/likeness-consent"
+              href="/un1/legal/likeness-consent"
               className="btn-pill-secondary text-xs !py-2.5 !px-5 inline-flex items-center gap-2"
             >
               <span>Read Likeness Policy</span>
