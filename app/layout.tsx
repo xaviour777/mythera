@@ -1,52 +1,51 @@
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
+import type { Metadata, Viewport } from 'next';
+import { Cormorant_Garamond, Inter } from 'next/font/google';
 import './globals.css';
-import GlobalNav from '../components/GlobalNav';
-import Footer from '../components/Footer';
-import ThemeProvider from '../components/ThemeProvider';
-import LanguageProvider from '../components/LanguageProvider';
+import { content, world001 } from '../lib/content';
+
+const display = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const text = Inter({
+  subsets: ['latin'],
+  variable: '--font-text',
+  display: 'swap',
+});
+
+const { company } = content;
 
 export const metadata: Metadata = {
-  title: 'MYTHRA — AI-Native Film & Drama Studio',
-  description:
-    'Stories anyone can enter. Studios anyone can build. Films brands can own. Original AI-native cinema, personalized films, and filmmaker education.',
-  metadataBase: new URL('https://mythralab.com'),
-  openGraph: {
-    title: 'MYTHRA — AI-Native Film & Drama Studio',
-    description: 'Original films, personalized cinema and the production system behind a one-person studio.',
-    url: 'https://mythralab.com',
-    siteName: 'MYTHRA Studio',
-    type: 'website',
+  metadataBase: new URL(company.siteUrl),
+  title: {
+    default: `${company.name} — We make stories people carry forward`,
+    template: `%s — ${company.name}`,
   },
+  description: company.description,
+  openGraph: {
+    title: `${company.name} — We make stories people carry forward`,
+    description: company.description,
+    url: company.siteUrl,
+    siteName: company.name,
+    type: 'website',
+    images: [{ url: world001.media.ogImage, width: 1200, height: 630 }],
+  },
+  twitter: { card: 'summary_large_image' },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: '#050505',
+  colorScheme: 'dark',
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col justify-between bg-background text-foreground antialiased">
-        <ThemeProvider>
-          <LanguageProvider>
-            {/* Subtle Film Grain Texture Overlay */}
-            <div className="film-grain" />
-
-            {/* Global Navigation Bar */}
-            <GlobalNav />
-
-            {/* Page Content */}
-            <main className="flex-1">
-              {/* Pages read useSearchParams(); Next.js needs a Suspense boundary to prerender them */}
-              <Suspense>{children}</Suspense>
-            </main>
-
-            {/* Cinematic Master Footer */}
-            <Footer />
-          </LanguageProvider>
-        </ThemeProvider>
-      </body>
+    <html lang="en" suppressHydrationWarning className={`${display.variable} ${text.variable}`}>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

@@ -1,0 +1,257 @@
+/* ENTER MYTHRA — the temple (teaser). No corporate chrome. */
+
+html:has(.enter-root) { background: #020202; color-scheme: dark; }
+html:has(.enter-root) body { background: #020202; overflow-x: hidden; }
+
+.enter-root {
+  --bone: #ece6da;
+  --ember: 201, 163, 106;
+  --ease: cubic-bezier(0.22, 0.61, 0.16, 1);
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  color: var(--bone);
+  font-family: var(--font-text), system-ui, sans-serif;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.enter-temple { position: absolute; inset: 0; pointer-events: none; }
+.enter-shaft {
+  position: absolute;
+  left: 50%;
+  top: -10%;
+  width: min(70vw, 720px);
+  height: 90%;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 100% at 50% 0%, rgba(var(--ember), 0.08), transparent 70%);
+}
+.enter-pillars {
+  position: absolute;
+  inset: 0;
+  --col: linear-gradient(90deg, #020202 0%, #0d0c0a 35%, #16130f 55%, #070707 100%);
+  --col-r: linear-gradient(270deg, #020202 0%, #0d0c0a 35%, #16130f 55%, #070707 100%);
+  background-image: var(--col), var(--col), var(--col-r), var(--col-r);
+  background-size: 5% 100%, 3.5% 100%, 3.5% 100%, 5% 100%;
+  background-position: 6% 0, 22% 0, 78% 0, 94% 0;
+  background-repeat: no-repeat;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 72%, transparent 100%);
+  opacity: 0.9;
+}
+@media (max-width: 640px) {
+  .enter-pillars { background-size: 9% 100%, 0 0, 0 0, 9% 100%; background-position: 3% 0, 0 0, 0 0, 97% 0; }
+}
+.enter-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background: radial-gradient(40% 45% at 50% 35%, rgba(var(--ember), 0.035), transparent 100%), linear-gradient(180deg, transparent, #000);
+}
+
+.enter-chrome {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px clamp(1.25rem, 4vw, 3rem);
+}
+.enter-exit, .enter-sound {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 10.5px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(236, 230, 218, 0.45);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.6s var(--ease);
+}
+.enter-exit:hover, .enter-sound:hover { color: var(--bone); }
+.enter-sound span { color: rgba(236, 230, 218, 0.3); }
+.enter-sound span.on { color: rgb(var(--ember)); }
+.enter-root :focus-visible { outline: 1px solid var(--bone); outline-offset: 6px; }
+
+.enter-stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2rem, 6vh, 3.5rem);
+  padding: 2vh 1.25rem;
+}
+
+/* ── The egg ── */
+.egg {
+  --near: 0;
+  --tilt: 0deg;
+  --lx: 42%;
+  --ly: 34%;
+  --breath: 1;
+  position: relative;
+  width: clamp(120px, 22vw, 190px);
+  aspect-ratio: 0.77;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.egg-body {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--tilt)) scale(var(--breath));
+  will-change: transform;
+}
+.egg-shell, .egg-light {
+  position: absolute;
+  inset: 0;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+.egg-shell {
+  background:
+    radial-gradient(55% 45% at var(--lx) var(--ly), rgba(236, 222, 196, calc(0.16 + var(--near) * 0.16)), transparent 70%),
+    radial-gradient(90% 90% at 50% 62%, #161412 0%, #0a0908 60%, #040404 100%);
+  box-shadow:
+    0 0 calc(40px + var(--near) * 120px) calc(var(--near) * 26px) rgba(var(--ember), calc(0.06 + var(--near) * 0.14)),
+    inset 0 -18px 40px rgba(0, 0, 0, 0.85),
+    inset 0 2px 1px rgba(236, 230, 218, 0.05);
+}
+.egg-light {
+  background: radial-gradient(35% 30% at 50% 55%, rgba(var(--ember), 0.9), transparent 70%);
+  mix-blend-mode: screen;
+  opacity: calc(var(--near) * 0.12);
+}
+.egg-crack {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgba(var(--ember), 0.9);
+  stroke-width: 0.8;
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+  filter: drop-shadow(0 0 3px rgba(var(--ember), 0.9));
+  opacity: 0;
+}
+.egg-shadow {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -14%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.9), transparent);
+}
+
+.egg-body.is-reacting { animation: eggShudder 0.9s var(--ease); }
+.egg-body.is-reacting .egg-light { animation: eggFlash 1.8s var(--ease); }
+.egg.is-awake .egg-crack { opacity: 1; stroke-dashoffset: 62; transition: stroke-dashoffset 2.4s var(--ease), opacity 0.4s; }
+.egg.is-awake .egg-light { opacity: calc(0.1 + var(--near) * 0.2); }
+
+@keyframes eggShudder {
+  0% { transform: rotate(var(--tilt)) scale(var(--breath)); }
+  12% { transform: rotate(calc(var(--tilt) - 2.2deg)) scale(1.012); }
+  26% { transform: rotate(calc(var(--tilt) + 1.8deg)) scale(1.006); }
+  42% { transform: rotate(calc(var(--tilt) - 1deg)); }
+  60% { transform: rotate(calc(var(--tilt) + 0.4deg)); }
+  100% { transform: rotate(var(--tilt)) scale(var(--breath)); }
+}
+@keyframes eggFlash {
+  0% { opacity: 0.1; }
+  14% { opacity: 0.75; }
+  100% { opacity: calc(0.1 + var(--near) * 0.2); }
+}
+
+.enter-words { min-height: 3.5rem; text-align: center; }
+.enter-line {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: clamp(1.6rem, 4.4vw, 3.2rem);
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 2.4s var(--ease) 0.5s, transform 2.4s var(--ease) 0.5s;
+}
+.enter-line.is-on { opacity: 1; transform: none; }
+.enter-hint {
+  font-size: 10.5px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(236, 230, 218, 0.32);
+  animation: hintIn 3s var(--ease) 1.5s both;
+}
+@keyframes hintIn { from { opacity: 0; } to { opacity: 1; } }
+
+.enter-door {
+  position: relative;
+  z-index: 2;
+  padding: 0 1.25rem clamp(2rem, 7vh, 4rem);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1.6s var(--ease), transform 1.6s var(--ease);
+  pointer-events: none;
+}
+.enter-door.is-open { opacity: 1; transform: none; pointer-events: auto; }
+.enter-honest {
+  font-size: 10.5px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(236, 230, 218, 0.55);
+}
+.enter-sub { margin-top: 0.6rem; font-size: 14px; color: rgba(236, 230, 218, 0.5); }
+.enter-form {
+  margin: 1.4rem auto 0;
+  max-width: 420px;
+  display: flex;
+  border-bottom: 1px solid rgba(236, 230, 218, 0.24);
+  flex-wrap: wrap;
+}
+.enter-form input[type='email'] {
+  flex: 1;
+  min-width: 0;
+  min-height: 50px;
+  background: transparent;
+  border: 0;
+  color: var(--bone);
+  font: inherit;
+  font-size: 16px;
+  padding: 0 0.25rem;
+}
+.enter-form input::placeholder { color: rgba(236, 230, 218, 0.35); }
+.enter-form input:focus { outline: none; }
+.enter-form button {
+  min-height: 50px;
+  padding: 0 0.5rem 0 1rem;
+  background: none;
+  border: 0;
+  color: var(--bone);
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.enter-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.enter-error { width: 100%; padding: 0.6rem 0; font-size: 13px; color: rgb(var(--ember)); }
+.enter-sent {
+  margin-top: 1.4rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: rgba(236, 230, 218, 0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-body.is-reacting, .egg-body.is-reacting .egg-light { animation: none; }
+}

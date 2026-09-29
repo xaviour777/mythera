@@ -1,5 +1,7 @@
 # MYTHRA — AI-Native Film & Drama Studio
 
+> **mythrafilm.com studio site:** see [`docs/STUDIO-SITE.md`](docs/STUDIO-SITE.md). Proof, links and copy are edited in `content/mythra.json`. The sections below describe the original site, now under `/un1`.
+
 > **"Stories anyone can enter. Studios anyone can build. Films brands can own."**
 
 MYTHRA is an AI-native film and drama studio. AI is the production medium; storytelling, IP, audience psychology, localization, and distribution are the business.

@@ -1,0 +1,182 @@
+{
+  "$comment": "Single source of truth for mythrafilm.com. Edit values here — no component changes needed. A metric, festival, link or email is only shown publicly when it has a value AND (where present) \"verified\": true. Empty values render as [[PLACEHOLDER]] tokens on local dev and Vercel preview deployments only, and are hidden in production.",
+
+  "company": {
+    "name": "MYTHRA Studios",
+    "shortName": "MYTHRA",
+    "domain": "mythrafilm.com",
+    "siteUrl": "https://mythrafilm.com",
+    "descriptor": "An AI-native story and IP studio.",
+    "description": "MYTHRA is an AI-native story and IP studio creating original entertainment for a global audience.",
+    "tagline": "We make stories people carry forward.",
+    "legalEntity": {
+      "name": null,
+      "companyNumber": null,
+      "jurisdiction": null,
+      "verified": false,
+      "placeholder": "REGISTERED LEGAL ENTITY / COMPANY NUMBER — ONLY WHEN VERIFIED"
+    },
+    "copyrightYear": 2026
+  },
+
+  "contact": {
+    "partners": { "email": null, "placeholder": "PARTNERS EMAIL @ mythrafilm.com" },
+    "press": { "email": null, "placeholder": "PRESS EMAIL @ mythrafilm.com" }
+  },
+
+  "social": [
+    { "platform": "youtube", "label": "YouTube", "url": null },
+    { "platform": "instagram", "label": "Instagram", "url": null },
+    { "platform": "tiktok", "label": "TikTok", "url": null },
+    { "platform": "facebook", "label": "Facebook", "url": null }
+  ],
+
+  "metrics": {
+    "totalViews": {
+      "value": null,
+      "display": null,
+      "verified": false,
+      "placeholder": "VERIFIED TOTAL VIEWS",
+      "label": "Verified views across YouTube · Instagram · Facebook · TikTok",
+      "platforms": ["YouTube", "Instagram", "Facebook", "TikTok"],
+      "source": null,
+      "asOf": null
+    },
+    "languages": {
+      "value": null,
+      "verified": false,
+      "placeholder": "LANGUAGES",
+      "label": "Languages",
+      "source": null,
+      "asOf": null
+    },
+    "countries": {
+      "value": null,
+      "verified": false,
+      "placeholder": "COUNTRIES",
+      "label": "Countries",
+      "source": null,
+      "asOf": null
+    }
+  },
+
+  "festivals": [
+    {
+      "id": "festival-2026-france",
+      "status": "Official Selection",
+      "name": null,
+      "placeholder": "VERIFIED FESTIVAL NAME",
+      "country": "France",
+      "year": 2026,
+      "worldId": "the-mothers-monster",
+      "verified": false,
+      "showOnHero": true
+    }
+  ],
+
+  "press": [],
+
+  "creators": [
+    {
+      "id": "zahid-iqbal",
+      "name": "Zahid Iqbal",
+      "credit": "Creator of World 001: The Mother's Monster",
+      "role": "Creator",
+      "portrait": null,
+      "bio": null
+    }
+  ],
+
+  "worlds": [
+    {
+      "id": "the-mothers-monster",
+      "slug": "the-mothers-monster",
+      "number": "001",
+      "title": "The Mother's Monster",
+      "status": "released",
+      "kicker": "World 001 · Original IP · MYTHRA Studios",
+      "logline": ["A mother.", "A creature the world feared.", "And a bond stronger than fear."],
+      "creatorId": "zahid-iqbal",
+      "film": {
+        "watchUrl": null,
+        "embedUrl": null,
+        "placeholder": "OFFICIAL FILM URL",
+        "platformLabel": null,
+        "runtime": null
+      },
+      "media": {
+        "keyArt": "/media/world-001/key-art.jpg",
+        "keyArtAlt": "A cloaked woman holds a small dragon on a mountain ledge above a ruined valley at dusk.",
+        "keyArtIsOfficialStill": false,
+        "keyArtNote": "Interim key art. Replace with an approved still from The Mother's Monster.",
+        "ogImage": "/media/world-001/og.jpg",
+        "blurDataURL": "data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAAQABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAUGBP/EAB4QAAICAgIDAAAAAAAAAAAAAAECAAMEERIxIUGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARL/2gAMAwEAAhEDEQA/AIZHO4xxHBI2viLARuaK7+Hv5FIplzsTEqCNQHsYbBhJe3JaxwxPXUJGIvdf/9k=",
+        "focalPoint": "80% 45%"
+      }
+    }
+  ],
+
+  "rights": {
+    "label": "Rights-documented",
+    "headline": ["Built for", "partnership."],
+    "body": "Original worlds are human-led and developed with documented production and rights records so partners can understand what they are working with.",
+    "creatorLine": { "text": "Original world created by Zahid Iqbal.", "show": true },
+    "chainOfTitle": {
+      "statement": null,
+      "approved": false,
+      "approvedBy": null,
+      "approvedAt": null,
+      "$comment": "Only set approved: true after legal review. Unapproved statements are never rendered."
+    }
+  },
+
+  "partnerCategories": [
+    {
+      "id": "studios-producers",
+      "title": "Studios & Producers",
+      "detail": "Co-production · Original IP · Story development · AI-native production"
+    },
+    {
+      "id": "distributors-networks",
+      "title": "Distributors & Media Networks",
+      "detail": "Distribution · Territories · Localization · Dubbing · Platforms"
+    },
+    {
+      "id": "licensing-consumer-products",
+      "title": "Licensing & Consumer Products",
+      "detail": "Explore future opportunities around MYTHRA worlds, characters and products."
+    },
+    {
+      "id": "brands",
+      "title": "Brands",
+      "detail": "Original entertainment · Story integrations · Character collaborations"
+    },
+    {
+      "id": "technology",
+      "title": "Technology",
+      "detail": "Generative video · Voice · Production infrastructure · Interactive systems"
+    },
+    {
+      "id": "investment-strategic",
+      "title": "Investment & Strategic",
+      "detail": "Long-term IP · Distribution · Consumer expansion · International growth"
+    }
+  ],
+
+  "partnerDeck": {
+    "status": "in-preparation",
+    "$comment": "Status: \"in-preparation\" | \"ready\". The deck file/URL is NEVER stored here — set PARTNER_DECK_URL as a server-only environment variable so it can be emailed after submission without being exposed publicly."
+  },
+
+  "enter": {
+    "mode": "teaser",
+    "$comment": "Mode: \"teaser\" (email capture) | \"immersive\" (future React Three Fiber temple experience).",
+    "path": "/enter",
+    "hint": "Find the egg."
+  },
+
+  "legal": {
+    "lastUpdated": "2026-09-29",
+    "reviewPending": true
+  }
+}

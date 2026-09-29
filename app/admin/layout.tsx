@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import LegacyChrome from '../../components/LegacyChrome';
 import { ShieldCheck, Users, ShoppingCart, Film, Award, DollarSign, RefreshCw, Beaker, ArrowLeft } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -20,6 +21,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
+    <LegacyChrome>
     <div className="min-h-screen bg-[#070707] text-[#F4F0E8] pt-24 pb-20">
       {/* Admin Top Navigation */}
       <header className="border-b border-[#1C1B19] bg-[#0C0B0A] px-6 sm:px-8 py-4 mb-8">
@@ -63,5 +65,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {children}
       </main>
     </div>
+    </LegacyChrome>
   );
 }
