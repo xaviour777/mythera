@@ -33,7 +33,7 @@ const TRACKS: Record<Track, TrackConfig> = {
     description: 'Bring your audience; co-create original stories and share in the upside.',
     persona: 'STUDIOS',
     offer: 'Creator Partnership',
-    nextHref: '/cast',
+    nextHref: '/un1/cast',
     nextLabel: 'EXPLORE MYTHRA CAST',
     question: 'HOW BIG IS YOUR AUDIENCE?',
     options: [
@@ -49,7 +49,7 @@ const TRACKS: Record<Track, TrackConfig> = {
     description: 'License a book, comic, game, or character universe for cinematic adaptation.',
     persona: 'STUDIOS',
     offer: 'IP Licensing Review',
-    nextHref: '/studios',
+    nextHref: '/un1/studios',
     nextLabel: 'SEE HOW WE ADAPT IP',
     question: 'WHAT IP ARE YOU BRINGING?',
     options: [
@@ -65,7 +65,7 @@ const TRACKS: Record<Track, TrackConfig> = {
     description: 'Co-production, distribution, or strategic partnership on the MYTHRA slate.',
     persona: 'STUDIOS',
     offer: 'Collaboration Discussion',
-    nextHref: '/genesis',
+    nextHref: '/un1/genesis',
     nextLabel: 'WATCH THE GENESIS CASE STUDY',
     question: 'WHAT DO YOU BRING TO THE TABLE?',
     options: [
@@ -81,7 +81,7 @@ const TRACKS: Record<Track, TrackConfig> = {
     description: '6 weeks, live, finish with a publishable portfolio film.',
     persona: 'FILMMAKER',
     offer: 'MYTHRA FILMMAKER COHORT',
-    nextHref: '/filmmaker/start?tier=film-cohort',
+    nextHref: '/un1/filmmaker/start?tier=film-cohort',
     nextLabel: 'RESERVE A COHORT SEAT',
     question: 'WHERE ARE YOU TODAY?',
     options: [
@@ -96,7 +96,7 @@ const TRACKS: Record<Track, TrackConfig> = {
     description: 'Self-paced MYTHRA Starter: learn the one-person studio system on your schedule.',
     persona: 'FILMMAKER',
     offer: 'MYTHRA STARTER',
-    nextHref: '/filmmaker/start?tier=film-starter',
+    nextHref: '/un1/filmmaker/start?tier=film-starter',
     nextLabel: 'START THE ACADEMY',
     question: 'WHERE ARE YOU TODAY?',
     options: [
@@ -192,7 +192,7 @@ export default function JoinPage() {
   return (
     <div className="bg-background text-foreground">
       <CinematicHero
-        backgroundImage="/mythra-world.png"
+        backgroundImage="/un1/mythra-world.png"
         eyebrow="MYTHRA · PARTNERS, CREATORS & FILMMAKERS"
         badge="JOIN THE STUDIO"
         headline={
@@ -206,7 +206,7 @@ export default function JoinPage() {
         primaryCtaText="CHOOSE YOUR TRACK"
         primaryCtaHref="#apply"
         secondaryCtaText="VIEW GENESIS CASE STUDY"
-        secondaryCtaHref="/genesis"
+        secondaryCtaHref="/un1/genesis"
       />
 
       <section className="py-20 px-6 sm:px-12 bg-background border-b border-[var(--border-subtle)]">

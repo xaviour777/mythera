@@ -24,7 +24,7 @@ export default function HomePage() {
     <div>
       {/* SCREEN 1: Master Hero with GitHub Repo Image */}
       <CinematicHero
-        backgroundImage="/mythra-world.png"
+        backgroundImage="/un1/mythra-world.png"
         eyebrow={t('hero.eyebrow')}
         headline={
           <>
@@ -38,7 +38,7 @@ export default function HomePage() {
         primaryCtaText={t('hero.primaryCta')}
         primaryCtaHref="#paths"
         secondaryCtaText={t('hero.secondaryCta')}
-        secondaryCtaHref="/genesis"
+        secondaryCtaHref="/un1/genesis"
       />
 
       {/* SCREEN 2: Verified Proof Teaser */}
@@ -56,7 +56,7 @@ export default function HomePage() {
             </p>
           </div>
           <a
-            href="/genesis"
+            href="/un1/genesis"
             className="btn-pill-primary text-xs !py-3 !px-6 shrink-0"
           >
             <span>{t('proof.cta')}</span>
@@ -116,7 +116,7 @@ export default function HomePage() {
               </p>
             </div>
             <a
-              href="/method"
+              href="/un1/method"
               className="btn-pill-primary text-xs !py-3 !px-6 shrink-0"
             >
               <span>{t('engine.methodCta')}</span>
@@ -141,7 +141,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <a
-              href="/you/start?tier=you-trailer"
+              href="/un1/you/start?tier=you-trailer"
               className="p-8 bg-[var(--surface-elevated)] border-2 border-[var(--border-subtle)] hover:border-primary rounded-2xl transition-all group text-left shadow-xl hover:-translate-y-1 no-underline"
             >
               <span className="text-[10px] font-mono uppercase text-primary block mb-1 font-bold">
@@ -156,7 +156,7 @@ export default function HomePage() {
             </a>
 
             <a
-              href="/filmmaker/start?tier=film-cohort"
+              href="/un1/filmmaker/start?tier=film-cohort"
               className="p-8 bg-[var(--surface-elevated)] border-2 border-primary rounded-2xl transition-all group text-left shadow-2xl ring-1 ring-primary hover:-translate-y-1 no-underline"
             >
               <span className="text-[10px] font-mono uppercase text-primary block mb-1 font-bold">
@@ -171,7 +171,7 @@ export default function HomePage() {
             </a>
 
             <a
-              href="/studios/start"
+              href="/un1/studios/start"
               className="p-8 bg-[var(--surface-elevated)] border-2 border-[var(--border-subtle)] hover:border-foreground rounded-2xl transition-all group text-left shadow-xl hover:-translate-y-1 no-underline"
             >
               <span className="text-[10px] font-mono uppercase text-primary block mb-1 font-bold">

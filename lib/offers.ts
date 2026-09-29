@@ -67,7 +67,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: '3–5 business days',
       checkoutType: 'instant',
       ctaText: 'Create Moment · $79',
-      ctaHref: '/you/start?tier=you-moment',
+      ctaHref: '/un1/you/start?tier=you-moment',
     },
     {
       id: 'you-trailer',
@@ -91,7 +91,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: '7–10 business days',
       checkoutType: 'instant',
       ctaText: 'Create My Trailer · $299',
-      ctaHref: '/you/start?tier=you-trailer',
+      ctaHref: '/un1/you/start?tier=you-trailer',
     },
     {
       id: 'you-story',
@@ -115,7 +115,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: '2–4 weeks',
       checkoutType: 'deposit',
       ctaText: 'Start Story Brief · From $1,500',
-      ctaHref: '/you/start?tier=you-story',
+      ctaHref: '/un1/you/start?tier=you-story',
     },
     {
       id: 'you-legacy',
@@ -139,7 +139,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: '4–8 weeks',
       checkoutType: 'application',
       ctaText: 'Inquire for Legacy · From $5,000',
-      ctaHref: '/you/start?tier=you-legacy',
+      ctaHref: '/un1/you/start?tier=you-legacy',
     },
   ],
 
@@ -169,7 +169,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Aligned with episode production schedule',
       checkoutType: 'application',
       ctaText: 'Apply for Fan Cameo · $500',
-      ctaHref: '/cast?tier=fan-cameo',
+      ctaHref: '/un1/cast?tier=fan-cameo',
     },
     {
       id: 'cast-speaking-character',
@@ -197,7 +197,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Aligned with episode production schedule',
       checkoutType: 'application',
       ctaText: 'Apply for Speaking Role · $2,500',
-      ctaHref: '/cast?tier=speaking-character',
+      ctaHref: '/un1/cast?tier=speaking-character',
     },
     {
       id: 'cast-featured-character',
@@ -225,7 +225,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Aligned with episode production schedule',
       checkoutType: 'application',
       ctaText: 'Apply for Featured Role · $7,500',
-      ctaHref: '/cast?tier=featured-character',
+      ctaHref: '/un1/cast?tier=featured-character',
     },
     {
       id: 'cast-guest-hero',
@@ -253,7 +253,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Selective application & scheduling',
       checkoutType: 'application',
       ctaText: 'APPLY TO BECOME THE NEXT GUEST HERO',
-      ctaHref: '/cast?tier=guest-hero',
+      ctaHref: '/un1/cast?tier=guest-hero',
     },
   ],
 
@@ -314,7 +314,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Instant Access',
       checkoutType: 'free',
       ctaText: 'Access Free Blueprint',
-      ctaHref: '/filmmaker/start?tier=film-blueprint',
+      ctaHref: '/un1/filmmaker/start?tier=film-blueprint',
     },
     {
       id: 'film-starter',
@@ -336,7 +336,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Instant Access',
       checkoutType: 'instant',
       ctaText: 'Enroll in Starter · $149',
-      ctaHref: '/filmmaker/start?tier=film-starter',
+      ctaHref: '/un1/filmmaker/start?tier=film-starter',
     },
     {
       id: 'film-cohort',
@@ -361,7 +361,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: '6 Weeks (Next cohort starting soon)',
       checkoutType: 'instant',
       ctaText: 'Join Cohort · $749',
-      ctaHref: '/filmmaker/start?tier=film-cohort',
+      ctaHref: '/un1/filmmaker/start?tier=film-cohort',
     },
     {
       id: 'film-accelerator',
@@ -385,7 +385,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: '8–12 Weeks',
       checkoutType: 'application',
       ctaText: 'Apply for Accelerator',
-      ctaHref: '/filmmaker/start?tier=film-accelerator',
+      ctaHref: '/un1/filmmaker/start?tier=film-accelerator',
     },
   ],
 
@@ -415,7 +415,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: '5–7 business days',
       checkoutType: 'deposit',
       ctaText: 'DISCOVER OUR STORY OPPORTUNITY',
-      ctaHref: '/studios/start?tier=story-sprint',
+      ctaHref: '/un1/studios/start?tier=story-sprint',
     },
     {
       id: 'studio-proof-pilot',
@@ -444,7 +444,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: '2–3 weeks',
       checkoutType: 'consultation',
       ctaText: 'TEST A STORY WITH MYTHRA',
-      ctaHref: '/studios/start?tier=proof-pilot',
+      ctaHref: '/un1/studios/start?tier=proof-pilot',
     },
     {
       id: 'studio-story-world',
@@ -470,7 +470,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Custom milestone timeline',
       checkoutType: 'consultation',
       ctaText: 'BUILD AN ORIGINAL STORY WORLD',
-      ctaHref: '/studios/start?tier=story-world',
+      ctaHref: '/un1/studios/start?tier=story-world',
     },
     {
       id: 'studio-licensing',
@@ -492,7 +492,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Executive agreement',
       checkoutType: 'consultation',
       ctaText: 'EXPLORE STORY LICENSING',
-      ctaHref: '/studios/start?intent=licensing',
+      ctaHref: '/un1/studios/start?intent=licensing',
     },
     {
       id: 'studio-coproduction',
@@ -515,7 +515,7 @@ export const mythraOffers: OffersConfig = {
       turnaround: 'Executive review',
       checkoutType: 'consultation',
       ctaText: 'REQUEST A PRIVATE SLATE CONVERSATION',
-      ctaHref: '/studios/start?intent=slate',
+      ctaHref: '/un1/studios/start?intent=slate',
     },
   ],
 };

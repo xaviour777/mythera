@@ -27,7 +27,7 @@ const GALLERY_DATA: GalleryItem[] = [
     permissionConfirmed: true,
     synopsis: 'A personalized cinematic trailer starring an authorized client as a time-bending scholar in a gothic fantasy world.',
     aspectRatio: '16:9',
-    imageBg: '/mythra-world.png',
+    imageBg: '/un1/mythra-world.png',
   },
   {
     id: 'gal-02',
@@ -39,7 +39,7 @@ const GALLERY_DATA: GalleryItem[] = [
     permissionConfirmed: true,
     synopsis: 'Branded deep-space atmosphere film exploring solitude and communication across orbital stations.',
     aspectRatio: '16:9',
-    imageBg: '/mythra-world.png',
+    imageBg: '/un1/mythra-world.png',
   },
   {
     id: 'gal-03',
@@ -73,7 +73,7 @@ const GALLERY_DATA: GalleryItem[] = [
     permissionConfirmed: true,
     synopsis: 'The landmark first-film experiment testing whether one creator could produce a 28-minute emotional drama.',
     aspectRatio: '16:9',
-    imageBg: '/mythra-world.png',
+    imageBg: '/un1/mythra-world.png',
   },
   {
     id: 'gal-06',

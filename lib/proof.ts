@@ -32,7 +32,7 @@ export const mythraProof: MythraProofConfig = {
     value: '27–28 min',
     category: 'production_benchmark',
     verified: true, // Verified by master cut timestamp
-    evidenceUrl: 'https://mythra.com/genesis#runtime-audit',
+    evidenceUrl: 'https://mythra.com/un1/genesis#runtime-audit',
     evidenceRef: 'AUD-GEN-001',
     methodologyNote: 'Exact master cut length including full title sequence and narrative credits.',
     lastAudited: '2026-08-15',
@@ -43,7 +43,7 @@ export const mythraProof: MythraProofConfig = {
     value: '<72 hours',
     category: 'production_benchmark',
     verified: true, // Verified by project log timeline
-    evidenceUrl: 'https://mythra.com/genesis#timeline-audit',
+    evidenceUrl: 'https://mythra.com/un1/genesis#timeline-audit',
     evidenceRef: 'AUD-GEN-002',
     methodologyNote: 'From final screenplay lock to first complete 1080p picture lock using one director.',
     lastAudited: '2026-08-15',
@@ -54,7 +54,7 @@ export const mythraProof: MythraProofConfig = {
     value: '<$2,000',
     category: 'production_benchmark',
     verified: true, // Verified by receipts ledger
-    evidenceUrl: 'https://mythra.com/genesis#cost-ledger',
+    evidenceUrl: 'https://mythra.com/un1/genesis#cost-ledger',
     evidenceRef: 'AUD-GEN-003',
     methodologyNote: 'Direct software subscription, image/video API compute, and audio licensing costs. Excludes creator labor.',
     lastAudited: '2026-08-15',
