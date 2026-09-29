@@ -9,6 +9,7 @@ import ContactStep from '../../../../components/funnels/ContactStep';
 import RecommendationView from '../../../../components/funnels/RecommendationView';
 import { LeadContact, evaluateLead, ScoringResult } from '../../../../lib/lead-scoring';
 import { trackEvent } from '../../../../lib/analytics';
+import { mythraOffers } from '../../../../lib/offers';
 
 const STORAGE_KEY = 'mythra_studios_funnel_state';
 

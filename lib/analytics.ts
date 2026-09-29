@@ -17,7 +17,7 @@ export type AnalyticsEventType =
   | 'secure_onboarding_completed';
 
 export interface AnalyticsEventPayload {
-  persona?: 'YOU' | 'FILMMAKER' | 'STUDIOS';
+  persona?: 'YOU' | 'FILMMAKER' | 'STUDIOS' | 'CAST';
   offerCode?: string;
   stepNumber?: number;
   totalSteps?: number;

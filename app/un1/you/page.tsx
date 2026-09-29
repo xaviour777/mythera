@@ -302,7 +302,7 @@ export default function MythraYouPage() {
           cancelUrl: `${window.location.origin}/un1/you`,
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as { url?: string };
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -928,7 +928,7 @@ export default function MythraYouPage() {
                     <div className="p-6 sm:p-8 rounded-3xl bg-primary/10 border-2 border-primary/50 text-foreground shadow-2xl">
                       <div className="flex items-center gap-3 text-primary font-bold text-sm uppercase tracking-wider mb-2 font-mono">
                         <CheckCircle2 className="w-6 h-6 text-primary shrink-0" />
-                        <span>INQUIRY SUBMITTED · THANK YOU, {leadForm.fullName || 'CREATOR'}!</span>
+                        <span>INQUIRY SUBMITTED · THANK YOU, {leadForm.firstName || 'CREATOR'}!</span>
                       </div>
                       <p className="text-sm font-semibold text-foreground leading-relaxed">
                         Your project brief has been registered with the MYTHRA narrative leads.

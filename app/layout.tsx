@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import './globals.css';
 import GlobalNav from '../components/GlobalNav';
 import Footer from '../components/Footer';
@@ -36,7 +37,10 @@ export default function RootLayout({
             <GlobalNav />
 
             {/* Page Content */}
-            <main className="flex-1">{children}</main>
+            <main className="flex-1">
+              {/* Pages read useSearchParams(); Next.js needs a Suspense boundary to prerender them */}
+              <Suspense>{children}</Suspense>
+            </main>
 
             {/* Cinematic Master Footer */}
             <Footer />

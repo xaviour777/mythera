@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 console.log('=== Step 1: Building project ===');
-const buildRes = spawnSync('npm', ['run', 'build'], { stdio: 'inherit', shell: true });
+const buildRes = spawnSync('npm', ['run', 'build:cf'], { stdio: 'inherit', shell: true });
 if (buildRes.status !== 0) {
   console.error('Build failed!');
   process.exit(buildRes.status ?? 1);

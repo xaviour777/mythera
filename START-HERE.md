@@ -19,6 +19,10 @@ Open the local URL printed in the terminal. To build:
 
     pnpm build
 
+The default scripts (`dev`, `build`, `start`) use plain Next.js, which is what
+Vercel runs. The original Cloudflare Workers / Vinext pipeline is still
+available as `dev:cf`, `build:cf`, `start:cf` and `deploy:cf`.
+
 This project uses Vinext, React, TypeScript, Tailwind, shadcn/ui, and Framer Motion.
 It targets Cloudflare Workers / ChatGPT Sites. It is not a plain HTML export or
 an unmodified Next.js/Vercel project. Deployment to another provider requires

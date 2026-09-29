@@ -398,7 +398,7 @@ export default function CastApplicationPage() {
                           customerName: formData.fullName,
                         }),
                       });
-                      const data = await res.json();
+                      const data = (await res.json()) as { url?: string };
                       if (data.url) {
                         window.location.href = data.url;
                       } else {
