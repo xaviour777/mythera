@@ -1,0 +1,322 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../../vendor/shadcn-tailwind-4.13.0.css";
+
+@layer base {
+  /* ── Light Mode (Default :root) ── */
+  :root {
+    --background: #F4F0E8;
+    --foreground: #1a1a1a;
+    --card: #ffffff;
+    --card-foreground: #1a1a1a;
+    --popover: #ffffff;
+    --popover-foreground: #1a1a1a;
+    --primary: #5a7a00;
+    --primary-foreground: #ffffff;
+    --secondary: #e8e4dc;
+    --secondary-foreground: #1a1a1a;
+    --muted: #e8e4dc;
+    --muted-foreground: #6b6b6b;
+    --accent: #5a7a00;
+    --accent-foreground: #ffffff;
+    --oxblood: #6B1F2A;
+    --destructive: #8A2B35;
+    --destructive-foreground: #ffffff;
+    --border: #00000015;
+    --input: #00000012;
+    --ring: #5a7a00;
+    --radius: 9999px;
+
+    /* Light-mode specific tokens for custom classes */
+    --surface-elevated: #ffffff;
+    --surface-dim: #ede9e0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555555;
+    --text-muted: #888888;
+    --accent-brand: #5a7a00;
+    --accent-brand-light: #6d9400;
+    --accent-glow: rgba(90, 122, 0, 0.3);
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-medium: rgba(0, 0, 0, 0.15);
+    --grain-opacity: 0.015;
+    --nav-bg: rgba(244, 240, 232, 0.95);
+    --nav-bg-scrolled: rgba(244, 240, 232, 0.98);
+    --pill-shadow-color: rgba(0, 0, 0, 0.15);
+    --pill-glow: rgba(90, 122, 0, 0.25);
+    --scrollbar-track: #F4F0E8;
+    --scrollbar-thumb: #ccc8be;
+    --scrollbar-thumb-hover: #5a7a00;
+  }
+
+  /* ── Dark Mode ── */
+  .dark {
+    --background: #000000;
+    --foreground: #f3f3eb;
+    --card: #080a08;
+    --card-foreground: #f3f3eb;
+    --popover: #080a08;
+    --popover-foreground: #f3f3eb;
+    --primary: #d8ff44;
+    --primary-foreground: #000000;
+    --secondary: #121612;
+    --secondary-foreground: #f3f3eb;
+    --muted: #121612;
+    --muted-foreground: #9ea399;
+    --accent: #d8ff44;
+    --accent-foreground: #000000;
+    --oxblood: #6B1F2A;
+    --destructive: #8A2B35;
+    --destructive-foreground: #f3f3eb;
+    --border: #ffffff20;
+    --input: #ffffff26;
+    --ring: #d8ff44;
+    --radius: 9999px;
+
+    /* Dark-mode specific tokens */
+    --surface-elevated: #0a0d08;
+    --surface-dim: #080a08;
+    --text-primary: #ffffff;
+    --text-secondary: #a3a89e;
+    --text-muted: #8e9587;
+    --accent-brand: #d8ff44;
+    --accent-brand-light: #e4ff66;
+    --accent-glow: rgba(216, 255, 68, 0.45);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-medium: rgba(255, 255, 255, 0.15);
+    --grain-opacity: 0.025;
+    --nav-bg: rgba(0, 0, 0, 0.60);
+    --nav-bg-scrolled: rgba(0, 0, 0, 0.95);
+    --pill-shadow-color: #000000;
+    --pill-glow: rgba(216, 255, 68, 0.45);
+    --scrollbar-track: #000000;
+    --scrollbar-thumb: #252b24;
+    --scrollbar-thumb-hover: #d8ff44;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-oxblood: var(--oxblood);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-serif: "Playfair Display", Georgia, Cambria, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Film Grain Texture Overlay */
+.film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: 1;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Cinematic Zoom Motion on Hero */
+@keyframes cinemaZoom {
+  0% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-cinema-zoom {
+  animation: cinemaZoom 20s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* ── Tactile Pill Buttons ── */
+.btn-pill-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background-color: var(--accent-brand);
+  color: var(--primary-foreground);
+  font-weight: 800;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+  padding: 0.85rem 1.85rem;
+  border: 2px solid var(--pill-shadow-color);
+  box-shadow: 0 4px 0 0 var(--pill-shadow-color), 0 8px 25px var(--pill-glow);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-pill-primary:hover {
+  transform: translateY(-2px);
+  background-color: var(--accent-brand-light);
+  box-shadow: 0 6px 0 0 var(--pill-shadow-color), 0 12px 32px var(--pill-glow);
+  color: var(--primary-foreground);
+}
+
+.btn-pill-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 0 var(--pill-shadow-color);
+}
+
+.btn-pill-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background-color: var(--surface-elevated);
+  color: var(--foreground);
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 0.85rem 1.85rem;
+  border: 2px solid var(--border-medium);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-pill-secondary:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-brand);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+.btn-pill-secondary:active {
+  transform: translateY(1px);
+}
+
+.btn-pill-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background-color: var(--foreground);
+  color: var(--background);
+  font-weight: 800;
+  font-size: 0.875rem;
+  padding: 0.85rem 1.85rem;
+  border: 2px solid var(--pill-shadow-color);
+  box-shadow: 0 4px 0 0 var(--pill-shadow-color);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-pill-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 var(--pill-shadow-color);
+  opacity: 0.9;
+}
+
+.btn-pill-white:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 0 var(--pill-shadow-color);
+}
+
+/* Typography styles */
+.eyebrow-text {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  color: var(--accent-brand);
+}
+
+.film-credit {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+}
+
+/* Accessibility Focus States */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent-brand);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--accent-brand);
+  color: var(--primary-foreground);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

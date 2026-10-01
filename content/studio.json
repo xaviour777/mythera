@@ -1,0 +1,70 @@
+{
+  "name": "MYTHRA Studios",
+  "creator": "Zahid Iqbal",
+  "film": {
+    "title": "The Mother's Monster",
+    "url": "https://www.youtube.com/watch?v=dqCGNrQ6N_o",
+    "image": "/images/film.webp",
+    "status": "Released",
+    "world": "001"
+  },
+  "metrics": [
+    {
+      "value": "55M",
+      "platform": "YouTube",
+      "detail": "IN JUST 7 DAYS"
+    },
+    {
+      "value": "300M+",
+      "platform": "Facebook",
+      "detail": "VIEWS"
+    },
+    {
+      "value": "30M+",
+      "platform": "Instagram",
+      "detail": "VIEWS"
+    },
+    {
+      "value": "10M+",
+      "platform": "TikTok",
+      "detail": "VIEWS"
+    }
+  ],
+  "worldwide": "1B+",
+  "metricNote": "Studio-reported figures across official and audience-shared content. Worldwide total includes additional circulation; platform figures are highlights, not a breakdown. Views are not unique viewers.",
+  "festival": null,
+  "rightsStatement": null,
+  "deckUrl": null,
+  "partnersEmail": null,
+  "pressEmail": null,
+  "legalEntity": null,
+  "socials": [],
+  "press": [],
+  "screenings": [],
+  "partners": [
+    {
+      "name": "Studios & producers",
+      "description": "Co-production \u00b7 Original IP \u00b7 Story development"
+    },
+    {
+      "name": "Distributors & media networks",
+      "description": "Distribution \u00b7 Territories \u00b7 Localization \u00b7 Platforms"
+    },
+    {
+      "name": "Licensing & consumer products",
+      "description": "Explore future worlds, characters and product opportunities"
+    },
+    {
+      "name": "Brands",
+      "description": "Original entertainment \u00b7 Story integrations \u00b7 Collaborations"
+    },
+    {
+      "name": "Technology",
+      "description": "Generative video \u00b7 Voice \u00b7 Production infrastructure"
+    },
+    {
+      "name": "Investment & strategic",
+      "description": "Long-term IP \u00b7 International growth \u00b7 Consumer expansion"
+    }
+  ]
+}
