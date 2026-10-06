@@ -8,8 +8,9 @@ export function GET() {
     siteUrl: SITE_URL(),
     pixelId: env('META_PIXEL_ID') || null,
     checkout: {
-      room: env('WHOP_ROOM_URL') || null,     // Whop checkout link for Room · $297
-      studio: env('WHOP_STUDIO_URL') || null  // Whop checkout link for Studio · $997
+      // Whop product links. Vercel variables override these defaults.
+      room: env('WHOP_ROOM_URL') || 'https://whop.com/zetomate-5424/mythra-drama-method-writers-room-cohort-1/',
+      studio: env('WHOP_STUDIO_URL') || 'https://whop.com/zetomate-5424/mythra-drama-method-writers-room-studio-seat/'
     }
   }, 200, { 'cache-control': 'public, s-maxage=300, stale-while-revalidate=3600' });
 }
