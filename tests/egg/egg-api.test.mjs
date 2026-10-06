@@ -25,7 +25,7 @@ const req = (body) => new Request('https://mythrafilm.com/api/egg/apply', {
 test('config exposes Whop checkout links', async () => {
   const j = await config.GET().json();
   assert.equal(j.checkout.room, 'https://whop.com/checkout/room-test');
-  assert.equal(j.checkout.studio, null);
+  assert.equal(j.checkout.studio, 'https://whop.com/zetomate-5424/mythra-drama-method-writers-room-studio-seat/');
 });
 
 test('question form creates a GHL contact with seat tags', async () => {
