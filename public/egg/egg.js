@@ -588,16 +588,13 @@ document.fonts && document.fonts.ready.then(() => { resize(); });
 
 
 /* =========================================================
-   CONFIG, ATTRIBUTION, TRACKING
+   CONFIG, TRACKING
    ========================================================= */
 const params = new URLSearchParams(location.search);
-const REF_RE = /^K-[A-HJ-NP-Z2-9]{6}$/;
 const attribution = {};
 ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => { const v = params.get(k); if (v) attribution[k] = v.slice(0, 80); });
-const refParam = (params.get('ref') || '').toUpperCase();
-if (REF_RE.test(refParam)) store.set('mythra-ref', refParam);
-let CONFIG = { waNumber: null, siteUrl: location.origin, pixelId: null };
-fetch('/api/egg/config').then(r => r.ok ? r.json() : null).then(c => { if (c){ CONFIG = c; initPixel(c.pixelId); } }).catch(() => {});
+let CONFIG = { siteUrl: location.origin, pixelId: null, checkout: {} };
+fetch('/api/egg/config').then(r => r.ok ? r.json() : null).then(c => { if (c){ CONFIG = { ...CONFIG, ...c }; initPixel(c.pixelId); wireCheckout(); } }).catch(() => {});
 
 function initPixel(id){
   if (!id || window.fbq) return;
@@ -606,14 +603,7 @@ function initPixel(id){
   fbq('init', id); fbq('track', 'PageView');
 }
 function pixel(name, data, custom){ try { if (window.fbq) fbq(custom ? 'trackCustom' : 'track', name, data || {}); } catch(e){} }
-function track(event){
-  if (event === 'hatch_fire') { pixel('EggHatched', {}, true); return; }
-  const k = store.get('mythra-keeper');
-  if (!k || !REF_RE.test(k.no)) return;
-  const body = JSON.stringify({ no: k.no, event });
-  if (navigator.sendBeacon) navigator.sendBeacon('/api/egg/track', new Blob([body], { type:'application/json' }));
-  else fetch('/api/egg/track', { method:'POST', headers:{'content-type':'application/json'}, body, keepalive:true }).catch(()=>{});
-}
+function track(event){ pixel(event === 'hatch_fire' ? 'EggHatched' : event, {}, true); }
 async function post(url, data){
   const r = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(data) });
   const j = await r.json().catch(() => ({}));
@@ -625,79 +615,44 @@ function toast(msg){
   document.body.append(t); setTimeout(() => t.remove(), 2600);
 }
 
-/* =========================================================
-   KEEPER: name → profile → card → share
-   ========================================================= */
-const sheet = $('#sheet'), nameStep = $('#nameStep'), cardStep = $('#cardStep'), nameErr = $('#nameErr'), makeBtn = $('#makeCard');
-let current = store.get('mythra-keeper'); // { no, dragonName, keeperName, element, createdAt, shareUrl, waLink }
-
-function openSheet(){
-  sheet.hidden = false;
-  if (current && current.no){ showCard(current); }
-  else { nameStep.hidden = false; cardStep.hidden = true; setTimeout(() => $('#dragonName').focus(), 60); }
+/* Seat buttons go to the Whop checkout once its link is configured; until then they scroll to the question form. */
+function wireCheckout(){
+  document.querySelectorAll('[data-checkout]').forEach(a => {
+    const url = CONFIG.checkout && CONFIG.checkout[a.dataset.checkout];
+    if (!url) return;
+    const u = new URL(url);
+    Object.entries(attribution).forEach(([k,v]) => u.searchParams.set(k, v));
+    a.href = u.toString(); a.target = '_blank'; a.rel = 'noopener';
+    a.addEventListener('click', () => pixel('InitiateCheckout', { content_name: a.dataset.checkout, currency:'USD', value: a.dataset.checkout === 'studio' ? 997 : 297 }));
+  });
 }
-document.querySelectorAll('[data-open="keeper"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openSheet(); }));
+
+/* =========================================================
+   SHARE: name your dragon (kept in this browser), card, share
+   ========================================================= */
+const sheet = $('#sheet'), nameIn = $('#dragonName'), kName = $('#kName');
+nameIn.value = store.get('mythra-dragon-name') || '';
+const dragonName = () => nameIn.value.trim();
+function paintName(){ kName.textContent = dragonName() || 'My dragon'; }
+paintName();
+nameIn.addEventListener('input', () => { paintName(); store.set('mythra-dragon-name', dragonName()); });
+
+function openSheet(){ sheet.hidden = false; $('#nativeShare').hidden = !navigator.share; setTimeout(() => nameIn.focus(), 60); pixel('ShareSheetOpened', {}, true); }
+document.querySelectorAll('[data-open="share"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openSheet(); }));
 $('#sheetClose').addEventListener('click', () => sheet.hidden = true);
 sheet.addEventListener('click', e => { if (e.target === sheet) sheet.hidden = true; });
 addEventListener('keydown', e => { if (e.key === 'Escape') sheet.hidden = true; });
 
-nameStep.addEventListener('submit', async e => {
-  e.preventDefault();
-  const data = {
-    dragonName: $('#dragonName').value.trim(),
-    keeperName: $('#keeperName').value.trim(),
-    whatsapp: $('#whatsapp').value.trim(),
-    email: $('#email').value.trim(),
-    consent: $('#consent').checked,
-    website: $('#website').value,
-    element: S.el ? S.el.name : undefined,
-    ref: store.get('mythra-ref') || undefined,
-    ...attribution
-  };
-  const fail = (m, el) => { nameErr.hidden = false; nameErr.textContent = m; if (el) el.focus(); };
-  if (!data.dragonName) return fail('Your dragon needs a name first.', $('#dragonName'));
-  if (!data.keeperName) return fail('Tell us your name, Keeper.', $('#keeperName'));
-  if ((data.whatsapp || data.email) && !data.consent) return fail('Tick the box so we can send your dragon’s updates.', $('#consent'));
-  nameErr.hidden = true; makeBtn.disabled = true; makeBtn.textContent = 'Binding the name…';
-  try {
-    const res = await post('/api/egg/keeper', data);
-    current = { ...res.keeper, shareUrl: res.shareUrl, waLink: res.waLink };
-    store.set('mythra-keeper', current);
-    pixel('Lead', { content_name: 'keeper', value: 0, currency: 'USD' });
-    A.chirp();
-    showCard(current);
-  } catch (err) {
-    fail(err.message);
-  } finally {
-    makeBtn.disabled = false; makeBtn.textContent = 'Make my Keeper card';
-  }
-});
-
-const ELEMENT_LABEL = { Ember:'Ember', Tide:'Tide', Storm:'Storm', Jade:'Jade' };
-function fmtDate(iso){ try { return new Date(iso).toLocaleDateString(undefined, { day:'numeric', month:'short', year:'numeric' }); } catch(e){ return ''; } }
-function showCard(k){
-  nameStep.hidden = true; cardStep.hidden = false;
-  $('#kName').textContent = k.dragonName;
-  $('#kKeeper').textContent = k.keeperName;
-  $('#kNo').textContent = k.no;
-  $('#kEl').textContent = ELEMENT_LABEL[k.element] || k.element || '';
-  $('#kDate').textContent = fmtDate(k.createdAt);
-  const wa = $('#waKeep');
-  const waLink = k.waLink || (CONFIG.waNumber ? `https://wa.me/${CONFIG.waNumber}?text=${encodeURIComponent('🐉 HATCH ' + k.no)}` : null);
-  wa.hidden = $('#waNote').hidden = !waLink;
-  if (waLink) wa.href = waLink;
-  $('#nativeShare').hidden = !navigator.share;
+function shareUrl(){ return `${CONFIG.siteUrl || location.origin}/egg?utm_source=share&utm_medium=friend`; }
+function shareText(){
+  const n = dragonName();
+  return n ? `My dragon ${n} just hatched 🐉 from the world of The Mother’s Monster. Your egg is waiting:` : `My dragon just hatched 🐉 from the world of The Mother’s Monster. Your egg is waiting:`;
 }
-$('#waKeep').addEventListener('click', () => { track('wa_optin_click'); pixel('Contact', { method:'whatsapp' }); });
-
-function shareText(k){ return `I just hatched ${k.dragonName} 🐉 I’m Keeper ${k.no} in the world of The Mother’s Monster. Your egg is waiting:`; }
-function shareUrl(k){ return k.shareUrl || `${CONFIG.siteUrl || location.origin}/egg/k/${k.no}`; }
 function openOut(url){ const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; document.body.append(a); a.click(); a.remove(); }
 
 $('#shareRow').addEventListener('click', async e => {
-  const b = e.target.closest('[data-share]'); if (!b || !current) return;
-  const k = current, url = shareUrl(k), text = shareText(k);
-  const kind = b.dataset.share;
+  const b = e.target.closest('[data-share]'); if (!b) return;
+  const url = shareUrl(), text = shareText(), kind = b.dataset.share;
   if (kind === 'whatsapp') openOut(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
   if (kind === 'facebook') openOut(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
   if (kind === 'x') openOut(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
@@ -706,31 +661,29 @@ $('#shareRow').addEventListener('click', async e => {
     try { await navigator.clipboard.writeText(url); toast('Link copied'); }
     catch(err){ prompt('Copy your link', url); }
   }
-  if (kind === 'image'){ await saveCardImage(k); track('card_saved'); return; }
-  track(kind === 'copy' ? 'share_copy' : 'share_' + kind);
+  if (kind === 'image') await saveCardImage();
+  pixel('Share', { method: kind }, true);
 });
 
 $('#nativeShare').addEventListener('click', async () => {
-  if (!current) return;
-  const k = current;
   try {
-    const blob = await renderCardImage(k);
-    const file = new File([blob], `${k.dragonName}-mythra-keeper.png`, { type:'image/png' });
-    const data = { title: `${k.dragonName} has hatched`, text: shareText(k), url: shareUrl(k) };
+    const blob = await renderCardImage();
+    const file = new File([blob], 'my-mythra-dragon.png', { type:'image/png' });
+    const data = { title: 'My dragon hatched', text: shareText(), url: shareUrl() };
     if (navigator.canShare && navigator.canShare({ files:[file] })) data.files = [file];
     await navigator.share(data);
-    track('share_native');
+    pixel('Share', { method:'native' }, true);
   } catch(err) { /* the person closed the share sheet */ }
 });
 
 /* the shareable card image: 1080 × 1350, made in the browser */
 let dragonBitmap = null;
 function loadImage(src){ return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
-async function renderCardImage(k){
+async function renderCardImage(){
   if (!dragonBitmap) dragonBitmap = await loadImage('/egg/dragon.webp');
   const c = document.createElement('canvas'); c.width = 1080; c.height = 1350;
   const g = c.getContext('2d');
-  let gr = g.createRadialGradient(560, 640, 40, 540, 640, 900);
+  const gr = g.createRadialGradient(560, 640, 40, 540, 640, 900);
   gr.addColorStop(0, '#4a2c14'); gr.addColorStop(.45, '#14110f'); gr.addColorStop(1, '#050607');
   g.fillStyle = gr; g.fillRect(0, 0, 1080, 1350);
   g.strokeStyle = 'rgba(201,161,91,.7)'; g.lineWidth = 2; g.strokeRect(36, 36, 1008, 1278);
@@ -738,24 +691,24 @@ async function renderCardImage(k){
   g.textAlign = 'center';
   g.fillStyle = '#c9a15b'; g.font = `500 26px ${sans}`;
   if ('letterSpacing' in g) g.letterSpacing = '8px';
-  g.fillText('MYTHRA · KEEPER CARD', 540, 120);
+  g.fillText('MYTHRA · THE MOTHER’S MONSTER', 540, 120);
   if ('letterSpacing' in g) g.letterSpacing = '0px';
   const dw = 860, dh = dw * dragonBitmap.height / dragonBitmap.width;
   g.save(); g.shadowColor = 'rgba(0,0,0,.7)'; g.shadowBlur = 50; g.shadowOffsetY = 30;
   g.drawImage(dragonBitmap, 540 - dw/2, 170, dw, dh); g.restore();
-  g.fillStyle = '#efe6d6'; g.font = `500 112px ${serif}`;
-  g.fillText(k.dragonName, 540, 170 + dh + 120);
+  g.fillStyle = '#efe6d6'; g.font = `500 104px ${serif}`;
+  g.fillText(dragonName() || 'My dragon hatched', 540, 170 + dh + 120);
   g.fillStyle = '#a9a194'; g.font = `400 34px ${sans}`;
-  g.fillText(`Keeper ${k.keeperName} · ${k.no}`, 540, 170 + dh + 180);
+  g.fillText(dragonName() ? 'just hatched from the egg' : 'from the world of The Mother’s Monster', 540, 170 + dh + 180);
   g.fillStyle = '#f2c57c'; g.font = `500 34px ${sans}`;
   g.fillText('Hatch yours free · mythrafilm.com/egg', 540, 1250);
   return new Promise(res => c.toBlob(res, 'image/png'));
 }
-async function saveCardImage(k){
+async function saveCardImage(){
   try {
-    const blob = await renderCardImage(k);
+    const blob = await renderCardImage();
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `${k.dragonName}-mythra-keeper.png`;
+    const a = document.createElement('a'); a.href = url; a.download = 'my-mythra-dragon.png';
     document.body.append(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 4000);
     toast('Card saved. Post it to your story.');
@@ -803,7 +756,7 @@ pick(4);
 document.querySelectorAll('[data-tier]').forEach(a => a.addEventListener('click', () => { $('#aTier').value = a.dataset.tier; }));
 let cohortSeen = false;
 if ('IntersectionObserver' in window){
-  new IntersectionObserver((es, o) => { if (es.some(x => x.isIntersecting) && !cohortSeen){ cohortSeen = true; track('cohort_view'); pixel('ViewContent', { content_name:'cohort' }); o.disconnect(); } }, { threshold:.2 }).observe($('#cohort section:nth-child(2)'));
+  new IntersectionObserver((es, o) => { if (es.some(x => x.isIntersecting) && !cohortSeen){ cohortSeen = true; pixel('ViewContent', { content_name:'cohort' }); o.disconnect(); } }, { threshold:.2 }).observe($('#cohort section:nth-child(2)'));
 }
 $('#appForm').addEventListener('submit', async e => {
   e.preventDefault();
@@ -811,7 +764,7 @@ $('#appForm').addEventListener('submit', async e => {
   const data = {
     name: $('#aName').value.trim(), email: $('#aEmail').value.trim(), whatsapp: $('#aWa').value.trim(),
     link: $('#aLink').value.trim(), niche: $('#aNiche').value, tier: $('#aTier').value, goal: $('#aGoal').value.trim(),
-    consent: $('#aConsent').checked, website: $('#aWebsite').value, keeperNo: current && current.no
+    consent: $('#aConsent').checked, website: $('#aWebsite').value, ...attribution
   };
   if (!data.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)){ err.hidden = false; err.textContent = 'Add your name and a valid email so we can reply.'; return; }
   if (!data.consent){ err.hidden = false; err.textContent = 'Tick the box so we can contact you about your application.'; return; }
@@ -819,16 +772,11 @@ $('#appForm').addEventListener('submit', async e => {
   try {
     await post('/api/egg/apply', data);
     pixel('SubmitApplication', { content_name: data.tier });
-    ok.hidden = false; ok.textContent = `Thanks, ${data.name.split(' ')[0]}. Your ${data.tier} application is in. The MYTHRA team will reply by email${data.whatsapp ? ' or WhatsApp' : ''}.`;
+    ok.hidden = false; ok.textContent = `Thanks, ${data.name.split(' ')[0]}. We got your message and will reply by email${data.whatsapp ? ' or WhatsApp' : ''}.`;
     btn.hidden = true;
   } catch(ex){
     err.hidden = false; err.textContent = ex.message;
   } finally { btn.disabled = false; btn.textContent = 'Send application'; }
 });
 
-// A returning Keeper skips straight to their card when they open the Keeper door.
-if (current && current.no) {
-  const keep = document.querySelector('.card.fans .go');
-  if (keep) keep.firstChild.textContent = 'See my Keeper card ';
-}
 })();

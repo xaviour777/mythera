@@ -1,86 +1,65 @@
 # Dragon Egg — mythrafilm.com/egg
 
-Touch the egg three times, hatch a baby dragon that breathes fire, name it, get a Keeper card, share it everywhere, and keep the dragon on WhatsApp. Filmmakers continue to the Drama Method Writers' Room on the same page.
+A free experience that pulls people into MYTHRA and hands filmmakers to the paid cohort.
 
-## Where it lives in this repo
+1. **The hall.** Touch the egg three times.
+2. **The hatch.** It hatches a baby dragon that breathes fire, with ambient music.
+3. **Two doors open:**
+   - **Share your dragon.** Name it (kept in the visitor's browser only) and get a 1080×1350 card image. Share to WhatsApp, Facebook, X or Telegram, copy the link, or use the phone share sheet for Instagram and TikTok stories. No sign-up.
+   - **Build with MYTHRA.** Shows the Drama Method Writers' Room. The seat buttons go straight to **Whop checkout**:
+     - Room $297
+     - Studio $997 with 1:1 with Zahid
+
+     A short question form sends unsure buyers to GHL.
+
+No WhatsApp API, no email sending and no database are required.
+
+## Files
 
 ```
-public/egg/index.html, egg.js     the page (plain HTML + JS, no React, ~25 KB gzipped)
-public/egg/*.webp|jpg             dragon cut-out, share image, WhatsApp card image
-next.config.ts                    rewrite /egg → /egg/index.html
-app/egg/k/[id]/route.js           /egg/k/K-XXXXXX share page with rich previews
-app/api/egg/keeper/route.js       POST hatch → profile + GHL · GET public profile
-app/api/egg/wa-webhook/route.js   WhatsApp Cloud API webhook
-app/api/egg/apply/route.js        cohort application → GHL
-app/api/egg/track/route.js        share/opt-in events → counters + GHL tags
-app/api/egg/config/route.js       public settings for the page
-lib/egg/                          Redis (Upstash REST), GHL, WhatsApp helpers — no new npm packages
-tests/egg/egg-api.test.mjs        end-to-end tests, GHL and Meta mocked: node --test tests/egg/*.test.mjs
+public/egg/index.html, egg.js   the page (plain HTML + JS, ~25 KB gzipped)
+public/egg/dragon.webp, og.jpg  dragon cut-out and link-preview image
+next.config.ts                  rewrite /egg → /egg/index.html
+app/api/egg/config/route.js     Whop links + Meta Pixel id for the page
+app/api/egg/apply/route.js      question form → GHL contact
+lib/egg/                        small helpers (GHL upsert, rate limit)
+tests/egg/                      node --test tests/egg/*.test.mjs
 ```
 
 ## Go live
 
-1. Merge this branch. Vercel deploys it with the rest of the site.
-2. Vercel → Storage → add **Upstash Redis** to the project (free tier). It sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`. Without it, profiles only live in memory and are lost between requests.
-3. Add the egg variables from `.env.example` in Vercel → Settings → Environment Variables. The egg reuses `GHL_API_KEY` and `GHL_LOCATION_ID`. Redeploy.
-4. Meta webhook URL: `https://mythrafilm.com/api/egg/wa-webhook`.
+1. **Whop:** create two products/checkouts (Room $297, Studio $997) and copy each checkout link.
+2. **Vercel environment variables:**
+   - `WHOP_ROOM_URL` and `WHOP_STUDIO_URL`: the two links.
+   - `GHL_API_KEY` and `GHL_LOCATION_ID`: already used by the site. Use a **new** key; the old one was exposed in the repo.
+   - `META_PIXEL_ID`: optional.
+3. **Redeploy.** Until the Whop links are set, the seat buttons scroll to the question form instead.
 
-## User profiles
+UTM parameters on the egg link are passed on to the Whop checkout.
 
-Every hatch creates `keeper:K-XXXXXX` in Redis: dragon name, Keeper name, element, email, WhatsApp, consent, UTM source, who referred them, how many friends they brought, share counts, WhatsApp opt-in, and the GHL contact id. Lookups by phone and email are indexed. GHL holds the same person as a contact for your workflows.
+## GHL
 
-## GoHighLevel
+The question form creates a contact with these tags:
 
-Create a Private Integration token (scope: contacts write) and these **contact custom fields** (Settings → Custom Fields). Use exactly these keys:
+- `cohort-lead`
+- `tier-room-297` or `tier-studio-997`
+- `cohort-1`
 
-`dragon_name`, `keeper_number`, `keeper_card_url`, `dragon_element`, `referred_by`, `cohort_tier`, `cohort_niche`, `cohort_channel_link`, `cohort_goal`
+It also fills these custom fields, if they exist:
 
-Tags the site adds: `mythra-keeper`, `egg-hatched`, `element-*`, `referred`, `shared-card`, `wa-optin`, `wa-optout`, `wa-lead`, `wa-needs-human`, `viewed-cohort`, `asked-cohort`, `cohort-applicant`, `tier-room-297`, `tier-studio-997`, `cohort-1`.
+- `cohort_tier`
+- `cohort_niche`
+- `cohort_channel_link`
+- `cohort_goal`
 
-Build GHL workflows on these tags for **email** follow-up. Do not send WhatsApp from GHL: its WhatsApp add-on bills per message and would bypass the guards below.
+Buyers live in Whop. Add them to the cohort WhatsApp group and calls from there.
 
-If GHL changes its API version, set `GHL_API_VERSION` (`v3` switches custom fields to the `fieldValue` format).
-
-## WhatsApp: how the cost stays at zero
-
-Meta's rules from **1 October 2026**:
-
-- Messages people send you are always free.
-- Your replies inside the 24-hour window are free for the **first 1,000 per number per month**, then billed at the recipient country's utility rate.
-- People who arrive from a **Click-to-WhatsApp ad** or a **Facebook Page button** open a **72-hour free window**. Replies there are free and don't use the 1,000.
-- Template messages (anything sent outside a window) are always billed. **This code never sends templates.**
-
-What the code does:
-
-- People start every chat themselves. "Keep my dragon on WhatsApp" opens `wa.me` with `🐉 HATCH K-XXXXXX`, the visitor taps Send, and that inbound message opens the window.
-- **One reply per message.** At most `WA_DAILY_PER_USER` replies per person per day.
-- **Monthly cap.** Auto-replies stop at `WA_MONTHLY_CAP` (default 950). After that the contact is tagged `wa-needs-human` in GHL. Replies sent from the API after the cap would be billed.
-- **Ad leads.** Messages from ads are detected (`referral` field), and their replies don't count toward the cap.
-- **Retries.** Meta retries are de-duplicated, so a retry never causes a second reply.
-- **Web first.** Most of the experience (card, sharing, cohort) happens on the website, so WhatsApp only carries short messages with links back.
-
-Keywords people can send: `EPISODE`, `COHORT`, `STOP`, `START`.
-
-### Meta setup
-
-1. developers.facebook.com → Create App → Business → add **WhatsApp**.
-2. Add and verify your business phone number. Copy the **Phone number ID**.
-3. Business Settings → System Users → create one, give it the app with `whatsapp_business_messaging` and `whatsapp_business_management`, and generate a **permanent token** → `WA_TOKEN`.
-4. App → WhatsApp → Configuration → Webhook:
-   - Callback URL: `https://mythrafilm.com/api/egg/wa-webhook`
-   - Verify token: your `WA_VERIFY_TOKEN`
-   - Subscribe to **messages**.
-5. App Settings → Basic → **App secret** → `WA_APP_SECRET`.
-
-## Tracking
-
-Set `META_PIXEL_ID` to fire:
+## Meta Pixel events
 
 - `PageView`
-- `EggHatched` (custom)
-- `Lead` (Keeper card made)
-- `Contact` (WhatsApp opt-in click)
+- `EggHatched`
+- `ShareSheetOpened`
+- `Share`
 - `ViewContent` (cohort)
+- `InitiateCheckout`
 - `SubmitApplication`
-
-UTM parameters on the egg link are saved to the profile and sent to GHL as the source.

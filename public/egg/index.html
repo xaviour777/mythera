@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Your dragon is waiting · MYTHRA</title>
-<meta name="description" content="Touch the egg. Hatch a baby dragon from The Mother’s Monster, name it, and become a Keeper. Free.">
+<meta name="description" content="Touch the egg and hatch a baby dragon from The Mother’s Monster. Then learn to make AI films with Zahid Iqbal.">
 <link rel="canonical" href="https://mythrafilm.com/egg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MYTHRA">
 <meta property="og:title" content="Your dragon is waiting.">
-<meta property="og:description" content="Hatch your free baby dragon from The Mother’s Monster. Name it. Become a Keeper.">
+<meta property="og:description" content="Touch the egg. Hatch your baby dragon from The Mother’s Monster. Free.">
 <meta property="og:url" content="https://mythrafilm.com/egg">
 <meta property="og:image" content="https://mythrafilm.com/egg/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -97,7 +97,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;paddin
 .tog[aria-pressed="true"]{color:var(--gold-hot)}
 .toggles.hide{opacity:0}
 
-/* keeper sheet */
+/* share sheet */
 .sheet{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:16px;background:rgba(3,4,5,.76);backdrop-filter:blur(8px)}
 .sheet-in{width:min(100%,480px);max-height:calc(100svh - 32px);overflow:auto;display:grid;gap:18px;padding:28px;background:linear-gradient(170deg,var(--stone-2),var(--void));border:1px solid rgba(201,161,91,.5)}
 .sheet-in h2{margin:0;font-family:var(--display);font-weight:500;font-size:36px;line-height:1.05}
@@ -219,7 +219,6 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
       <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
       <p class="sub" id="sub">Begin your story.</p>
       <div class="ctas" id="ctas">
-        <a href="#keeper" data-open="keeper">Become a Keeper <span aria-hidden="true">⟶</span></a>
         <a href="#cohort" class="alt">Build with MYTHRA <span aria-hidden="true">↗</span></a>
       </div>
     </div>
@@ -227,11 +226,11 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
     <div class="choose out" id="choose" hidden>
       <p class="eyebrow">Every dragon needs a Keeper</p>
       <div class="cards">
-        <a class="card fans" href="#keeper" data-open="keeper">
+        <a class="card fans" href="#share" data-open="share">
           <span class="eyebrow">For the fans</span>
-          <h2>Become a Keeper</h2>
-          <p>Name your dragon. Get your Keeper card. Keep it on WhatsApp.</p>
-          <span class="go">Name my dragon <span aria-hidden="true">⟶</span></span>
+          <h2>Share your dragon</h2>
+          <p>Name it, get a card for your story, and tell the world it hatched.</p>
+          <span class="go">Make my card <span aria-hidden="true">⟶</span></span>
         </a>
         <a class="card makers" href="#cohort">
           <span class="eyebrow">For the filmmakers</span>
@@ -252,43 +251,19 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
   <div class="sheet-in">
     <button class="x" id="sheetClose" type="button">Close</button>
-
-    <form class="step" id="nameStep" novalidate>
-      <span class="eyebrow">Keeper’s oath</span>
-      <h2 id="sheetTitle">Name your dragon.</h2>
-      <label class="f" for="dragonName">It will answer to this name and no other.
-        <input class="field" id="dragonName" name="dragonName" maxlength="20" autocomplete="off" placeholder="e.g. Noor" required>
+    <div class="step">
+      <span class="eyebrow">Your dragon</span>
+      <h2 id="sheetTitle">Name it. Show the world.</h2>
+      <label class="f" for="dragonName">Your dragon’s name <small>(optional)</small>
+        <input class="field" id="dragonName" maxlength="20" autocomplete="off" placeholder="e.g. Noor">
       </label>
-      <label class="f" for="keeperName">Your name, Keeper
-        <input class="field" id="keeperName" name="keeperName" maxlength="40" autocomplete="given-name" required>
-      </label>
-      <label class="f" for="whatsapp">WhatsApp number <small>(optional, with country code)</small>
-        <input class="field" id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+92 300 1234567">
-      </label>
-      <label class="f" for="email">Email <small>(optional)</small>
-        <input class="field" id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
-      </label>
-      <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <label class="check" for="consent"><input type="checkbox" id="consent" name="consent"><span>Send me my dragon’s updates and MYTHRA news on WhatsApp or email. I can stop anytime by replying STOP.</span></label>
-      <p class="err" id="nameErr" hidden></p>
-      <button class="btn" id="makeCard" type="submit">Make my Keeper card</button>
-    </form>
-
-    <div class="step" id="cardStep" hidden>
-      <div class="kcard" id="kcard">
-        <span class="eyebrow">MYTHRA · Keeper card</span>
+      <div class="kcard">
+        <span class="eyebrow">MYTHRA · The Mother’s Monster</span>
         <img src="/egg/dragon.webp" width="720" height="571" alt="Your dragon" loading="lazy">
-        <span class="nm" id="kName"></span>
-        <dl>
-          <dt>Keeper</dt><dd id="kKeeper"></dd>
-          <dt>No.</dt><dd id="kNo"></dd>
-          <dt>Element</dt><dd id="kEl"></dd>
-          <dt>Hatched</dt><dd id="kDate"></dd>
-        </dl>
+        <span class="nm" id="kName">My dragon</span>
+        <p class="note">hatched at mythrafilm.com/egg</p>
       </div>
-      <a class="btn wa" id="waKeep" href="#" target="_blank" rel="noopener" hidden>Keep my dragon on WhatsApp</a>
-      <p class="note" id="waNote" hidden>Opens WhatsApp with your Keeper code. Send it, and your dragon card arrives in the chat.</p>
-      <span class="eyebrow">Show the world</span>
+      <button class="btn ghost" type="button" id="nativeShare" hidden>Share to Instagram, TikTok and more</button>
       <div class="share" id="shareRow">
         <button type="button" data-share="whatsapp">WhatsApp</button>
         <button type="button" data-share="facebook">Facebook</button>
@@ -297,8 +272,7 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
         <button type="button" data-share="copy">Copy link</button>
         <button type="button" data-share="image">Save image</button>
       </div>
-      <button class="btn ghost" type="button" id="nativeShare" hidden>Share to Instagram, TikTok and more</button>
-      <p class="note">Save the image for Instagram and TikTok stories. Every friend who hatches through your link moves you up the Keeper board.</p>
+      <p class="note">Save the image and post it to your Instagram or TikTok story. Your friends get their own egg from the link.</p>
     </div>
   </div>
 </div>
@@ -350,24 +324,24 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
           <div class="name"><h3>Room</h3></div>
           <div class="price">$297</div><div class="perday">About $7 a day for 42 days</div>
           <ul><li>All 6 sprints and 12 stages</li><li>Collab Pod placement</li><li>Leaderboard entry</li><li>Weekly Premiere Nights</li><li>Demo Day</li></ul>
-          <a class="btn ghost" href="#apply" data-tier="Room">Apply for Room</a>
+          <a class="btn ghost" href="#apply" data-tier="Room" data-checkout="room">Join Room · $297</a>
         </article>
         <article class="tier feature">
           <div class="name"><h3>Studio</h3><span class="seats">Limited seats</span></div>
           <div class="price">$997</div><div class="perday">About $24 a day for 42 days</div>
           <ul><li>Everything in Room</li><li><b>1:1 sessions with Zahid Iqbal</b></li><li>Weekly small-group review of your work</li><li>Priority pod placement</li><li>Drama Method templates and prompt library</li><li>Character & World Bible review</li></ul>
-          <a class="btn" href="#apply" data-tier="Studio">Apply for Studio</a>
+          <a class="btn" href="#apply" data-tier="Studio" data-checkout="studio">Join Studio · $997</a>
         </article>
       </div>
-      <p class="fine">Pay in full or in 3 monthly installments. Regional pricing for South Asia, Africa and Latin America. Ship Guarantee: submit all six weekly deliverables, and if your pilot isn’t published by Demo Day, your seat in the next cohort is free. MYTHRA teaches a system; results depend on your work, and no view or income numbers are promised.</p>
+      <p class="fine">Secure checkout by Whop. Pay in full or in 3 monthly installments. Regional pricing for South Asia, Africa and Latin America. Ship Guarantee: submit all six weekly deliverables, and if your pilot isn’t published by Demo Day, your seat in the next cohort is free. MYTHRA teaches a system; results depend on your work, and no view or income numbers are promised.</p>
     </section>
 
     <section id="apply">
       <div class="apply">
         <div class="head" style="margin:0">
-          <span class="eyebrow">Entry is by application</span>
+          <span class="eyebrow">Not sure which seat?</span>
           <h2>Tell us what you’re building.</h2>
-          <p class="lede">Every application is read by the MYTHRA team. Accepted creators are placed in a pod by niche before Week 1.</p>
+          <p class="lede">Send us your story idea and your channel. The MYTHRA team will reply and help you choose the right seat.</p>
         </div>
         <form class="app" id="appForm" novalidate>
           <label class="f" for="aName">Your name<input class="field" id="aName" autocomplete="name"></label>
@@ -382,9 +356,9 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
           </label>
           <label class="f" for="aGoal">What story do you want to ship in six weeks?<textarea class="field" id="aGoal" rows="3"></textarea></label>
           <input class="hp" id="aWebsite" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <label class="check" for="aConsent"><input type="checkbox" id="aConsent"><span>Contact me about my application by email or WhatsApp.</span></label>
+          <label class="check" for="aConsent"><input type="checkbox" id="aConsent"><span>Contact me about the cohort by email or WhatsApp.</span></label>
           <p class="err" id="appErr" hidden></p>
-          <button class="btn" type="submit" id="appBtn">Send application</button>
+          <button class="btn" type="submit" id="appBtn">Send</button>
           <div class="ok" id="appOk" hidden></div>
         </form>
       </div>
@@ -397,6 +371,6 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
   </div>
 </div>
 
-<script src="/egg/egg.js?v=1" defer></script>
+<script src="/egg/egg.js?v=2" defer></script>
 </body>
 </html>
