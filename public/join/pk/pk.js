@@ -29,14 +29,16 @@ const UR = {
   navJoin: 'ابھی جوائن کریں',
   heroEyebrow: 'پاکستان ایڈیشن · ڈراما میتھڈ رائٹرز روم',
   heroTitle: 'ٹولز بدلتے رہیں گے، <em>کہانی کا سسٹم</em> وہی رہے گا۔',
-  heroLede: '«The Mother’s Monster» صرف 72 گھنٹوں میں بنی اور اس کی پہلی قسط نے 6 کروڑ سے زیادہ ویوز حاصل کیے۔ یہ اسی کامیابی کے پیچھے کا سسٹم ہے، جو زاہد اقبال چھ ہفتوں کے ایک سیزن میں سکھاتے ہیں، جہاں آپ اپنی اصل کہانی اصل ناظرین تک پہنچاتے ہیں۔',
+  heroLede: '«The Mother’s Monster» صرف 72 گھنٹوں میں بنی اور اب تک 7 کروڑ 20 لاکھ سے زیادہ بار دیکھی جا چکی ہے، اور 10 کروڑ کی طرف بڑھ رہی ہے۔ یہ اسی کامیابی کے پیچھے کا سسٹم ہے، جو زاہد اقبال چھ ہفتوں کے ایک سیزن میں سکھاتے ہیں، جہاں آپ اپنی اصل کہانی اصل ناظرین تک پہنچاتے ہیں۔',
   heroFacts: '<li><b>42 دن</b> · چھ اسپرنٹ</li><li><b>12 مراحل</b> · ایک پائلٹ لانچ</li><li><b>فاؤنڈنگ قیمت</b> · صرف پہلے بیچ کے لیے</li>',
   heroCta: 'ابھی سیٹ بک کریں',
   heroPrices: 'قیمت دیکھیں',
   payWith: 'ادائیگی پاکستانی روپے میں:',
-  t1h: 'ویوز پہلی قسط پر', t1p: 'یہ سسٹم کاغذ پر نہیں، اصل ناظرین پر آزمایا گیا ہے۔',
+  t1h: 'ویوز، 10 کروڑ کی طرف', t1p: '«The Mother’s Monster» اب 10 کروڑ کے قریب ہے، اسی سسٹم سے بنی جو آپ سیکھیں گے۔',
+  reachEyebrow: 'اب تک کے ناظرین', reachGoal: 'ہدف: 10 کروڑ', reachP: '72 گھنٹوں میں بنی۔ 7 کروڑ 20 لاکھ سے زیادہ ویوز۔ اگلی منزل: 10 کروڑ۔',
+  popular: 'سب سے مقبول',
   t2h: 'زاہد اقبال کے ساتھ', t2p: 'اسٹوڈیو سیٹ میں آپ کی کہانی، شاٹس اور ایڈٹ کا ذاتی جائزہ۔',
-  t3h: 'کریڈٹ کارڈ کی ضرورت نہیں', t3p: 'JazzCash، Easypaisa یا کسی بھی بینک ایپ سے QR اسکین کر کے روپے میں ادائیگی کریں۔',
+  t3big: 'اب آپ کی باری۔', t3h: 'آپ کا خواب، کروڑوں اسکرینوں پر۔', t3p: 'وہ کہانی جو برسوں سے آپ کے دل میں ہے، آخرکار بنے گی۔ لاکھوں لوگ دیکھیں گے، کریڈٹس میں آپ کا نام ہوگا اور پلے بٹن آپ کی دیوار پر۔ یہی وہ سیزن ہے جب آپ کا خواب حقیقت بنتا ہے۔',
   mEyebrow: 'ڈراما میتھڈ',
   mTitle: 'کہانی بنانے کا 12 مرحلوں کا انجن۔',
   mLede: 'کہانی، کرداروں کی یکسانیت، اور دنیا بھر تک پہنچنے کا طریقہ۔ کسی مرحلے پر کلک کریں اور دیکھیں کہ اس میں کیا سیکھیں گے اور کیا بنائیں گے۔',
@@ -63,9 +65,10 @@ const UR = {
   hEyebrow: 'آسان طریقہ', hTitle: 'چار قدم میں داخلہ۔',
   steps: '<li><b>جوائن پر کلک کریں</b> اور اپنا نام اور WhatsApp نمبر لکھیں۔</li><li><b>QR اسکین کریں</b> JazzCash، Easypaisa یا اپنی بینک ایپ سے۔</li><li><b>رقم ادا کریں</b> اور رسید کا اسکرین شاٹ لے لیں۔</li><li><b>سیٹ کنفرم:</b> ہماری ٹیم WhatsApp پر رابطہ کر کے آپ کو داخل کر لے گی۔</li>',
   fEyebrow: 'سوالات', fTitle: 'اکثر پوچھے جانے والے سوال۔',
-  q1: 'کیا کریڈٹ کارڈ یا ڈالر میں ادائیگی ضروری ہے؟', a1: 'نہیں۔ پاکستان کے لیے پوری فیس روپے میں ہے۔ JazzCash، Easypaisa یا کسی بھی بینک ایپ سے QR اسکین کر کے ادائیگی کریں۔',
-  q2: 'ایک ہی فون پر QR کیسے اسکین کروں؟', a2: 'فارم میں «QR محفوظ کریں» دبائیں، پھر اپنی ایپ میں «Scan QR» کھول کر گیلری سے تصویر چنیں۔ چاہیں تو اکاؤنٹ نمبر کاپی کر کے براہِ راست بھی بھیج سکتے ہیں۔',
-  q3: 'ادائیگی کے بعد کیا ہوگا؟', a3: 'رسید کا اسکرین شاٹ ہمیں WhatsApp پر بھیج دیں۔ ہماری ٹیم ادائیگی چیک کر کے آپ کی سیٹ کنفرم کرے گی اور کلاس کی تفصیلات بھیجے گی۔',
+  q1: 'کیا فلم میکنگ یا AI کا تجربہ ضروری ہے؟', a1: 'فلم اسکول کی ڈگری ضروری نہیں۔ ڈراما میتھڈ کہانی اور ناظرین کی نفسیات سے شروع ہوتا ہے، اور AI ٹولز پائلٹ بناتے ہوئے مرحلہ وار سکھائے جاتے ہیں۔',
+  q2: 'اسپرنٹ کیسے کام کرتا ہے؟', a2: 'چھ ہفتہ وار اسپرنٹس میں سے ہر ایک میں ڈراما میتھڈ کے دو مراحل ہوتے ہیں اور آخر میں آپ کچھ پوسٹ کرتے ہیں۔ جمعہ کی پریمیئر نائٹ پر بہترین کام لائیو دکھایا جاتا ہے اور زاہد اس کا تجزیہ کرتے ہیں۔',
+  q3: 'کورس کے آخر تک میرے پاس کیا ہوگا؟', a3: 'ایک لانچ شدہ پائلٹ، آپ کے کرداروں کی ورلڈ بائبل، پائلٹ 3 زبانوں میں، 4 پلیٹ فارمز پر ایک ہفتے کے پوڈ کولیب، اور قسط 2 کا پلان جو آپ ڈیمو ڈے پر پیش کریں گے۔',
+  q5: 'شپ گارنٹی کیا ہے؟', a5: 'اگر آپ چھ ہفتوں کے تمام کام جمع کروائیں اور ڈیمو ڈے تک آپ کا پائلٹ لانچ نہ ہو، تو اگلے بیچ میں آپ کی سیٹ مفت۔',
   q4: 'روم، اسٹوڈیو اور سلور بٹن میں کیا فرق ہے؟', a4: 'روم میں پورا کورس، پوڈ اور پریمیئر نائٹس شامل ہیں۔ اسٹوڈیو میں اس کے علاوہ زاہد اقبال کے ساتھ 1:1 سیشن اور ہر ہفتے آپ کے کام کا ذاتی جائزہ ملتا ہے۔ سلور بٹن اسپرنٹ میں اسٹوڈیو کی ہر چیز شامل ہے اور یہ 42 دن پر ختم نہیں ہوتا: جب تک آپ کا چینل 1 لاکھ سبسکرائبرز تک نہ پہنچے اور سلور پلے بٹن نہ آ جائے، ہم آپ کے ساتھ کام کرتے رہتے ہیں۔',
   endBig: 'آپ کی کہانی جاری ہے۔', endSub: 'MYTHRA Studios · AI پر مبنی کہانی اور IP اسٹوڈیو · لاہور',
   barSeat: 'اسٹوڈیو سیٹ',
@@ -139,6 +142,12 @@ const SPRINTS = {
   ur: [['ہُک','وہ جذبہ ڈھونڈیں جو اسکرول روک دے۔ تین ہُک پوسٹ کریں۔'],['کہانی','پائلٹ لکھیں۔ کردار اور دنیا طے کریں۔'],['شوٹ','ہر شاٹ کا اسٹوری بورڈ بنائیں اور پائلٹ تیار کریں۔'],['ایڈٹ','ایڈٹ، میوزک، لانچ اور ٹیسٹ۔'],['اسکیل','تین زبانیں اور ایک ہفتے کے پوڈ کولیب۔'],['سیزن','ڈیٹا پڑھیں، قسط 2 پلان کریں، ڈیمو ڈے پر پیش کریں۔']]
 };
 
+const TICKER = {
+  en: ['72M+ views', 'Heading for 100M', 'YouTube', 'TikTok', 'Instagram', 'Facebook', 'Premiere Night every Friday', '12 stages · 42 days', 'Made in Lahore'],
+  ur: ['7 کروڑ 20 لاکھ+ ویوز', 'اگلی منزل 10 کروڑ', 'YouTube', 'TikTok', 'Instagram', 'Facebook', 'ہر جمعہ پریمیئر نائٹ', '12 مراحل · 42 دن', 'لاہور سے']
+};
+const motion = root.classList.contains('motion');
+
 const store = (k, v) => { try { localStorage.setItem(k, v); } catch(e){ /* private mode */ } };
 const lang = () => (root.lang === 'ur' ? 'ur' : 'en');
 const t = () => T[lang()];
@@ -163,7 +172,7 @@ function applyLang(l, save){
   document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
   document.title = t().title;
   $('#payQr').alt = t().qrAlt; $('#sheetClose').setAttribute('aria-label', t().close);
-  fillPrices(); renderStages(); renderSprints(); renderAccount(); syncTier(); syncThemeLabel();
+  fillPrices(); renderStages(); renderSprints(); renderTicker(); renderAccount(); syncTier(); syncThemeLabel(); observe();
   if (!btn.disabled) btn.textContent = t().submit;
   if (save) store('mythra-pk-lang', l);
 }
@@ -213,6 +222,7 @@ function pick(i){
   stageIndex = i;
   ol.querySelectorAll('button').forEach((b,j) => b.setAttribute('aria-selected', String(i===j)));
   const s = STAGES[lang()][i];
+  if (motion){ stageCard.classList.add('swap'); requestAnimationFrame(() => requestAnimationFrame(() => stageCard.classList.remove('swap'))); }
   stageCard.innerHTML = `<span class="eyebrow">${t().stage} ${pad2(i+1)} · ${t().week} ${Math.floor(i/2)+1}</span><div class="big">${pad2(i+1)}</div><h3></h3><p class="lede"></p><div class="ship"><b>${t().ship}</b> <span></span></div>`;
   stageCard.querySelector('h3').textContent = s[0]; stageCard.querySelector('.lede').textContent = s[1]; stageCard.querySelector('.ship span').textContent = s[2];
 }
@@ -223,6 +233,42 @@ function renderSprints(){
     d.innerHTML = `<span class="w">${t().week.toUpperCase()} ${i+1} · ${t().stages} ${pad2(i*2+1)}–${pad2(i*2+2)}</span><h4></h4><p></p>`;
     d.querySelector('h4').textContent = s[0]; d.querySelector('p').textContent = s[1]; box.append(d);
   });
+}
+
+function renderTicker(){
+  const items = TICKER[lang()].concat(TICKER[lang()]);
+  const tr = $('#ticker'); tr.textContent = '';
+  items.forEach(x => { const sp = document.createElement('span'); sp.textContent = x; tr.append(sp); });
+}
+
+/* =========================================================
+   MOTION: scroll reveals, count-ups and meters. CSS does the animating; nothing runs once everything is shown.
+   ========================================================= */
+const REVEAL = '.head, .trust article, .method, .sprint, .offer, .tier, .fine, .steps li, .faq details, .end';
+let io = null;
+function countUp(el){
+  const to = Number(el.dataset.count), t0 = performance.now(), dur = 1600;
+  const step = now => { const k = Math.min(1, (now - t0) / dur); el.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function observe(){
+  if (!motion) return;
+  if (!io) io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target; el.classList.add('in'); io.unobserve(el);
+    el.querySelectorAll('[data-count]').forEach(countUp);
+    if (el.matches('[data-count]')) countUp(el);
+  }), { threshold: .15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll(REVEAL).forEach(el => {
+    if (el.classList.contains('in')) return;
+    if (!el.classList.contains('rv')){
+      el.classList.add('rv');
+      const sib = el.parentElement ? Array.from(el.parentElement.children).indexOf(el) : 0;
+      el.style.setProperty('--d', (Math.min(sib, 5) * 0.08) + 's');
+    }
+    io.observe(el);
+  });
+  document.querySelectorAll('.meter:not(.in), .reach [data-count]').forEach(el => io.observe(el));
 }
 
 /* =========================================================

@@ -21,7 +21,8 @@
 (function(){var d=document.documentElement,q=new URLSearchParams(location.search),l=q.get('lang'),t=q.get('theme');
 try{l=l||localStorage.getItem('mythra-pk-lang');t=t||localStorage.getItem('mythra-pk-theme')}catch(e){}
 if(l==='ur'){d.lang='ur';d.dir='rtl'}
-if(t==='light'||t==='dark')d.dataset.theme=t;})();
+if(t==='light'||t==='dark')d.dataset.theme=t;
+if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('motion');})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -255,11 +256,98 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
   .seatpick label{display:flex;justify-content:space-between;align-items:center}
   dialog.sheet{border-radius:14px 14px 0 0;margin:auto auto 0;max-height:94dvh}
 }
+
+/* ===== motion and polish (CSS transforms/opacity only, no libraries) ===== */
+.page{overflow-x:clip}
+.aurora{position:absolute;inset:0 0 auto 0;height:900px;pointer-events:none;z-index:0;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;will-change:transform}
+.aurora i:nth-child(1){width:520px;height:520px;top:-160px;inset-inline-end:-80px;background:radial-gradient(circle,rgba(242,197,124,.55),transparent 65%);animation:drift1 18s ease-in-out infinite alternate}
+.aurora i:nth-child(2){width:420px;height:420px;top:180px;inset-inline-start:-140px;background:radial-gradient(circle,rgba(201,91,60,.35),transparent 65%);animation:drift2 22s ease-in-out infinite alternate}
+.aurora i:nth-child(3){width:300px;height:300px;top:420px;inset-inline-end:28%;background:radial-gradient(circle,rgba(120,150,255,.18),transparent 65%);animation:drift1 26s ease-in-out infinite alternate-reverse}
+:root[data-theme="light"] .aurora i{opacity:.35}
+@keyframes drift1{to{transform:translate3d(-90px,70px,0) scale(1.15)}}
+@keyframes drift2{to{transform:translate3d(110px,-50px,0) scale(1.1)}}
+.wrap{position:relative;z-index:1}
+
+.hero{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;column-gap:56px}
+.hero-copy{display:grid;gap:20px;justify-items:start}
+.hero h1 em{background:linear-gradient(100deg,var(--gold) 0%,var(--gold-hot) 35%,#fff3d6 50%,var(--gold-hot) 65%,var(--gold) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 6s ease-in-out infinite}
+:root[data-theme="light"] .hero h1 em{background-image:linear-gradient(100deg,var(--gold) 0%,var(--gold-hot) 35%,#c89a4a 50%,var(--gold-hot) 65%,var(--gold) 100%)}
+@keyframes sheen{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+
+.reach{position:relative;display:grid;gap:14px;padding:22px;border-radius:18px;border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--stone-2) 92%,transparent),color-mix(in srgb,var(--void) 80%,transparent));box-shadow:0 30px 80px -30px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.03) inset;backdrop-filter:blur(6px)}
+:root[data-theme="light"] .reach{box-shadow:0 30px 70px -35px rgba(80,60,20,.35)}
+.reel{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:radial-gradient(120% 90% at 30% 20%,#3a2a14,#0b0d10 70%);isolation:isolate}
+.reel::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent,rgba(242,197,124,.35),transparent 30%,rgba(201,91,60,.3),transparent 60%);animation:spin 14s linear infinite;z-index:-1}
+.reel::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.55) 0 10px,transparent 10px 22px) top/100% 12px no-repeat,repeating-linear-gradient(90deg,rgba(0,0,0,.55) 0 10px,transparent 10px 22px) bottom/100% 12px no-repeat}
+@keyframes spin{to{transform:rotate(360deg)}}
+.play-btn{position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.play-btn::before{content:"";border-left:18px solid #111;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
+.play-btn::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.8);animation:ripple 2.2s ease-out infinite}
+@keyframes ripple{from{transform:scale(1);opacity:.9}to{transform:scale(2.1);opacity:0}}
+.reel .tagline{position:absolute;inset-inline-start:14px;bottom:20px;font-family:var(--latin);font-size:11px;letter-spacing:.2em;color:#f2e6cf;text-transform:uppercase;opacity:.85}
+.count{font-family:var(--latin);font-weight:600;font-size:clamp(44px,5vw,60px);line-height:1;color:var(--bone);direction:ltr;text-align:start;font-variant-numeric:tabular-nums}
+:root[dir="rtl"] .count{text-align:right}
+.count small{font-size:.45em;color:var(--gold-hot);margin-left:4px}
+.meter{position:relative;height:10px;border-radius:99px;background:var(--line);overflow:visible;direction:ltr}
+.meter i{position:absolute;inset:0 auto 0 0;width:var(--to);border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-hot));box-shadow:0 0 18px color-mix(in srgb,var(--gold-hot) 60%,transparent);transition:width 1.8s cubic-bezier(.2,.8,.2,1)}
+.meter i::after{content:"";position:absolute;right:-4px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--gold-hot);box-shadow:0 0 0 4px color-mix(in srgb,var(--gold-hot) 30%,transparent);animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{50%{box-shadow:0 0 0 9px transparent}}
+.meter-l{display:flex;justify-content:space-between;font-family:var(--latin);font-size:12px;color:var(--bone-dim);direction:ltr}
+.meter-l b{color:var(--gold-hot);font-weight:600}
+.motion .meter:not(.in) i{width:0}
+
+.ticker{position:relative;z-index:1;overflow:hidden;border-block:1px solid var(--line);direction:ltr;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ticker .track{display:flex;width:max-content;gap:44px;padding:14px 0;animation:marquee 38s linear infinite}
+.ticker span{white-space:nowrap;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
+:root[lang="ur"] .ticker span{letter-spacing:0;font-size:15px;text-transform:none}
+.ticker span::before{content:"✦";color:var(--gold);margin-right:14px}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+.trust article{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s}
+.trust article:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--gold) 50%,transparent)}
+.trust .meter{margin-top:6px}
+:root[dir="rtl"] .trust .big.num{text-align:right}
+.trust .dream{background:linear-gradient(160deg,color-mix(in srgb,var(--gold) 22%,var(--stone)),var(--stone) 60%);border-color:color-mix(in srgb,var(--gold) 55%,transparent)}
+.trust .dream .big{font-family:var(--display);font-style:italic;font-weight:500;font-size:40px;text-align:start}
+:root[lang="ur"] .trust .dream .big{font-style:normal;font-weight:700;font-size:32px;line-height:1.9}
+.trust .dream::after{content:"";position:absolute;inset:-50% -30% auto auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(242,197,124,.35),transparent 65%);animation:drift1 12s ease-in-out infinite alternate}
+.sparkle{position:absolute;inset-inline-end:22px;top:22px;width:10px;height:10px;background:var(--gold-hot);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:twinkle 2.4s ease-in-out infinite}
+.sparkle:nth-of-type(2){inset-inline-end:54px;top:46px;width:6px;height:6px;animation-delay:.8s}
+@keyframes twinkle{50%{transform:scale(.4) rotate(45deg);opacity:.3}}
+
+/* primary buttons: gradient + periodic shine */
+.btn:not(.ghost):not(.wa){position:relative;overflow:hidden;background:linear-gradient(135deg,var(--gold-hot),var(--gold));box-shadow:0 10px 30px -10px color-mix(in srgb,var(--gold) 70%,transparent);transition:transform .2s,box-shadow .2s}
+.btn:not(.ghost):not(.wa):hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px color-mix(in srgb,var(--gold) 80%,transparent)}
+.btn:not(.ghost):not(.wa)::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 4.5s ease-in-out infinite}
+@keyframes shine{0%,70%{left:-60%}100%{left:130%}}
+
+/* pricing emphasis */
+.tier{position:relative;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.tier:hover{transform:translateY(-6px);box-shadow:0 24px 60px -30px rgba(0,0,0,.6)}
+.tier.feature{box-shadow:0 0 0 1px var(--gold),0 30px 80px -40px color-mix(in srgb,var(--gold) 80%,transparent);animation:glow 3.5s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 1px var(--gold-hot),0 30px 90px -30px color-mix(in srgb,var(--gold-hot) 90%,transparent)}}
+.ribbon{position:absolute;top:-13px;inset-inline-start:24px;padding:3px 12px;border-radius:99px;background:linear-gradient(135deg,var(--gold-hot),var(--gold));color:var(--on-gold);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 6px 18px -6px var(--gold)}
+:root[lang="ur"] .ribbon{letter-spacing:0;font-size:13px;padding:0 12px 5px}
+.tier.feature .seats::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff6b4a;margin-inline-end:6px;vertical-align:1px;animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+.stage-card .big{transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s}
+.stage-card.swap .big{transform:translateY(12px);opacity:0}
+
+/* scroll reveal */
+.motion .rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
+.motion .rv.in{opacity:1;transform:none}
+.motion .hero-copy > *{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.motion .hero-copy > :nth-child(2){animation-delay:.08s}.motion .hero-copy > :nth-child(3){animation-delay:.16s}.motion .hero-copy > :nth-child(4){animation-delay:.24s}.motion .hero-copy > :nth-child(5){animation-delay:.32s}.motion .hero-copy > :nth-child(6){animation-delay:.4s}
+.motion .reach{animation:rise 1.1s .25s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+@media (max-width:960px){ .hero{grid-template-columns:1fr;row-gap:40px} .reach{max-width:520px;width:100%} }
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{animation:none!important;transition-duration:.01ms!important} }
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="wrap">
     <header class="top">
       <span class="logo" aria-label="MYTHRA"><span class="m">M</span><span class="w">MYTHRA</span></span>
@@ -277,22 +365,33 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
     </header>
 
     <section class="hero">
+      <div class="hero-copy">
       <span class="eyebrow" data-i="heroEyebrow">Pakistan edition · The Drama Method Writers’ Room</span>
       <h1 data-i="heroTitle">The tools will change. <em>The story system</em> remains.</h1>
-      <p class="lede" data-i="heroLede">The Mother’s Monster was made in 72 hours and passed 60M views on Episode 1. This is the system behind it, taught by Zahid Iqbal as a six-week season where you ship a real story to a real audience.</p>
+      <p class="lede" data-i="heroLede">The Mother’s Monster was made in 72 hours and has now been watched more than 72M times, on its way to 100M. This is the system behind it, taught by Zahid Iqbal as a six-week season where you ship a real story to a real audience.</p>
       <ul class="facts" data-i="heroFacts"><li><b>42 days</b> · six sprints</li><li><b>12 stages</b> · one pilot shipped</li><li><b>Founding prices</b> · Cohort 1 only</li></ul>
       <div class="actions">
         <button class="btn" type="button" data-join="Studio" data-i="heroCta">Book your seat</button>
         <a class="btn ghost" href="#seats" data-i="heroPrices">See prices</a>
       </div>
       <div class="paywith"><span data-i="payWith">Pay in Pakistani rupees:</span><span class="chip">JazzCash</span><span class="chip">Easypaisa</span><span class="chip">Raast</span><span class="chip">Bank App</span></div>
+      </div>
+      <aside class="reach" aria-label="The Mother’s Monster audience">
+        <div class="reel"><span class="play-btn" aria-hidden="true"></span><span class="tagline">The Mother’s Monster</span></div>
+        <span class="eyebrow" data-i="reachEyebrow">Audience so far</span>
+        <div class="count"><span data-count="72">72</span>M<small>+ views</small></div>
+        <div class="meter" style="--to:72%"><i></i></div>
+        <div class="meter-l"><span>0</span><b data-i="reachGoal">Goal: 100M</b></div>
+        <p class="lede" data-i="reachP">Made in 72 hours. Watched more than 72M times. Next stop: 100M.</p>
+      </aside>
     </section>
+    <div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
 
     <section>
       <div class="trust">
-        <article><span class="big num">60M+</span><h3 data-i="t1h">views on Episode 1</h3><p class="lede" data-i="t1p">Tested on a real audience, not on paper.</p></article>
+        <article><span class="big num"><span data-count="72">72</span>M+</span><h3 data-i="t1h">views, heading for 100M</h3><p class="lede" data-i="t1p">The Mother’s Monster is closing in on 100M, built with the same system you’ll learn.</p><div class="meter" style="--to:72%"><i></i></div></article>
         <article><span class="big num">1:1</span><h3 data-i="t2h">with Zahid Iqbal</h3><p class="lede" data-i="t2p">Studio seats get a personal review of your story, shots and edit.</p></article>
-        <article><span class="big num">PKR</span><h3 data-i="t3h">No credit card needed</h3><p class="lede" data-i="t3p">Scan a QR with JazzCash, Easypaisa or any bank app and pay in rupees.</p></article>
+        <article class="dream"><span class="sparkle" aria-hidden="true"></span><span class="sparkle" aria-hidden="true"></span><span class="big" data-i="t3big">Your turn.</span><h3 data-i="t3h">Your dream, on millions of screens.</h3><p class="lede" data-i="t3p">The story you’ve carried for years, finally made. Millions watching, your name in the credits, the Play Button on your wall. This is the season your dream comes true.</p></article>
       </div>
     </section>
 
@@ -337,6 +436,7 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
           <button class="btn ghost" type="button" data-join="Room" data-i="joinRoom">Join Room</button>
         </article>
         <article class="tier feature">
+          <span class="ribbon" data-i="popular">Most popular</span>
           <div class="name"><h3 data-i="studio">Studio</h3><span class="seats" data-i="limited">Limited seats</span></div>
           <div class="price"><small>Rs</small><span data-price="Studio">49,999</span></div>
           <div class="perday" data-i="perdayStudio">About <span class="num" data-perday="Studio">Rs 1,190</span> a day for 42 days</div>
@@ -370,10 +470,11 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
     <section>
       <div class="head"><span class="eyebrow" data-i="fEyebrow">Questions</span><h2 data-i="fTitle">Frequently asked.</h2></div>
       <div class="faq">
-        <details><summary data-i="q1">Do I need a credit card or dollars?</summary><p data-i="a1">No. The full fee for Pakistan is in rupees. Scan the QR with JazzCash, Easypaisa or any bank app to pay.</p></details>
-        <details><summary data-i="q2">How do I scan the QR on the same phone?</summary><p data-i="a2">Tap “Save QR” in the form, then open “Scan QR” in your payment app and pick the image from your gallery. You can also copy the account number and send the payment directly.</p></details>
-        <details><summary data-i="q3">What happens after I pay?</summary><p data-i="a3">Send us the receipt screenshot on WhatsApp. Our team checks the payment, confirms your seat and sends you the class details.</p></details>
+        <details><summary data-i="q1">Do I need filmmaking or AI experience?</summary><p data-i="a1">No film degree needed. The Drama Method starts with story and audience psychology, and the AI tools are taught stage by stage while you build your pilot.</p></details>
+        <details><summary data-i="q2">How does a sprint work?</summary><p data-i="a2">Each of the six weekly sprints covers two stages of the Drama Method and ends with something you post. On Friday’s Premiere Night the best work is screened live and broken down by Zahid.</p></details>
+        <details><summary data-i="q3">What will I have by the end of the cohort?</summary><p data-i="a3">A published pilot, a World Bible for your characters, the pilot in three languages, a week of pod collabs across four platforms, and an Episode 2 plan you pitch on Demo Day.</p></details>
         <details><summary data-i="q4">What is the difference between Room, Studio and Silver Button?</summary><p data-i="a4">Room includes the full course, your pod and the Premiere Nights. Studio adds 1:1 sessions with Zahid Iqbal and a personal review of your work every week. The Silver Button Sprint includes everything in Studio and does not stop at 42 days: we keep working with you until your channel reaches 100K subscribers and the Silver Play Button arrives.</p></details>
+        <details><summary data-i="q5">What is the Ship Guarantee?</summary><p data-i="a5">Submit all six weekly deliverables, and if your pilot isn’t published by Demo Day, your seat in the next cohort is free.</p></details>
       </div>
     </section>
 
@@ -431,6 +532,6 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
   </div>
 </dialog>
 
-<script src="/join/pk/pk.js?v=3" defer></script>
+<script src="/join/pk/pk.js?v=4" defer></script>
 </body>
 </html>
