@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <!-- Placeholder. Replace this file (or set PAY.qr in pk.js) with the real Raast / JazzCash / Easypaisa QR image. -->
+  <rect width="240" height="240" fill="#fff"/>
+  <g fill="#111">
+    <rect x="16" y="16" width="64" height="64"/><rect x="26" y="26" width="44" height="44" fill="#fff"/><rect x="36" y="36" width="24" height="24"/>
+    <rect x="160" y="16" width="64" height="64"/><rect x="170" y="26" width="44" height="44" fill="#fff"/><rect x="180" y="36" width="24" height="24"/>
+    <rect x="16" y="160" width="64" height="64"/><rect x="26" y="170" width="44" height="44" fill="#fff"/><rect x="36" y="180" width="24" height="24"/>
+  </g>
+  <rect x="64" y="100" width="112" height="40" fill="#c9a15b"/>
+  <text x="120" y="126" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle" fill="#111">SAMPLE QR</text>
+</svg>
