@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
   },
   // The dragon egg experience is a static page in public/egg; serve it at /egg.
   // The cohort ads landing page is a static page in public/join; serve it at /join.
+  // Its Pakistani Urdu version (PKR prices, QR payment) is public/join/pk, served at /join/pk.
   // (The old partner funnel that used to live at /join is now at /z1.)
   async rewrites() {
     return {
@@ -26,6 +27,8 @@ const nextConfig: NextConfig = {
         { source: "/egg/", destination: "/egg/index.html" },
         { source: "/join", destination: "/join/index.html" },
         { source: "/join/", destination: "/join/index.html" },
+        { source: "/join/pk", destination: "/join/pk/index.html" },
+        { source: "/join/pk/", destination: "/join/pk/index.html" },
       ],
       afterFiles: [],
       fallback: [],
