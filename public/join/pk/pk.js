@@ -27,6 +27,13 @@ const DAYS = 42;
    ========================================================= */
 const UR = {
   navJoin: 'ابھی جوائن کریں',
+  liveTag: 'داخلے جاری ہیں · پہلا بیچ · پاکستان',
+  railViews: '+ ویوز',
+  r2k: 'سیزن', r2s: 'دن', r2p: 'چھ اسپرنٹ · ہر جمعہ پریمیئر',
+  r3k: 'میتھڈ', r3s: 'مراحل', r3p: 'ایک پائلٹ، اصل ناظرین تک',
+  proofK: 'وعدے نہیں، ثبوت', proofT: 'ایک ایسی فلم پر بنا سسٹم جسے <em>دنیا دیکھ رہی ہے۔</em>',
+  g1: 'روپوں میں ادائیگی، کارڈ کی ضرورت نہیں', g2: 'شپ گارنٹی', g3: 'سیٹ کی تصدیق WhatsApp پر',
+  finP: 'چھ ہفتوں بعد لوگ آپ کی کہانی دیکھ رہے ہوں گے۔ فاؤنڈنگ قیمتیں سیٹیں بھرتے ہی ختم ہو جائیں گی۔',
   heroEyebrow: 'پاکستان ایڈیشن · ڈراما میتھڈ رائٹرز روم',
   heroTitle: 'ٹولز بدلتے رہیں گے، <em>کہانی کا سسٹم</em> وہی رہے گا۔',
   heroLede: '«The Mother’s Monster» صرف 72 گھنٹوں میں بنی اور اب تک 7 کروڑ 20 لاکھ سے زیادہ بار دیکھی جا چکی ہے، اور 10 کروڑ کی طرف بڑھ رہی ہے۔ یہ اسی کامیابی کے پیچھے کا سسٹم ہے، جو زاہد اقبال چھ ہفتوں کے ایک سیزن میں سکھاتے ہیں، جہاں آپ اپنی اصل کہانی اصل ناظرین تک پہنچاتے ہیں۔',
@@ -223,7 +230,7 @@ function pick(i){
   ol.querySelectorAll('button').forEach((b,j) => b.setAttribute('aria-selected', String(i===j)));
   const s = STAGES[lang()][i];
   if (motion){ stageCard.classList.add('swap'); requestAnimationFrame(() => requestAnimationFrame(() => stageCard.classList.remove('swap'))); }
-  stageCard.innerHTML = `<span class="eyebrow">${t().stage} ${pad2(i+1)} · ${t().week} ${Math.floor(i/2)+1}</span><div class="big">${pad2(i+1)}</div><h3></h3><p class="lede"></p><div class="ship"><b>${t().ship}</b> <span></span></div>`;
+  stageCard.innerHTML = `<span class="kicker">${t().stage} ${pad2(i+1)} · ${t().week} ${Math.floor(i/2)+1}</span><div class="big">${pad2(i+1)}</div><h3></h3><p class="lede"></p><div class="ship"><b>${t().ship}</b> <span></span></div>`;
   stageCard.querySelector('h3').textContent = s[0]; stageCard.querySelector('.lede').textContent = s[1]; stageCard.querySelector('.ship span').textContent = s[2];
 }
 function renderSprints(){
@@ -244,7 +251,7 @@ function renderTicker(){
 /* =========================================================
    MOTION: scroll reveals, count-ups and meters. CSS does the animating; nothing runs once everything is shown.
    ========================================================= */
-const REVEAL = '.head, .trust article, .method, .sprint, .offer, .tier, .fine, .steps li, .faq details, .end';
+const REVEAL = '.chapter, .proof .card, .method, .sprint, .offer, .tiers, .guarantee, .fine, .steps li, .faq details, .finale';
 let io = null;
 function countUp(el){
   const to = Number(el.dataset.count), t0 = performance.now(), dur = 1600;
@@ -256,11 +263,13 @@ function observe(){
   if (!io) io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     const el = e.target; el.classList.add('in'); io.unobserve(el);
+    // Drop the reveal classes once shown so hover lifts and the featured tier's scale apply again.
+    if (el.classList.contains('rv')) setTimeout(() => { el.dataset.shown = '1'; el.classList.remove('rv', 'in'); el.style.removeProperty('--d'); }, 1400);
     el.querySelectorAll('[data-count]').forEach(countUp);
     if (el.matches('[data-count]')) countUp(el);
   }), { threshold: .15, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll(REVEAL).forEach(el => {
-    if (el.classList.contains('in')) return;
+    if (el.classList.contains('in') || el.dataset.shown) return;
     if (!el.classList.contains('rv')){
       el.classList.add('rv');
       const sib = el.parentElement ? Array.from(el.parentElement.children).indexOf(el) : 0;
@@ -268,7 +277,7 @@ function observe(){
     }
     io.observe(el);
   });
-  document.querySelectorAll('.meter:not(.in), .reach [data-count]').forEach(el => io.observe(el));
+  document.querySelectorAll('.meter:not(.in), .rail [data-count]').forEach(el => io.observe(el));
 }
 
 /* =========================================================
@@ -342,6 +351,18 @@ form.addEventListener('submit', async e => {
     err.hidden = false; err.textContent = ex.message || t().network;
   } finally { btn.disabled = false; btn.textContent = t().submit; }
 });
+
+// Header turns solid once you scroll; the floating join bar appears after the hero.
+const topBar = $('#top'), joinBar = $('#bar'), hero = $('#hero');
+let ticking = false;
+function onScroll(){
+  ticking = false;
+  const y = window.scrollY;
+  topBar.classList.toggle('scrolled', y > 40);
+  joinBar.classList.toggle('show', y > hero.offsetHeight * .7);
+}
+addEventListener('scroll', () => { if (!ticking){ ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+onScroll();
 
 applyLang(lang(), false);
 
