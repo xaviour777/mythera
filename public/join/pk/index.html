@@ -145,11 +145,16 @@ h3{margin:0;font-family:var(--display);font-weight:500;font-size:26px;line-heigh
 .offer .tag{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
 :root[lang="ur"] .offer .tag{font-size:13px;letter-spacing:0}
 
-.tiers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch;max-width:900px}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.tier.silver{border-color:#c0c6cf;background:linear-gradient(170deg,rgba(192,198,207,.16),var(--stone) 55%)}
+:root[data-theme="light"] .tier.silver{border-color:#8a929d;background:linear-gradient(170deg,rgba(138,146,157,.16),var(--stone) 55%)}
+.tier.silver .seats{border-color:currentColor;color:var(--bone)}
+.play{display:inline-grid;place-items:center;width:22px;height:16px;border-radius:4px;background:linear-gradient(135deg,#e9edf2,#9aa3ad);vertical-align:-2px;margin-inline-end:6px}
+.play::after{content:"";border-left:6px solid #3a3f46;border-top:4px solid transparent;border-bottom:4px solid transparent;margin-left:2px}
 .tier{display:grid;grid-template-rows:auto auto auto 1fr auto;gap:12px;padding:28px;border:1px solid var(--line);border-radius:12px;background:var(--stone);min-width:0}
 .tier.feature{border-color:var(--gold);background:linear-gradient(170deg,var(--glow),var(--stone) 55%)}
 .tier .name{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.seats{font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--gold);border-radius:99px;color:var(--gold-hot)}
+.seats{white-space:nowrap;font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--gold);border-radius:99px;color:var(--gold-hot)}
 :root[lang="ur"] .seats{font-size:12.5px;letter-spacing:0;padding:0 10px 4px}
 .price{font-family:var(--latin);font-size:50px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums;direction:ltr;text-align:start}
 :root[dir="rtl"] .price{text-align:right}
@@ -198,7 +203,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.66);backdrop-filter:blur(3px)}
 .sheet .in{display:grid;gap:14px;padding:24px 22px 26px}
 .sheet .x{position:absolute;inset-inline-end:12px;top:10px;width:40px;height:40px;font-family:var(--latin);font-size:24px;color:var(--bone-dim)}
 .sheet h3{padding-inline-end:40px}
-.seatpick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seatpick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .seatpick label{display:grid;gap:2px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:14px}
 :root[lang="ur"] .seatpick label{padding:6px 14px 10px;font-size:15px;gap:0}
 .seatpick label b{font-family:var(--latin);font-size:17px;direction:ltr;text-align:start}
@@ -233,6 +238,7 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
 .payacts .btn{font-size:14px;padding:9px 16px}
 :root[lang="ur"] .payacts .btn{font-size:15px;padding:4px 16px 8px}
 
+@media (max-width:1060px){ .tiers{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:820px){
   .method,.offers,.tiers,.trust{grid-template-columns:1fr}
   .sprints,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -245,6 +251,8 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
   .logo .w{display:none}
   .hero .actions .btn{flex:1 1 100%}
   .pay .row{grid-template-columns:1fr;justify-items:center}
+  .seatpick{grid-template-columns:1fr}
+  .seatpick label{display:flex;justify-content:space-between;align-items:center}
   dialog.sheet{border-radius:14px 14px 0 0;margin:auto auto 0;max-height:94dvh}
 }
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{animation:none!important;transition-duration:.01ms!important} }
@@ -335,8 +343,15 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
           <ul data-i="studioList"><li>Everything in Room</li><li><b>1:1 sessions with Zahid Iqbal</b></li><li>Weekly small-group review of your work</li><li>Priority pod placement</li><li>Drama Method templates and prompt library</li><li>Character &amp; World Bible review</li></ul>
           <button class="btn" type="button" data-join="Studio" data-i="joinStudio">Join Studio</button>
         </article>
+        <article class="tier silver">
+          <div class="name"><h3><span class="play" aria-hidden="true"></span><span data-i="silver">Silver Button Sprint</span></h3><span class="seats" data-i="untilBadge">Until 100K</span></div>
+          <div class="price"><small>Rs</small><span data-price="Silver">100,000</span></div>
+          <div class="perday" data-i="perdaySilver">One price, from Day 1 until the Silver Play Button</div>
+          <ul data-i="silverList"><li>Everything in Studio</li><li><b>We stay with you after Demo Day until your channel reaches 100K subscribers and YouTube’s Silver Play Button is on your wall</b></li><li>Monthly 1:1 growth call with Zahid Iqbal</li><li>Ongoing review of your episodes, titles and thumbnails</li><li>Priority WhatsApp line to the MYTHRA team</li></ul>
+          <button class="btn ghost" type="button" data-join="Silver" data-i="joinSilver">Start the Silver Sprint</button>
+        </article>
       </div>
-      <p class="fine" data-i="fine">Ship Guarantee: submit all six weekly deliverables, and if your pilot isn’t published by Demo Day, your seat in the next cohort is free. MYTHRA teaches a system; results depend on your work, and no view or income numbers are promised.</p>
+      <p class="fine" data-i="fine">Ship Guarantee: submit all six weekly deliverables, and if your pilot isn’t published by Demo Day, your seat in the next cohort is free. MYTHRA teaches a system; results depend on your work, and no view or income numbers are promised. Silver Button Sprint: we keep working with you until your channel reaches 100K subscribers, as long as you keep publishing on the schedule we agree together. YouTube decides who receives a Play Button, so no subscriber number is guaranteed.</p>
     </section>
 
     <section id="how">
@@ -358,7 +373,7 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
         <details><summary data-i="q1">Do I need a credit card or dollars?</summary><p data-i="a1">No. The full fee for Pakistan is in rupees. Scan the QR with JazzCash, Easypaisa or any bank app to pay.</p></details>
         <details><summary data-i="q2">How do I scan the QR on the same phone?</summary><p data-i="a2">Tap “Save QR” in the form, then open “Scan QR” in your payment app and pick the image from your gallery. You can also copy the account number and send the payment directly.</p></details>
         <details><summary data-i="q3">What happens after I pay?</summary><p data-i="a3">Send us the receipt screenshot on WhatsApp. Our team checks the payment, confirms your seat and sends you the class details.</p></details>
-        <details><summary data-i="q4">What is the difference between Room and Studio?</summary><p data-i="a4">Room includes the full course, your pod and the Premiere Nights. Studio adds 1:1 sessions with Zahid Iqbal and a personal review of your work every week.</p></details>
+        <details><summary data-i="q4">What is the difference between Room, Studio and Silver Button?</summary><p data-i="a4">Room includes the full course, your pod and the Premiere Nights. Studio adds 1:1 sessions with Zahid Iqbal and a personal review of your work every week. The Silver Button Sprint includes everything in Studio and does not stop at 42 days: we keep working with you until your channel reaches 100K subscribers and the Silver Play Button arrives.</p></details>
       </div>
     </section>
 
@@ -383,6 +398,7 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
         <div class="seatpick" role="radiogroup" aria-label="Seat">
           <label><input type="radio" name="tier" value="Room"><span data-i="room">Room</span><b>Rs <span data-price="Room">14,999</span></b></label>
           <label><input type="radio" name="tier" value="Studio" checked><span data-i="studio1">Studio · 1:1</span><b>Rs <span data-price="Studio">49,999</span></b></label>
+          <label><input type="radio" name="tier" value="Silver"><span data-i="silverShort">Silver Button</span><b>Rs <span data-price="Silver">100,000</span></b></label>
         </div>
         <label class="f" for="jName"><span data-i="fName">Your name</span><input class="field" id="jName" autocomplete="name" required></label>
         <label class="f" for="jWa"><span data-i="fWa">WhatsApp number</span><input class="field" id="jWa" type="tel" inputmode="tel" autocomplete="tel" placeholder="0300 1234567" required></label>
@@ -415,6 +431,6 @@ label.f{display:grid;gap:7px;font-size:13.5px;color:var(--bone-dim)}
   </div>
 </dialog>
 
-<script src="/join/pk/pk.js?v=2" defer></script>
+<script src="/join/pk/pk.js?v=3" defer></script>
 </body>
 </html>

@@ -9,7 +9,7 @@ import { screenLead } from '@/lib/studio/lead-guard';
 
 // ghl.js is plain JS; its `tags = []` default makes TypeScript infer never[].
 const syncContact = syncEggContact as unknown as (contact: { firstName: string; lastName: string; email: string; phone: string; source: string; tags: string[]; customFields: Record<string, string> }) => Promise<unknown>;
-const TIERS: Record<string, string> = { Room: 'tier-room-pk', Studio: 'tier-studio-pk' };
+const TIERS: Record<string, string> = { Room: 'tier-room-pk', Studio: 'tier-studio-pk', Silver: 'tier-silver-pk' };
 // The page is English by default with an Urdu toggle; errors come back in the visitor's language.
 const MSG = {
   en: { rate: 'Too many tries from this connection. Please try again in an hour.', name: 'Please enter your name.', wa: 'Please enter a valid WhatsApp number, like 0300 1234567.', real: 'Please enter your real name.' },
