@@ -17,11 +17,15 @@ const nextConfig: NextConfig = {
     ];
   },
   // The dragon egg experience is a static page in public/egg; serve it at /egg.
+  // The cohort ads landing page is a static page in public/join; serve it at /join.
+  // (The old partner funnel that used to live at /join is now at /z1.)
   async rewrites() {
     return {
       beforeFiles: [
         { source: "/egg", destination: "/egg/index.html" },
         { source: "/egg/", destination: "/egg/index.html" },
+        { source: "/join", destination: "/join/index.html" },
+        { source: "/join/", destination: "/join/index.html" },
       ],
       afterFiles: [],
       fallback: [],
