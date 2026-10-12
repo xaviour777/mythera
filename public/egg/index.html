@@ -171,6 +171,9 @@ label.f small{color:var(--bone-dim);opacity:.8}
 .tier li{display:flex;gap:10px}
 .tier li::before{content:"";flex:none;width:6px;height:6px;margin-top:.55em;transform:rotate(45deg);background:var(--gold)}
 .tier li b{color:var(--bone);font-weight:600}
+.start{margin:4px 0 0;font-size:16px;color:var(--bone)}
+.start b{font-weight:600;color:var(--gold-hot)}
+.countdown{color:var(--gold-hot);white-space:nowrap}
 .fine{margin-top:24px;font-size:13.5px;color:var(--bone-dim);max-width:78ch}
 .apply{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:44px;align-items:start}
 form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px solid var(--line);position:relative}
@@ -284,6 +287,7 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
         <span class="eyebrow">Build with MYTHRA · The Drama Method Writers’ Room</span>
         <h2>The tools will change. The story system remains.</h2>
         <p class="lede">The Mother’s Monster was made in 72 hours and passed 60M views on Episode 1. This is the system behind it, taught as a six-week season where you ship a real story to a real audience.</p>
+        <p class="start"><b>Cohort 1 starts Thursday, 15 October 2026</b> <span class="countdown" data-start="2026-10-15T00:00:00+05:00"></span></p>
       </div>
     </section>
 
@@ -315,9 +319,9 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
 
     <section>
       <div class="head">
-        <span class="eyebrow">Founding Room · Cohort 1</span>
+        <span class="eyebrow">Cohort 1 · Starts 15 October 2026</span>
         <h2>Choose your seat.</h2>
-        <p class="lede">42 days. Founding prices apply to Cohort 1 only.</p>
+        <p class="lede">Six live weeks from Thursday, 15 October 2026. Founding prices apply to Cohort 1 only. <span class="countdown" data-start="2026-10-15T00:00:00+05:00"></span></p>
       </div>
       <div class="tiers">
         <article class="tier">
@@ -371,6 +375,6 @@ form.app{display:grid;gap:14px;padding:30px;background:var(--stone);border:1px s
   </div>
 </div>
 
-<script src="/egg/egg.js?v=2" defer></script>
+<script src="/egg/egg.js?v=3" defer></script>
 </body>
 </html>

@@ -753,6 +753,12 @@ pick(4);
   d.innerHTML = `<span class="w">WEEK ${i+1} · STAGES ${pad2(i*2+1)}–${pad2(i*2+2)}</span><h4></h4><p></p>`;
   d.querySelector('h4').textContent = s[0]; d.querySelector('p').textContent = s[1]; $('#sprints').append(d);
 });
+// Countdown to the cohort start, in whole days (Pakistan time is written into data-start).
+document.querySelectorAll('.countdown').forEach(el => {
+  const start = new Date(el.dataset.start).getTime();
+  const days = Math.ceil((start - Date.now()) / 86400000);
+  el.textContent = days > 1 ? `· Starts in ${days} days` : days === 1 ? '· Starts tomorrow' : days === 0 ? '· Starts today' : '';
+});
 document.querySelectorAll('[data-tier]').forEach(a => a.addEventListener('click', () => { $('#aTier').value = a.dataset.tier; }));
 let cohortSeen = false;
 if ('IntersectionObserver' in window){
