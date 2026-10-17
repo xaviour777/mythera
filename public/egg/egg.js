@@ -12,66 +12,24 @@ const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
 let motion = !matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* =========================================================
-   AUDIO — ambient hall, heartbeat, cracks, hatch, fire
+   AUDIO — silent hall; one dragon voice when the egg hatches, then quiet
    ========================================================= */
 const A = {
-  ctx:null, master:null, verb:null, pad:[], on:false, wanted:true, hbTimer:null, hbRate:0, crackleTimer:null,
-  start(){
-    if (this.ctx){ this.unmute(); return; }
+  ctx:null, master:null, verb:null, played:false,
+  // Browsers only allow sound after a touch, so the first touch of the egg opens audio; nothing plays until the hatch.
+  unlock(){
+    if (this.ctx || this.played) return;
     const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
     const c = this.ctx = new AC();
-    this.master = c.createGain(); this.master.gain.value = 0.0001; this.master.connect(c.destination);
-    // reverb
-    const len = c.sampleRate * 4.5, ir = c.createBuffer(2, len, c.sampleRate);
-    for (let ch=0; ch<2; ch++){ const d = ir.getChannelData(ch); for (let i=0;i<len;i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/len, 2.6); }
+    this.master = c.createGain(); this.master.gain.value = 0.8; this.master.connect(c.destination);
+    const len = c.sampleRate * 3, ir = c.createBuffer(2, len, c.sampleRate);
+    for (let ch=0; ch<2; ch++){ const d = ir.getChannelData(ch); for (let i=0;i<len;i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/len, 3); }
     this.verb = c.createConvolver(); this.verb.buffer = ir;
-    const vg = c.createGain(); vg.gain.value = 0.9; this.verb.connect(vg); vg.connect(this.master);
-    // pad: D minor add9, slow breathing filter
-    const lp = c.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value = 520; lp.Q.value = 0.6;
-    const lfo = c.createOscillator(), lfoG = c.createGain(); lfo.frequency.value = 0.06; lfoG.gain.value = 260; lfo.connect(lfoG); lfoG.connect(lp.frequency); lfo.start();
-    const padG = c.createGain(); padG.gain.value = 0.05; lp.connect(padG); padG.connect(this.master); padG.connect(this.verb);
-    [73.42, 110.0, 174.61, 220.0, 329.63].forEach((f,i) => {
-      [-7, 7].forEach(det => {
-        const o = c.createOscillator(); o.type = i < 2 ? 'sawtooth' : 'triangle';
-        o.frequency.value = f; o.detune.value = det; const g = c.createGain(); g.gain.value = i < 2 ? .5 : .35;
-        o.connect(g); g.connect(lp); o.start(); this.pad.push({o, base:f, idx:i});
-      });
-    });
-    // wind
-    const nb = c.createBuffer(1, c.sampleRate*3, c.sampleRate), nd = nb.getChannelData(0);
-    let last = 0; for (let i=0;i<nd.length;i++){ last = (last + (Math.random()*2-1)*0.06) * 0.985; nd[i] = last*3; }
-    const wind = c.createBufferSource(); wind.buffer = nb; wind.loop = true;
-    const bp = c.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value = 380; bp.Q.value = 0.5;
-    const wl = c.createOscillator(), wlg = c.createGain(); wl.frequency.value = 0.09; wlg.gain.value = 220; wl.connect(wlg); wlg.connect(bp.frequency); wl.start();
-    const wg = c.createGain(); wg.gain.value = 0.35; wind.connect(bp); bp.connect(wg); wg.connect(this.master); wg.connect(this.verb); wind.start();
-    // torch crackle
-    const crackle = () => {
-      if (this.on && Math.random() < .7) this.noise({dur: rnd(.01,.04), freq: rnd(2500,6000), q: 1.5, gain: rnd(.03,.09), pan: rnd(-.8,.8), type:'highpass', verb:.2});
-      this.crackleTimer = setTimeout(crackle, rnd(60, 380));
-    };
-    crackle();
-    this.unmute();
+    const vg = c.createGain(); vg.gain.value = 0.7; this.verb.connect(vg); vg.connect(this.master);
   },
-  unmute(){ if(!this.ctx) return; this.ctx.resume(); this.on = true; const t=this.ctx.currentTime; this.master.gain.cancelScheduledValues(t); this.master.gain.setValueAtTime(Math.max(.0001,this.master.gain.value),t); this.master.gain.exponentialRampToValueAtTime(0.9, t+2.5); },
-  mute(){ if(!this.ctx) return; this.on = false; const t=this.ctx.currentTime; this.master.gain.cancelScheduledValues(t); this.master.gain.setValueAtTime(Math.max(.0001,this.master.gain.value),t); this.master.gain.exponentialRampToValueAtTime(0.0001, t+.6); },
-  noise({dur=.2, freq=1200, q=1, gain=.3, pan=0, type='bandpass', verb=.4, sweepTo=null}){
-    const c = this.ctx; if (!c || !this.on) return;
-    const n = Math.max(1, Math.floor(c.sampleRate*dur)), b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0);
-    for (let i=0;i<n;i++) d[i] = (Math.random()*2-1);
-    const s = c.createBufferSource(); s.buffer = b;
-    const f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
-    const t = c.currentTime;
-    if (sweepTo){ f.frequency.setValueAtTime(freq, t); f.frequency.exponentialRampToValueAtTime(sweepTo[0], t+dur*.35); f.frequency.exponentialRampToValueAtTime(sweepTo[1], t+dur); }
-    const g = c.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(gain, t + Math.min(.02, dur*.2)); g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
-    const p = c.createStereoPanner ? c.createStereoPanner() : null;
-    s.connect(f); f.connect(g);
-    if (p){ p.pan.value = pan; g.connect(p); p.connect(this.master); } else g.connect(this.master);
-    if (verb){ const vs = c.createGain(); vs.gain.value = verb; g.connect(vs); vs.connect(this.verb); }
-    s.start(t); s.stop(t+dur+.05);
-  },
-  tone(freq, dur, {type='sine', gain=.2, glide=null, verb=.6, attack=.01}={}){
-    const c = this.ctx; if (!c || !this.on) return;
-    const t = c.currentTime, o = c.createOscillator(), g = c.createGain();
+  tone(freq, dur, {type='sine', gain=.2, glide=null, verb=.6, attack=.01, delay=0}={}){
+    const c = this.ctx; if (!c) return;
+    const t = c.currentTime + delay, o = c.createOscillator(), g = c.createGain();
     o.type = type; o.frequency.setValueAtTime(freq, t);
     if (glide) glide.forEach(([f,dt]) => o.frequency.exponentialRampToValueAtTime(f, t+dt));
     g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(gain, t+attack); g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
@@ -79,49 +37,37 @@ const A = {
     if (verb){ const vs = c.createGain(); vs.gain.value = verb; g.connect(vs); vs.connect(this.verb); }
     o.start(t); o.stop(t+dur+.05);
   },
-  heartbeat(rate){
-    this.hbRate = rate; if (this.hbTimer) return;
-    const beat = () => {
-      if (!this.hbRate){ this.hbTimer = null; return; }
-      this.tone(58, .32, {gain:.32, glide:[[38,.28]], verb:.25});
-      setTimeout(() => this.tone(52, .28, {gain:.22, glide:[[36,.24]], verb:.25}), 190);
-      this.hbTimer = setTimeout(beat, this.hbRate);
-    };
-    beat();
+  shell(){
+    const c = this.ctx, n = Math.floor(c.sampleRate*.25), b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0);
+    for (let i=0;i<n;i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/n, 4);
+    const s = c.createBufferSource(); s.buffer = b;
+    const f = c.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2400; f.Q.value = .9;
+    const g = c.createGain(); g.gain.value = .22; s.connect(f); f.connect(g); g.connect(this.master);
+    const vs = c.createGain(); vs.gain.value = .5; g.connect(vs); vs.connect(this.verb);
+    s.start();
   },
-  crack(level){
-    this.noise({dur:.09, freq:3200, q:.8, gain:.5, type:'highpass', verb:.35});
-    setTimeout(()=>this.noise({dur:.22, freq:900+level*500, q:2.5, gain:.35, verb:.5}), 40);
-    this.tone(90 - level*8, .5, {type:'triangle', gain:.18, verb:.4});
-  },
+  // the one sound on the page: the shell gives, a shimmer, the baby dragon's first calls, then silence
   hatch(){
-    this.hbRate = 0;
-    this.noise({dur:.6, freq:500, q:.6, gain:.55, type:'lowpass', verb:.7});
-    this.noise({dur:.18, freq:4000, q:.7, gain:.4, type:'highpass', verb:.6});
-    // pad turns from minor to major
-    const t = this.ctx ? this.ctx.currentTime : 0;
-    this.pad.forEach(p => { if (p.base === 174.61) p.o.frequency.setTargetAtTime(185.0, t, 1.2); });
-    [587.33, 739.99, 880, 1174.66, 1479.98].forEach((f,i) => setTimeout(() => this.tone(f, 3.2, {gain:.07, verb:1.2, attack:.02}), 120 + i*140));
-  },
-  chirp(){ this.tone(900, .28, {type:'sine', gain:.12, glide:[[1700,.1],[1250,.26]], verb:.5}); setTimeout(()=>this.tone(1100,.22,{gain:.08, glide:[[1900,.08],[1500,.2]], verb:.5}),170); },
-  fire(dur){ this.noise({dur, freq:280, q:.7, gain:.42, type:'lowpass', verb:.5, sweepTo:[2400, 420]}); this.noise({dur:dur*.8, freq:1800, q:.4, gain:.08, type:'highpass', verb:.3}); }
+    if (!this.ctx || this.played) return;
+    this.played = true; this.ctx.resume();
+    this.shell();
+    this.tone(146.83, 2.6, {type:'triangle', gain:.12, glide:[[220,1.2]], verb:.8, attack:.4});
+    [587.33, 739.99, 880, 1174.66, 1479.98].forEach((f,i) => this.tone(f, 2.8, {gain:.06, verb:1.2, attack:.02, delay:.15 + i*.14}));
+    this.tone(900, .32, {gain:.13, glide:[[1700,.1],[1250,.28]], verb:.5, delay:.55});
+    this.tone(1100, .26, {gain:.09, glide:[[1900,.08],[1500,.22]], verb:.5, delay:.75});
+    this.tone(1300, .5, {gain:.08, glide:[[2100,.12],[1600,.3],[1900,.45]], verb:.7, delay:1.25});
+    const t = this.ctx.currentTime;
+    this.master.gain.setValueAtTime(.8, t + 4); this.master.gain.exponentialRampToValueAtTime(0.0001, t + 6);
+    setTimeout(() => { try { this.ctx.close(); } catch(e){} }, 6500);
+  }
 };
 
-const soundTog = $('#soundTog'), motionTog = $('#motionTog');
+const motionTog = $('#motionTog');
 function paintToggles(){
-  soundTog.setAttribute('aria-pressed', String(A.on)); soundTog.textContent = t(A.on ? 'soundOn' : 'soundOff');
   motionTog.setAttribute('aria-pressed', String(motion)); motionTog.textContent = t(motion ? 'motionOn' : 'motionOff');
 }
 paintToggles();
-soundTog.addEventListener('click', e => {
-  e.stopPropagation();
-  if (A.on){ A.wanted = false; A.mute(); } else { A.wanted = true; A.start(); }
-  paintToggles();
-});
 motionTog.addEventListener('click', e => { e.stopPropagation(); motion = !motion; paintToggles(); });
-// the first touch anywhere opens the hall's sound
-addEventListener('pointerdown', () => { if (A.wanted && !A.on){ A.start(); paintToggles(); } }, {once:false, passive:true});
-addEventListener('keydown', e => { if ((e.key==='Enter'||e.key===' ') && A.wanted && !A.on){ A.start(); paintToggles(); } });
 
 /* =========================================================
    CANVASES
@@ -368,14 +314,12 @@ paintCopy();
 
 function touchEgg(){
   if (S.phase !== 'egg') return;
+  A.unlock();
   S.taps++; S.shake = 1; S.glow = 1; S.crackT[S.taps] = performance.now();
-  A.crack(S.taps);
-  if (S.taps === 1){ A.heartbeat(1250); ctas.style.visibility = 'hidden'; }
-  if (S.taps === 2) A.heartbeat(820);
+  if (S.taps === 1) ctas.style.visibility = 'hidden';
   if (S.taps < 3){ setScene(S.taps); return; }
   // third touch: hatch
   dots.forEach(d=>d.classList.add('on'));
-  A.heartbeat(420);
   S.phase = 'trembling';
   swapCopy(() => { eyebrow.textContent = t('awake'); title.textContent = t('welcome'); });
   prompt.classList.add('out');
@@ -390,7 +334,7 @@ function hatch(){
   A.hatch();
   makeShards();
   loadDragon();
-  setTimeout(() => { figure.classList.add('in'); A.chirp(); }, 250);
+  setTimeout(() => figure.classList.add('in'), 250);
   // a small sneeze of fire, then a real breath
   setTimeout(() => breathe(.28, 50), 2300);
   setTimeout(() => breathe(1.0, 150), 3300);
@@ -401,7 +345,6 @@ function breathe(sec, rate){
   dragon.classList.remove('recoil'); void dragon.offsetWidth; dragon.classList.add('recoil');
   setTimeout(()=>dragon.classList.remove('recoil'), 950);
   track('hatch_fire');
-  A.fire(sec + .35);
 }
 function showChoice(){
   S.phase = 'chosen';
