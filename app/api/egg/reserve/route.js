@@ -1,6 +1,6 @@
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-// POST /api/egg/reserve — a backer reserves a dragon reward tier before its checkout link is live → GHL contact with tags.
+// POST /api/egg/reserve — someone joins the dragon's Kickstarter launch list (with the reward they want) → GHL contact with tags.
 import { handle, json, readJson, HttpError, clean, validEmail, normPhone, clientIp } from '../../../../lib/egg/util.js';
 import { underLimit } from '../../../../lib/egg/store.js';
 import { syncContact } from '../../../../lib/egg/ghl.js';
@@ -30,7 +30,7 @@ export const POST = handle(async (request) => {
   await syncContact({
     firstName: first, lastName: rest.join(' '), email, phone,
     source: source ? `mythrafilm.com/egg · dragon · ${source}` : 'mythrafilm.com/egg · dragon',
-    tags: ['dragon-backer-interest', `dragon-tier-${tier}`, `lang-${lang}`],
+    tags: ['dragon-backer-interest', 'kickstarter-launch-list', `dragon-tier-${tier}`, `lang-${lang}`],
     customFields: { dragon_tier: tier, dragon_country: country, dragon_lang: lang }
   });
   return json({ ok: true }, 201);

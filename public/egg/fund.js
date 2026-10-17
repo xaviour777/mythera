@@ -1,5 +1,6 @@
-/* The dragon funding campaign under the hatch: language picker, goal, reward tiers, use of funds, reserve form.
-   Tier prices and limits live here; checkout links and the raised total come from /api/egg/config (Vercel variables). */
+/* The dragon's Kickstarter launch list under the hatch: language picker, planned goal and rewards, use of funds, signup form.
+   No money is taken here. Planned tier prices live below; the Kickstarter pre-launch link and the signup count
+   come from /api/egg/config (Vercel variables). */
 (() => {
 'use strict';
 const $ = s => document.querySelector(s);
@@ -18,9 +19,9 @@ const params = new URLSearchParams(location.search);
 const attribution = {};
 ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => { const v = params.get(k); if (v) attribution[k] = v.slice(0, 80); });
 
-let CFG = { goal: 50000, raised: null, backers: null, links: {} };
+let CFG = { goal: 50000, signups: null, kickstarter: null };
 window.MYTHRA_CFG = fetch('/api/egg/config').then(r => r.ok ? r.json() : null).catch(() => null);
-window.MYTHRA_CFG.then(c => { if (c && c.dragon){ CFG = { ...CFG, ...c.dragon, links: c.dragon.links || {} }; paint(); } });
+window.MYTHRA_CFG.then(c => { if (c && c.dragon){ CFG = { ...CFG, ...c.dragon }; paint(); } });
 
 const pixel = (name, data, custom) => { try { if (window.fbq) fbq(custom ? 'trackCustom' : 'track', name, data || {}); } catch(e){} };
 const money = n => '$' + Math.round(n).toLocaleString('en-US');
@@ -65,16 +66,7 @@ function tierCard(tr){
   const ul = document.createElement('ul');
   for (let i = 1; i <= tr.items; i++){ const li = document.createElement('li'); li.textContent = t(`t_${tr.id}_${i}`); ul.append(li); }
   const btn = document.createElement('a'); btn.className = 'btn' + (tr.feature ? '' : ' ghost');
-  btn.textContent = t('back', { price: '\u2066' + money(tr.price) + '\u2069' });
-  const link = CFG.links[tr.id];
-  if (link){
-    const u = new URL(link); Object.entries(attribution).forEach(([k,v]) => u.searchParams.set(k, v));
-    btn.href = u.toString(); btn.target = '_blank'; btn.rel = 'noopener';
-    btn.addEventListener('click', () => pixel('InitiateCheckout', { content_name: tr.id, currency:'USD', value: tr.price }));
-  } else {
-    btn.href = '#reserve';
-    btn.addEventListener('click', e => { e.preventDefault(); openReserve(tr.id); });
-  }
+  wireJoin(btn, tr.id);
   a.append(name, price, blurb, ul, btn);
   return a;
 }
@@ -83,18 +75,11 @@ function paint(){
   paintLang();
   const box = $('#tiers'); box.replaceChildren(...TIERS.map(tierCard));
 
-  // goal: progress shows only once a raised total is configured
-  const top = $('#goalTop'), big = $('#goalBig'), bar = $('#goalBar'), sub = $('#goalSub');
-  big.dir = 'ltr';
-  if (CFG.raised){
-    top.textContent = CFG.backers ? t('backers', { n: fmt(CFG.backers) }) : t('goalOnly');
-    big.textContent = money(CFG.raised);
-    sub.textContent = t('raisedOf', { raised: money(CFG.raised), goal: money(CFG.goal) });
-    bar.hidden = false;
-    requestAnimationFrame(() => { bar.firstElementChild.style.width = Math.min(100, CFG.raised / CFG.goal * 100) + '%'; });
-  } else {
-    top.textContent = t('goalOnly'); big.textContent = money(CFG.goal); sub.textContent = t('goalSub'); bar.hidden = true;
-  }
+  // planned goal; the signup count shows once DRAGON_SIGNUPS is set
+  const big = $('#goalBig'), sub = $('#goalSub');
+  big.dir = 'ltr'; big.textContent = money(CFG.goal);
+  sub.textContent = CFG.signups ? t('signups', { n: fmt(CFG.signups) }) : t('goalSub');
+  document.querySelectorAll('[data-join]').forEach(a => { wireJoin(a); a.textContent = t(CFG.kickstarter ? 'ksNotify' : 'hCta'); });
 
   const use = $('#use'); use.replaceChildren(...USE.map(([k, pct]) => {
     const row = document.createElement('div'); row.className = 'use-row';
@@ -110,7 +95,19 @@ function paint(){
 }
 MI.onChange(paint);
 
-/* reserve form: used while a tier has no checkout link */
+/* every join button: the Kickstarter pre-launch page once its link is set, until then the free signup form */
+function wireJoin(btn, tier){
+  btn.textContent = t(CFG.kickstarter ? 'ksNotify' : 'notify');
+  if (CFG.kickstarter){
+    const u = new URL(CFG.kickstarter); Object.entries(attribution).forEach(([k,v]) => u.searchParams.set(k, v));
+    btn.href = u.toString(); btn.target = '_blank'; btn.rel = 'noopener';
+    btn.onclick = () => pixel('KickstarterClick', { content_name: tier || 'cta' }, true);
+  } else {
+    btn.href = '#reserve'; btn.removeAttribute('target');
+    btn.onclick = e => { e.preventDefault(); openReserve(tier || 'hatchling'); };
+  }
+}
+/* signup form: name, email and the reward they want go to GHL; no payment */
 const sheet = $('#reserve');
 function openReserve(id){
   $('#rvTier').value = id; sheet.hidden = false;

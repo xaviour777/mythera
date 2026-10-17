@@ -15,18 +15,12 @@ export function GET() {
       studio: env('WHOP_STUDIO_URL') || 'https://whop.com/zetomate-5424/mythra-drama-method-writers-room-studio-seat/'
     },
     dragon: {
+      // Planned Kickstarter goal shown on /egg. No money is taken on the page.
       goal: num('DRAGON_GOAL_USD') || 50000,
-      // Set these in Vercel as pledges come in; the progress bar stays hidden until DRAGON_RAISED_USD is set.
-      raised: num('DRAGON_RAISED_USD'),
-      backers: num('DRAGON_BACKERS'),
-      // Checkout link per reward tier (Whop or Stripe payment links). A tier with no link opens the reserve form.
-      links: {
-        ember: env('DRAGON_EMBER_URL') || null,
-        keeper: env('DRAGON_KEEPER_URL') || null,
-        hatchling: env('DRAGON_HATCHLING_URL') || null,
-        nest: env('DRAGON_NEST_URL') || null,
-        patron: env('DRAGON_PATRON_URL') || null
-      }
+      // People on the launch list; shown once set.
+      signups: num('DRAGON_SIGNUPS'),
+      // The Kickstarter pre-launch page. Once set, every join button on /egg goes there instead of the signup form.
+      kickstarter: /^https:\/\//.test(env('DRAGON_KICKSTARTER_URL')) ? env('DRAGON_KICKSTARTER_URL') : null
     }
   }, 200, { 'cache-control': 'public, s-maxage=300, stale-while-revalidate=3600' });
 }
