@@ -26,10 +26,32 @@ const pixel = (name, data, custom) => { try { if (window.fbq) fbq(custom ? 'trac
 const money = n => '$' + Math.round(n).toLocaleString('en-US');
 const fmt = n => Number(n).toLocaleString(MI.lang === 'ar' ? 'ar-EG' : MI.lang === 'hi' ? 'hi-IN' : 'en-US');
 
-/* language picker */
-const sel = $('#lang');
-MI.langs.forEach(([code, name]) => { const o = document.createElement('option'); o.value = code; o.textContent = name; sel.append(o); });
-sel.addEventListener('change', () => { MI.set(sel.value); pixel('LanguageChanged', { lang: sel.value }, true); });
+/* language picker: a small menu in the header, each language written in its own script */
+const langBtn = $('#langBtn'), langMenu = $('#langMenu'), langCur = $('#langCur');
+const CODES = { en:'EN', ur:'UR', hi:'HI', ar:'AR', es:'ES', id:'ID' };
+MI.langs.forEach(([code, name]) => {
+  const li = document.createElement('li'), b = document.createElement('button');
+  b.type = 'button'; b.setAttribute('role', 'option'); b.dataset.lang = code;
+  const n = document.createElement('span'); n.lang = code; n.textContent = name;
+  const c = document.createElement('small'); c.textContent = CODES[code];
+  b.append(n, c); li.append(b); langMenu.append(li);
+  b.addEventListener('click', () => { closeLang(); MI.set(code); pixel('LanguageChanged', { lang: code }, true); langBtn.focus(); });
+});
+function openLang(){ langMenu.hidden = false; langBtn.setAttribute('aria-expanded', 'true'); (langMenu.querySelector('[aria-selected="true"]') || langMenu.querySelector('button')).focus(); }
+function closeLang(){ langMenu.hidden = true; langBtn.setAttribute('aria-expanded', 'false'); }
+langBtn.addEventListener('click', e => { e.stopPropagation(); langMenu.hidden ? openLang() : closeLang(); });
+document.addEventListener('click', e => { if (!langMenu.hidden && !e.target.closest('#lang')) closeLang(); });
+langMenu.addEventListener('keydown', e => {
+  const items = [...langMenu.querySelectorAll('button')], i = items.indexOf(document.activeElement);
+  if (e.key === 'ArrowDown'){ e.preventDefault(); items.at((i + 1) % items.length).focus(); }
+  if (e.key === 'ArrowUp'){ e.preventDefault(); items.at((i - 1 + items.length) % items.length).focus(); }
+  if (e.key === 'Escape'){ closeLang(); langBtn.focus(); }
+  if (e.key === 'Tab') closeLang();
+});
+function paintLang(){
+  langCur.textContent = (MI.langs.find(([c]) => c === MI.lang) || MI.langs[0])[1];
+  langMenu.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.lang === MI.lang)));
+}
 
 /* reward tiers */
 function tierCard(tr){
@@ -58,7 +80,7 @@ function tierCard(tr){
 }
 
 function paint(){
-  sel.value = MI.lang;
+  paintLang();
   const box = $('#tiers'); box.replaceChildren(...TIERS.map(tierCard));
 
   // goal: progress shows only once a raised total is configured

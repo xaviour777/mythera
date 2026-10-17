@@ -101,7 +101,36 @@ function resize(){
 }
 
 /* ---------- the hall ---------- */
+// the temple backdrop: a painted image, placed so its altar steps sit under the egg
+const temple = new Image();
+temple.decoding = 'async';
+temple.onload = () => { if (W) buildHall(); };
+// Set to '/egg/temple.webp' once the temple artwork is in public/egg; until then the painted hall below is used.
+const TEMPLE_SRC = null;
+if (TEMPLE_SRC) temple.src = TEMPLE_SRC;
+const TEMPLE_ANCHOR = { x: .5, y: .745 }; // where the egg stands in the image
+
+function buildTemple(){
+  const c = document.createElement('canvas'); const pad = 40;
+  c.width = Math.round((W+pad*2)*DPR); c.height = Math.round((H+pad*2)*DPR);
+  const g = c.getContext('2d'); g.setTransform(DPR,0,0,DPR,0,0); g.translate(pad,pad);
+  const sb = slotBox(), cx = W/2, ay = sb.bottom + scrollY;
+  const iw = temple.naturalWidth, ih = temple.naturalHeight;
+  // smallest scale that still covers the screen with the altar pinned under the egg
+  const k = Math.max((W+pad*2)/iw, (H+pad*2)/ih,
+    (cx+pad)/(TEMPLE_ANCHOR.x*iw), (W-cx+pad)/((1-TEMPLE_ANCHOR.x)*iw),
+    (ay+pad)/(TEMPLE_ANCHOR.y*ih), (H-ay+pad)/((1-TEMPLE_ANCHOR.y)*ih));
+  g.drawImage(temple, cx - TEMPLE_ANCHOR.x*iw*k, ay - TEMPLE_ANCHOR.y*ih*k, iw*k, ih*k);
+  const gr = g.createRadialGradient(cx, H*.5, Math.min(W,H)*.3, cx, H*.5, Math.max(W,H)*.85);
+  gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'rgba(0,0,0,.55)');
+  g.fillStyle = gr; g.fillRect(-pad,-pad,W+pad*2,H+pad*2);
+  braziers = [];
+  const prx = Math.min(W*.44, 560);
+  hall = {c, pad, floorY: ay, prx, pry: prx*.17, scroll: scrollY, slotAbs: ay};
+}
+
 function buildHall(){
+  if (temple.complete && temple.naturalWidth) return buildTemple();
   const c = document.createElement('canvas'); const pad = 40;
   c.width = Math.round((W+pad*2)*DPR); c.height = Math.round((H+pad*2)*DPR);
   const g = c.getContext('2d'); g.setTransform(DPR,0,0,DPR,0,0); g.translate(pad,pad);
