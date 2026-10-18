@@ -27,11 +27,14 @@ export const POST = handle(async (request) => {
   if (b.consent !== true) throw new HttpError(400, 'Tick the box so we can contact you.');
 
   const [first, ...rest] = name.split(' ');
-  await syncContact({
+  const lead = {
     firstName: first, lastName: rest.join(' '), email, phone,
     source: source ? `mythrafilm.com/egg · dragon · ${source}` : 'mythrafilm.com/egg · dragon',
     tags: ['dragon-backer-interest', 'kickstarter-launch-list', `dragon-tier-${tier}`, `lang-${lang}`],
     customFields: { dragon_tier: tier, dragon_country: country, dragon_lang: lang }
-  });
+  };
+  const synced = await syncContact(lead);
+  // If GHL didn't take it, keep the lead in the server log (Vercel → Logs) so it can be added by hand.
+  if (!synced.ok) console.error('[egg] launch-list lead not in GHL', JSON.stringify({ ...lead, result: synced }));
   return json({ ok: true }, 201);
 });
