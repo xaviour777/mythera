@@ -20,6 +20,7 @@ export const POST = handle(async (request) => {
   const lang = LANGS.includes(b.lang) ? b.lang : 'en';
   const country = clean(b.country, 60);
   const source = clean(b.utm_source, 60);
+  const cofounder = Number.isInteger(b.cofounder) && b.cofounder > 0 ? b.cofounder : '';
 
   if (!name) throw new HttpError(400, 'Add your name.');
   if (!validEmail(email)) throw new HttpError(400, 'Add a valid email.');
@@ -31,7 +32,7 @@ export const POST = handle(async (request) => {
     firstName: first, lastName: rest.join(' '), email, phone,
     source: source ? `mythrafilm.com/egg · dragon · ${source}` : 'mythrafilm.com/egg · dragon',
     tags: ['dragon-backer-interest', 'kickstarter-launch-list', `dragon-tier-${tier}`, `lang-${lang}`],
-    customFields: { dragon_tier: tier, dragon_country: country, dragon_lang: lang }
+    customFields: { dragon_tier: tier, dragon_country: country, dragon_lang: lang, dragon_cofounder_no: cofounder }
   };
   const synced = await syncContact(lead);
   // If GHL didn't take it, keep the lead in the server log (Vercel → Logs) so it can be added by hand.

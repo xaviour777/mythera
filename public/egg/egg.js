@@ -322,6 +322,24 @@ const scene = i => ({ eyebrow: t(`s${i}e`), title: t(`s${i}t`), hint: t(`s${i}h`
 const S = { taps:0, crackT:[0,0,0,0], shake:0, glow:0, phase:'egg', hatchAt:0, shards:[], flash:0, fire:[], embers:[], mist:[], flames:[], fireUntil:0, fireRate:0 };
 const copy = $('#copy'), eyebrow = $('#eyebrow'), title = $('#title'), lead = $('#lead');
 const prompt = $('#prompt'), hint = $('#hint'), sub = $('#sub'), dots = [...document.querySelectorAll('.dots i')], ctas = $('#ctas');
+
+/* the campaign below stays hidden until this visitor's dragon has hatched (once is enough, kept in this browser) */
+const fund = $('#fund');
+function reveal(fresh){ fund.classList.remove('locked'); if (fresh) fund.classList.add('reveal'); store.set('mythra-hatched', true); }
+if (store.get('mythra-hatched')) reveal(); else ctas.hidden = true;
+
+/* every hatch makes a Dragon Co-Founder with their own number; the browser keeps it */
+let cofNo = store.get('mythra-cofounder-no');
+const fallbackNo = () => 101 + Math.floor((Date.now() - Date.UTC(2026, 9, 17)) / 180000) % 90000;
+const noText = () => String(cofNo || '').padStart(4, '0');
+async function claimNumber(){
+  if (cofNo) return;
+  try { const r = await fetch('/api/egg/hatch', { method:'POST' }); const j = await r.json(); cofNo = j.n || fallbackNo(); }
+  catch(e){ cofNo = fallbackNo(); }
+  store.set('mythra-cofounder-no', cofNo);
+  paintName(); if (S.phase === 'chosen') paintCopy();
+  pixel('CoFounderNumber', { n: cofNo }, true);
+}
 const choose = $('#choose');
 
 function swapCopy(fn, el = copy, ms = 480){ el.classList.add('out'); setTimeout(() => { fn(); el.classList.remove('out'); }, ms); }
@@ -334,7 +352,7 @@ function setScene(i){
 // the words on screen for the current moment, in the visitor's language
 function paintCopy(){
   if (S.phase === 'egg'){ const sc = scene(S.taps); eyebrow.textContent = sc.eyebrow; title.textContent = sc.title; hint.textContent = sc.hint; sub.textContent = sc.sub; }
-  else if (S.phase === 'chosen'){ eyebrow.textContent = t('aftE'); title.textContent = t('aftT'); lead.hidden = false; lead.textContent = t('aftL'); }
+  else if (S.phase === 'chosen'){ eyebrow.textContent = cofNo ? t('cfEye', { n: noText() }) : t('aftE'); title.textContent = t('aftT'); lead.hidden = false; lead.textContent = t('aftL'); }
   else { eyebrow.textContent = t('awake'); title.textContent = t('welcome'); }
   slot.setAttribute('aria-label', t(S.phase === 'egg' ? 's0h' : 'shEye'));
 }
@@ -361,6 +379,7 @@ slot.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' '){ e.p
 function hatch(){
   S.phase = 'hatched'; S.hatchAt = performance.now(); S.flash = 1;
   A.hatch();
+  claimNumber();
   makeShards();
   loadDragon();
   setTimeout(() => figure.classList.add('in'), 250);
@@ -378,6 +397,7 @@ function breathe(sec, rate){
 function showChoice(){
   S.phase = 'chosen';
   swapCopy(paintCopy);
+  reveal(true);
   prompt.hidden = true;
   choose.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => choose.classList.remove('out')));
   $('#toggles').classList.add('hide');
@@ -598,10 +618,10 @@ function toast(msg){
 /* =========================================================
    SHARE: name your dragon (kept in this browser), card, share
    ========================================================= */
-const sheet = $('#sheet'), nameIn = $('#dragonName'), kName = $('#kName');
+const sheet = $('#sheet'), nameIn = $('#dragonName'), kName = $('#kName'), kNo = $('#kNo');
 nameIn.value = store.get('mythra-dragon-name') || '';
 const dragonName = () => nameIn.value.trim();
-function paintName(){ kName.textContent = dragonName() || t('myDragon'); }
+function paintName(){ kName.textContent = dragonName() || (cofNo ? '' : t('myDragon')); kNo.textContent = cofNo ? t('cfNo', { n: noText() }) : ''; }
 paintName();
 nameIn.addEventListener('input', () => { paintName(); store.set('mythra-dragon-name', dragonName()); });
 
@@ -611,10 +631,11 @@ $('#sheetClose').addEventListener('click', () => sheet.hidden = true);
 sheet.addEventListener('click', e => { if (e.target === sheet) sheet.hidden = true; });
 addEventListener('keydown', e => { if (e.key === 'Escape') sheet.hidden = true; });
 
-function shareUrl(){ return `${CONFIG.siteUrl || location.origin}/egg?utm_source=share&utm_medium=friend${window.MI && MI.lang !== 'en' ? '&lang=' + MI.lang : ''}`; }
+function shareUrl(){ return `${CONFIG.siteUrl || location.origin}/egg?utm_source=share&utm_medium=friend${cofNo ? '&utm_content=cofounder-' + cofNo : ''}${window.MI && MI.lang !== 'en' ? '&lang=' + MI.lang : ''}`; }
 function shareText(){
-  const n = dragonName();
-  return n ? t('shareName', { name: n }) : t('shareAnon');
+  const name = dragonName();
+  if (cofNo) return name ? t('shareCfName', { n: noText(), name }) : t('shareCf', { n: noText() });
+  return name ? t('shareName', { name }) : t('shareAnon');
 }
 function openOut(url){ const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; document.body.append(a); a.click(); a.remove(); }
 
@@ -624,6 +645,8 @@ $('#shareRow').addEventListener('click', async e => {
   if (kind === 'whatsapp') openOut(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
   if (kind === 'facebook') openOut(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
   if (kind === 'x') openOut(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+  if (kind === 'threads') openOut(`https://www.threads.net/intent/post?text=${encodeURIComponent(text + ' ' + url)}`);
+  if (kind === 'linkedin') openOut(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`);
   if (kind === 'telegram') openOut(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
   if (kind === 'copy'){
     try { await navigator.clipboard.writeText(url); toast(t('copied')); }
@@ -637,7 +660,7 @@ $('#nativeShare').addEventListener('click', async () => {
   try {
     const blob = await renderCardImage();
     const file = new File([blob], 'my-mythra-dragon.png', { type:'image/png' });
-    const data = { title: 'My dragon hatched', text: shareText(), url: shareUrl() };
+    const data = { title: cofNo ? t('cfNo', { n: noText() }) : 'My dragon hatched', text: shareText(), url: shareUrl() };
     if (navigator.canShare && navigator.canShare({ files:[file] })) data.files = [file];
     await navigator.share(data);
     pixel('Share', { method:'native' }, true);
@@ -649,27 +672,39 @@ let dragonBitmap = null;
 function loadImage(src){ return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
 async function renderCardImage(){
   if (!dragonBitmap) dragonBitmap = await loadImage('/egg/dragon.webp');
-  const c = document.createElement('canvas'); c.width = 1080; c.height = 1350;
+  if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
   const g = c.getContext('2d');
-  const gr = g.createRadialGradient(560, 640, 40, 540, 640, 900);
+  const gr = g.createRadialGradient(560, 520, 40, 540, 560, 900);
   gr.addColorStop(0, '#4a2c14'); gr.addColorStop(.45, '#14110f'); gr.addColorStop(1, '#050607');
-  g.fillStyle = gr; g.fillRect(0, 0, 1080, 1350);
-  g.strokeStyle = 'rgba(201,161,91,.7)'; g.lineWidth = 2; g.strokeRect(36, 36, 1008, 1278);
+  g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  // a double gold frame with corner marks, like a certificate
+  g.strokeStyle = 'rgba(201,161,91,.85)'; g.lineWidth = 2; g.strokeRect(36, 36, W - 72, H - 72);
+  g.strokeStyle = 'rgba(201,161,91,.35)'; g.lineWidth = 1; g.strokeRect(50, 50, W - 100, H - 100);
+  g.fillStyle = '#c9a15b';
+  [[36,36],[W-36,36],[36,H-36],[W-36,H-36]].forEach(([x,y]) => { g.save(); g.translate(x, y); g.rotate(Math.PI/4); g.fillRect(-7, -7, 14, 14); g.restore(); });
   const serif = '"EB Garamond", Georgia, serif', sans = 'Figtree, "Helvetica Neue", Arial, sans-serif';
+  const spaced = (txt, y, font, color, sp) => { g.font = font; g.fillStyle = color; if ('letterSpacing' in g) g.letterSpacing = sp; g.fillText(txt, W/2, y); if ('letterSpacing' in g) g.letterSpacing = '0px'; };
   g.textAlign = 'center';
-  g.fillStyle = '#c9a15b'; g.font = `500 26px ${sans}`;
-  if ('letterSpacing' in g) g.letterSpacing = '8px';
-  g.fillText('MYTHRA · THE MOTHER’S MONSTER', 540, 120);
-  if ('letterSpacing' in g) g.letterSpacing = '0px';
-  const dw = 860, dh = dw * dragonBitmap.height / dragonBitmap.width;
+  spaced('MYTHRA · THE MOTHER’S MONSTER', 118, `500 24px ${sans}`, '#c9a15b', '8px');
+  const dw = 780, dh = dw * dragonBitmap.height / dragonBitmap.width;
   g.save(); g.shadowColor = 'rgba(0,0,0,.7)'; g.shadowBlur = 50; g.shadowOffsetY = 30;
-  g.drawImage(dragonBitmap, 540 - dw/2, 170, dw, dh); g.restore();
-  g.fillStyle = '#efe6d6'; g.font = `500 104px ${serif}`;
-  g.fillText(dragonName() || t('cardNoName'), 540, 170 + dh + 120);
-  g.fillStyle = '#a9a194'; g.font = `400 34px ${sans}`;
-  g.fillText(dragonName() ? t('cardHatched') : t('cardFrom'), 540, 170 + dh + 180);
-  g.fillStyle = '#f2c57c'; g.font = `500 34px ${sans}`;
-  g.fillText(t('cardCta'), 540, 1250);
+  g.drawImage(dragonBitmap, W/2 - dw/2, 160, dw, dh); g.restore();
+  let y = 160 + dh + 80;
+  spaced(t('cfLabel').toUpperCase(), y, `600 30px ${sans}`, '#c9a15b', '10px');
+  y += 112;
+  const gold = g.createLinearGradient(0, y - 100, 0, y);
+  gold.addColorStop(0, '#f8dca0'); gold.addColorStop(1, '#c08a3e');
+  g.fillStyle = gold; g.font = `500 124px ${serif}`;
+  g.fillText(cofNo ? t('cfNo', { n: noText() }) : (dragonName() || t('cardNoName')), W/2, y);
+  y += 76;
+  g.fillStyle = '#efe6d6'; g.font = `400 40px ${serif}`;
+  if (cofNo && dragonName()) { g.fillText(t('cardDragon', { name: dragonName() }), W/2, y); y += 58; }
+  g.fillStyle = '#a9a194'; g.font = `400 30px ${sans}`;
+  g.fillText(t('cardLine'), W/2, y);
+  g.strokeStyle = 'rgba(201,161,91,.5)'; g.beginPath(); g.moveTo(W/2 - 120, 1196); g.lineTo(W/2 + 120, 1196); g.stroke();
+  g.fillStyle = '#f2c57c'; g.font = `500 32px ${sans}`;
+  g.fillText(t('cardCta'), W/2, 1258);
   return new Promise(res => c.toBlob(res, 'image/png'));
 }
 async function saveCardImage(){
