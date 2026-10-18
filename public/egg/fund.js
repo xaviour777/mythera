@@ -108,6 +108,7 @@ function wireJoin(btn, tier){
   }
 }
 /* signup form: name, email and the reward they want go to GHL; no payment */
+const cofounderNo = () => { try { return Number(JSON.parse(localStorage.getItem('mythra-cofounder-no'))) || null; } catch(e){ return null; } };
 const sheet = $('#reserve');
 function openReserve(id){
   $('#rvTier').value = id; sheet.hidden = false;
@@ -124,7 +125,7 @@ $('#rvForm').addEventListener('submit', async e => {
   const data = {
     name: $('#rvName').value.trim(), email: $('#rvEmail').value.trim(), whatsapp: $('#rvWa').value.trim(),
     country: $('#rvCountry').value.trim(), tier: $('#rvTier').value, lang: MI.lang,
-    consent: $('#rvConsent').checked, website: $('#rvWebsite').value, ...attribution
+    consent: $('#rvConsent').checked, website: $('#rvWebsite').value, cofounder: cofounderNo(), ...attribution
   };
   const fail = m => { err.hidden = false; err.textContent = m; };
   if (!data.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return fail(t('rvErrFields'));

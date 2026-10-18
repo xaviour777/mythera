@@ -12,7 +12,7 @@ T.en = {
   s2e: 'The bond', s2t: 'Every dragon needs a Keeper.', s2h: 'Meet your dragon', s2s: 'One last touch. Yours is waiting.',
   awake: 'Awakening', welcome: 'Welcome to the world.',
   aftE: 'Born from a film', aftT: 'Now help it come home.', aftL: 'We are turning this dragon into a real smart pet that grows up with your child.',
-  ctaBack: 'Bring the dragon home', ctaShare: 'Share your dragon', skip: 'See the dragon campaign',
+  ctaBack: 'Bring the dragon home', ctaShare: 'Share your Co-Founder card', skip: 'See the dragon campaign',
   soundOn: 'Sound on', soundOff: 'Sound off', motionOn: 'Motion on', motionOff: 'Motion off',
 
   hEye: 'MYTHRA Hatchling · Coming to Kickstarter',
@@ -78,12 +78,19 @@ T.en = {
   rvErrFields: 'Add your name and a valid email.', rvErrConsent: 'Tick the box so we can contact you.', rvErrNet: 'We couldn’t reach MYTHRA. Check your connection and try again.',
   close: 'Close',
 
-  shEye: 'Your dragon', shTitle: 'Name it. Show the world.', shName: 'Your dragon’s name', shNative: 'Share to Instagram, TikTok and more',
-  shNote: 'Save the image and post it to your story. Your friends get their own egg from the link.',
+  shEye: 'Your dragon', shTitle: 'Your Co-Founder card. Share it.', shName: 'Your dragon’s name', shNative: 'Share to Instagram, TikTok and more',
+  shNote: 'Post it to your story on Instagram, TikTok or Facebook. Every friend who opens your link hatches their own egg and gets their own number.',
   shCopy: 'Copy link', shSave: 'Save image', copied: 'Link copied', saved: 'Card saved. Post it to your story.', saveErr: 'Couldn’t make the image. Try again.',
-  myDragon: 'My dragon', cardHatched: 'just hatched from the egg', cardFrom: 'from the world of The Mother’s Monster', cardCta: 'Hatch yours · mythrafilm.com/egg', cardNoName: 'My dragon hatched',
+  myDragon: 'My dragon', cardHatched: 'just hatched from the egg', cardFrom: 'from the world of The Mother’s Monster', cardCta: 'Hatch your egg · mythrafilm.com/egg', cardNoName: 'My dragon hatched',
   shareName: 'My dragon {name} just hatched 🐉 from the world of The Mother’s Monster. Your egg is waiting:',
-  shareAnon: 'My dragon just hatched 🐉 from the world of The Mother’s Monster. Your egg is waiting:'
+  shareAnon: 'My dragon just hatched 🐉 from the world of The Mother’s Monster. Your egg is waiting:',
+  cfEye: 'Dragon Co-Founder · No. {n}',
+  cfLabel: 'Dragon Co-Founder',
+  cfNo: 'No. {n}',
+  cardLine: 'Helping bring the first dragon from a film to life',
+  cardDragon: 'Dragon: {name}',
+  shareCf: 'I just became Dragon Co-Founder No. {n} 🐉 I’m helping bring the dragon from The Mother’s Monster to life as the world’s first smart pet born from a film. Hatch your egg and get your own number:',
+  shareCfName: 'My dragon {name} just hatched and I became Dragon Co-Founder No. {n} 🐉 I’m helping bring the dragon from The Mother’s Monster to life. Hatch your egg and get your own number:'
 };
 
 T.ur = {
@@ -94,7 +101,7 @@ T.ur = {
   s2e: 'بندھن', s2t: 'ہر ڈریگن کو ایک محافظ چاہیے۔', s2h: 'اپنے ڈریگن سے ملیں', s2s: 'بس ایک بار اور۔ آپ کا ڈریگن انتظار میں ہے۔',
   awake: 'جاگ رہا ہے', welcome: 'دنیا میں خوش آمدید۔',
   aftE: 'ایک فلم سے پیدا ہوا', aftT: 'اب اسے گھر لانے میں مدد کریں۔', aftL: 'ہم اس ڈریگن کو ایک اصلی اسمارٹ پالتو بنا رہے ہیں جو آپ کے بچے کے ساتھ بڑا ہوگا۔',
-  ctaBack: 'ڈریگن کو گھر لائیں', ctaShare: 'اپنا ڈریگن شیئر کریں', skip: 'ڈریگن مہم دیکھیں',
+  ctaBack: 'ڈریگن کو گھر لائیں', ctaShare: 'اپنا کو-فاؤنڈر کارڈ شیئر کریں', skip: 'ڈریگن مہم دیکھیں',
   soundOn: 'آواز آن', soundOff: 'آواز بند', motionOn: 'حرکت آن', motionOff: 'حرکت بند',
 
   hEye: 'MYTHRA ہیچلنگ · جلد کِک اسٹارٹر پر',
@@ -160,12 +167,19 @@ T.ur = {
   rvErrFields: 'اپنا نام اور درست ای میل لکھیں۔', rvErrConsent: 'باکس پر نشان لگائیں تاکہ ہم آپ سے رابطہ کر سکیں۔', rvErrNet: 'MYTHRA سے رابطہ نہیں ہو سکا۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔',
   close: 'بند کریں',
 
-  shEye: 'آپ کا ڈریگن', shTitle: 'نام رکھیں۔ دنیا کو دکھائیں۔', shName: 'آپ کے ڈریگن کا نام', shNative: 'انسٹاگرام، ٹک ٹاک وغیرہ پر شیئر کریں',
-  shNote: 'تصویر محفوظ کر کے اپنی اسٹوری پر لگائیں۔ آپ کے دوستوں کو اس لنک سے اپنا انڈا ملے گا۔',
+  shEye: 'آپ کا ڈریگن', shTitle: 'آپ کا کو-فاؤنڈر کارڈ۔ شیئر کریں۔', shName: 'آپ کے ڈریگن کا نام', shNative: 'انسٹاگرام، ٹک ٹاک وغیرہ پر شیئر کریں',
+  shNote: 'اسے انسٹاگرام، ٹک ٹاک یا فیس بک اسٹوری پر لگائیں۔ جو دوست آپ کا لنک کھولے گا، اسے اپنا انڈا اور اپنا نمبر ملے گا۔',
   shCopy: 'لنک کاپی کریں', shSave: 'تصویر محفوظ کریں', copied: 'لنک کاپی ہو گیا', saved: 'کارڈ محفوظ ہو گیا۔ اپنی اسٹوری پر لگائیں۔', saveErr: 'تصویر نہیں بن سکی۔ دوبارہ کوشش کریں۔',
-  myDragon: 'میرا ڈریگن', cardHatched: 'ابھی انڈے سے نکلا', cardFrom: 'دی مدرز مونسٹر کی دنیا سے', cardCta: 'اپنا نکالیں · mythrafilm.com/egg', cardNoName: 'میرا ڈریگن نکل آیا',
+  myDragon: 'میرا ڈریگن', cardHatched: 'ابھی انڈے سے نکلا', cardFrom: 'دی مدرز مونسٹر کی دنیا سے', cardCta: 'اپنا انڈا نکالیں · mythrafilm.com/egg', cardNoName: 'میرا ڈریگن نکل آیا',
   shareName: 'میرا ڈریگن {name} ابھی دی مدرز مونسٹر کی دنیا سے انڈے سے نکلا ہے 🐉 آپ کا انڈا انتظار میں ہے:',
-  shareAnon: 'میرا ڈریگن ابھی دی مدرز مونسٹر کی دنیا سے انڈے سے نکلا ہے 🐉 آپ کا انڈا انتظار میں ہے:'
+  shareAnon: 'میرا ڈریگن ابھی دی مدرز مونسٹر کی دنیا سے انڈے سے نکلا ہے 🐉 آپ کا انڈا انتظار میں ہے:',
+  cfEye: 'ڈریگن کو-فاؤنڈر · نمبر {n}',
+  cfLabel: 'ڈریگن کو-فاؤنڈر',
+  cfNo: 'نمبر {n}',
+  cardLine: 'فلم سے پیدا ہونے والے پہلے ڈریگن کو حقیقت بنانے میں شامل',
+  cardDragon: 'ڈریگن: {name}',
+  shareCf: 'میں ڈریگن کو-فاؤنڈر نمبر {n} ہوں 🐉 دی مدرز مونسٹر کے ڈریگن کو دنیا کا پہلا فلم سے پیدا ہونے والا اسمارٹ پالتو بنانے میں میرا بھی حصہ ہے۔ اپنا انڈا نکالیں اور اپنا نمبر لیں:',
+  shareCfName: 'میرا ڈریگن {name} انڈے سے نکل آیا اور میں ڈریگن کو-فاؤنڈر نمبر {n} ہوں 🐉 دی مدرز مونسٹر کے ڈریگن کو حقیقت بنانے میں میرا بھی حصہ ہے۔ اپنا انڈا نکالیں اور اپنا نمبر لیں:'
 };
 
 T.hi = {
@@ -176,7 +190,7 @@ T.hi = {
   s2e: 'बंधन', s2t: 'हर ड्रैगन को एक रखवाला चाहिए।', s2h: 'अपने ड्रैगन से मिलें', s2s: 'बस एक बार और। आपका ड्रैगन इंतज़ार में है।',
   awake: 'जाग रहा है', welcome: 'दुनिया में स्वागत है।',
   aftE: 'एक फ़िल्म से जन्मा', aftT: 'अब इसे घर लाने में मदद करें।', aftL: 'हम इस ड्रैगन को एक असली स्मार्ट पालतू बना रहे हैं जो आपके बच्चे के साथ बड़ा होगा।',
-  ctaBack: 'ड्रैगन को घर लाएँ', ctaShare: 'अपना ड्रैगन शेयर करें', skip: 'ड्रैगन अभियान देखें',
+  ctaBack: 'ड्रैगन को घर लाएँ', ctaShare: 'अपना को-फ़ाउंडर कार्ड शेयर करें', skip: 'ड्रैगन अभियान देखें',
   soundOn: 'आवाज़ चालू', soundOff: 'आवाज़ बंद', motionOn: 'हलचल चालू', motionOff: 'हलचल बंद',
 
   hEye: 'MYTHRA हैचलिंग · जल्द Kickstarter पर',
@@ -242,12 +256,19 @@ T.hi = {
   rvErrFields: 'अपना नाम और सही ईमेल लिखें।', rvErrConsent: 'बॉक्स पर निशान लगाएँ ताकि हम आपसे संपर्क कर सकें।', rvErrNet: 'MYTHRA से संपर्क नहीं हो सका। इंटरनेट जाँचें और फिर कोशिश करें।',
   close: 'बंद करें',
 
-  shEye: 'आपका ड्रैगन', shTitle: 'नाम रखें। दुनिया को दिखाएँ।', shName: 'आपके ड्रैगन का नाम', shNative: 'Instagram, TikTok वगैरह पर शेयर करें',
-  shNote: 'तस्वीर सेव करके अपनी स्टोरी पर लगाएँ। आपके दोस्तों को इस लिंक से अपना अंडा मिलेगा।',
+  shEye: 'आपका ड्रैगन', shTitle: 'आपका को-फ़ाउंडर कार्ड। शेयर करें।', shName: 'आपके ड्रैगन का नाम', shNative: 'Instagram, TikTok वगैरह पर शेयर करें',
+  shNote: 'इसे इंस्टाग्राम, टिकटॉक या फ़ेसबुक स्टोरी पर लगाएँ। जो दोस्त आपका लिंक खोलेगा, उसे अपना अंडा और अपना नंबर मिलेगा।',
   shCopy: 'लिंक कॉपी करें', shSave: 'तस्वीर सेव करें', copied: 'लिंक कॉपी हो गया', saved: 'कार्ड सेव हो गया। अपनी स्टोरी पर लगाएँ।', saveErr: 'तस्वीर नहीं बन सकी। फिर कोशिश करें।',
-  myDragon: 'मेरा ड्रैगन', cardHatched: 'अभी अंडे से निकला', cardFrom: 'द मदर्स मॉन्स्टर की दुनिया से', cardCta: 'अपना निकालें · mythrafilm.com/egg', cardNoName: 'मेरा ड्रैगन निकल आया',
+  myDragon: 'मेरा ड्रैगन', cardHatched: 'अभी अंडे से निकला', cardFrom: 'द मदर्स मॉन्स्टर की दुनिया से', cardCta: 'अपना अंडा फोड़ें · mythrafilm.com/egg', cardNoName: 'मेरा ड्रैगन निकल आया',
   shareName: 'मेरा ड्रैगन {name} अभी द मदर्स मॉन्स्टर की दुनिया से अंडे से निकला 🐉 आपका अंडा इंतज़ार में है:',
-  shareAnon: 'मेरा ड्रैगन अभी द मदर्स मॉन्स्टर की दुनिया से अंडे से निकला 🐉 आपका अंडा इंतज़ार में है:'
+  shareAnon: 'मेरा ड्रैगन अभी द मदर्स मॉन्स्टर की दुनिया से अंडे से निकला 🐉 आपका अंडा इंतज़ार में है:',
+  cfEye: 'ड्रैगन को-फ़ाउंडर · नंबर {n}',
+  cfLabel: 'ड्रैगन को-फ़ाउंडर',
+  cfNo: 'नंबर {n}',
+  cardLine: 'फ़िल्म से जन्मे पहले ड्रैगन को असली बनाने में साथ',
+  cardDragon: 'ड्रैगन: {name}',
+  shareCf: 'मैं ड्रैगन को-फ़ाउंडर नंबर {n} हूँ 🐉 द मदर्स मॉन्स्टर के ड्रैगन को दुनिया का पहला फ़िल्म से जन्मा स्मार्ट पालतू बनाने में मेरा भी हिस्सा है। अपना अंडा फोड़ें और अपना नंबर पाएँ:',
+  shareCfName: 'मेरा ड्रैगन {name} अंडे से निकल आया और मैं ड्रैगन को-फ़ाउंडर नंबर {n} हूँ 🐉 द मदर्स मॉन्स्टर के ड्रैगन को असली बनाने में मेरा भी हिस्सा है। अपना अंडा फोड़ें और अपना नंबर पाएँ:'
 };
 
 T.ar = {
@@ -258,7 +279,7 @@ T.ar = {
   s2e: 'الرابطة', s2t: 'كل تنين يحتاج إلى حارس.', s2h: 'قابل تنينك', s2s: 'لمسة أخيرة. تنينك ينتظر.',
   awake: 'يستيقظ', welcome: 'مرحبًا بك في العالم.',
   aftE: 'وُلد من فيلم', aftT: 'ساعدنا الآن لنحضره إلى البيت.', aftL: 'نحوّل هذا التنين إلى حيوان أليف ذكي حقيقي يكبر مع طفلك.',
-  ctaBack: 'أحضر التنين إلى البيت', ctaShare: 'شارك تنينك', skip: 'شاهد حملة التنين',
+  ctaBack: 'أحضر التنين إلى البيت', ctaShare: 'شارك بطاقة الشريك المؤسس', skip: 'شاهد حملة التنين',
   soundOn: 'الصوت يعمل', soundOff: 'الصوت مغلق', motionOn: 'الحركة تعمل', motionOff: 'الحركة متوقفة',
 
   hEye: 'MYTHRA هاتشلينغ · قريبًا على كيكستارتر',
@@ -324,12 +345,19 @@ T.ar = {
   rvErrFields: 'أضف اسمك وبريدًا إلكترونيًا صحيحًا.', rvErrConsent: 'ضع علامة في المربع حتى نتمكن من التواصل معك.', rvErrNet: 'تعذر الوصول إلى MYTHRA. تحقق من اتصالك وحاول مرة أخرى.',
   close: 'إغلاق',
 
-  shEye: 'تنينك', shTitle: 'سمّه. وأرِه للعالم.', shName: 'اسم تنينك', shNative: 'شارك على إنستغرام وتيك توك وغيرها',
-  shNote: 'احفظ الصورة وانشرها في قصتك. سيحصل أصدقاؤك على بيضتهم من الرابط.',
+  shEye: 'تنينك', shTitle: 'بطاقتك كشريك مؤسس. شاركها.', shName: 'اسم تنينك', shNative: 'شارك على إنستغرام وتيك توك وغيرها',
+  shNote: 'انشرها في قصتك على إنستغرام أو تيك توك أو فيسبوك. كل صديق يفتح رابطك يفقس بيضته ويحصل على رقمه.',
   shCopy: 'نسخ الرابط', shSave: 'حفظ الصورة', copied: 'تم نسخ الرابط', saved: 'تم حفظ البطاقة. انشرها في قصتك.', saveErr: 'تعذر إنشاء الصورة. حاول مرة أخرى.',
-  myDragon: 'تنيني', cardHatched: 'فقس للتو من البيضة', cardFrom: 'من عالم وحش الأم', cardCta: 'افقس تنينك · mythrafilm.com/egg', cardNoName: 'فقس تنيني',
+  myDragon: 'تنيني', cardHatched: 'فقس للتو من البيضة', cardFrom: 'من عالم وحش الأم', cardCta: 'افقس بيضتك · mythrafilm.com/egg', cardNoName: 'فقس تنيني',
   shareName: 'تنيني {name} فقس للتو 🐉 من عالم وحش الأم. بيضتك تنتظرك:',
-  shareAnon: 'تنيني فقس للتو 🐉 من عالم وحش الأم. بيضتك تنتظرك:'
+  shareAnon: 'تنيني فقس للتو 🐉 من عالم وحش الأم. بيضتك تنتظرك:',
+  cfEye: 'شريك مؤسس للتنين · رقم {n}',
+  cfLabel: 'شريك مؤسس للتنين',
+  cfNo: 'رقم {n}',
+  cardLine: 'يساعد في إحياء أول تنين وُلد من فيلم',
+  cardDragon: 'التنين: {name}',
+  shareCf: 'أصبحتُ الشريك المؤسس للتنين رقم {n} 🐉 أساعد في تحويل تنين فيلم وحش الأم إلى أول حيوان أليف ذكي وُلد من فيلم. افقس بيضتك واحصل على رقمك:',
+  shareCfName: 'فقس تنيني {name} وأصبحتُ الشريك المؤسس للتنين رقم {n} 🐉 أساعد في إحياء تنين فيلم وحش الأم. افقس بيضتك واحصل على رقمك:'
 };
 
 T.es = {
@@ -340,7 +368,7 @@ T.es = {
   s2e: 'El vínculo', s2t: 'Todo dragón necesita un Guardián.', s2h: 'Conoce a tu dragón', s2s: 'Un último toque. El tuyo te espera.',
   awake: 'Despertando', welcome: 'Bienvenido al mundo.',
   aftE: 'Nacido de una película', aftT: 'Ahora ayúdalo a llegar a casa.', aftL: 'Estamos convirtiendo este dragón en una mascota inteligente de verdad que crece con tu hijo.',
-  ctaBack: 'Lleva el dragón a casa', ctaShare: 'Comparte tu dragón', skip: 'Ver la campaña del dragón',
+  ctaBack: 'Lleva el dragón a casa', ctaShare: 'Comparte tu tarjeta de Cofundador', skip: 'Ver la campaña del dragón',
   soundOn: 'Sonido sí', soundOff: 'Sonido no', motionOn: 'Movimiento sí', motionOff: 'Movimiento no',
 
   hEye: 'MYTHRA Hatchling · Muy pronto en Kickstarter',
@@ -406,12 +434,19 @@ T.es = {
   rvErrFields: 'Escribe tu nombre y un correo válido.', rvErrConsent: 'Marca la casilla para que podamos contactarte.', rvErrNet: 'No pudimos conectar con MYTHRA. Revisa tu conexión e inténtalo de nuevo.',
   close: 'Cerrar',
 
-  shEye: 'Tu dragón', shTitle: 'Ponle nombre. Muéstralo al mundo.', shName: 'El nombre de tu dragón', shNative: 'Compartir en Instagram, TikTok y más',
-  shNote: 'Guarda la imagen y publícala en tu historia. Tus amigos recibirán su propio huevo con el enlace.',
+  shEye: 'Tu dragón', shTitle: 'Tu tarjeta de Cofundador. Compártela.', shName: 'El nombre de tu dragón', shNative: 'Compartir en Instagram, TikTok y más',
+  shNote: 'Publícala en tu historia de Instagram, TikTok o Facebook. Cada amigo que abra tu enlace eclosiona su propio huevo y recibe su número.',
   shCopy: 'Copiar enlace', shSave: 'Guardar imagen', copied: 'Enlace copiado', saved: 'Tarjeta guardada. Publícala en tu historia.', saveErr: 'No se pudo crear la imagen. Inténtalo de nuevo.',
-  myDragon: 'Mi dragón', cardHatched: 'acaba de salir del huevo', cardFrom: 'del mundo de The Mother’s Monster', cardCta: 'Haz nacer el tuyo · mythrafilm.com/egg', cardNoName: 'Nació mi dragón',
+  myDragon: 'Mi dragón', cardHatched: 'acaba de salir del huevo', cardFrom: 'del mundo de The Mother’s Monster', cardCta: 'Eclosiona tu huevo · mythrafilm.com/egg', cardNoName: 'Nació mi dragón',
   shareName: 'Mi dragón {name} acaba de nacer 🐉 del mundo de The Mother’s Monster. Tu huevo te espera:',
-  shareAnon: 'Mi dragón acaba de nacer 🐉 del mundo de The Mother’s Monster. Tu huevo te espera:'
+  shareAnon: 'Mi dragón acaba de nacer 🐉 del mundo de The Mother’s Monster. Tu huevo te espera:',
+  cfEye: 'Cofundador del Dragón · N.º {n}',
+  cfLabel: 'Cofundador del Dragón',
+  cfNo: 'N.º {n}',
+  cardLine: 'Ayudando a dar vida al primer dragón nacido de una película',
+  cardDragon: 'Dragón: {name}',
+  shareCf: 'Ahora soy Cofundador del Dragón N.º {n} 🐉 Estoy ayudando a dar vida al dragón de The Mother’s Monster como la primera mascota inteligente nacida de una película. Eclosiona tu huevo y consigue tu número:',
+  shareCfName: 'Mi dragón {name} acaba de nacer y soy Cofundador del Dragón N.º {n} 🐉 Estoy ayudando a dar vida al dragón de The Mother’s Monster. Eclosiona tu huevo y consigue tu número:'
 };
 
 T.id = {
@@ -422,7 +457,7 @@ T.id = {
   s2e: 'Ikatan', s2t: 'Setiap naga butuh seorang Penjaga.', s2h: 'Temui nagamu', s2s: 'Satu sentuhan lagi. Nagamu menunggu.',
   awake: 'Terbangun', welcome: 'Selamat datang di dunia.',
   aftE: 'Lahir dari sebuah film', aftT: 'Sekarang bantu ia pulang.', aftL: 'Kami menjadikan naga ini hewan peliharaan pintar sungguhan yang tumbuh bersama anakmu.',
-  ctaBack: 'Bawa naga pulang', ctaShare: 'Bagikan nagamu', skip: 'Lihat kampanye naga',
+  ctaBack: 'Bawa naga pulang', ctaShare: 'Bagikan kartu Co-Founder-mu', skip: 'Lihat kampanye naga',
   soundOn: 'Suara nyala', soundOff: 'Suara mati', motionOn: 'Gerak nyala', motionOff: 'Gerak mati',
 
   hEye: 'MYTHRA Hatchling · Segera di Kickstarter',
@@ -488,12 +523,19 @@ T.id = {
   rvErrFields: 'Isi namamu dan email yang valid.', rvErrConsent: 'Centang kotaknya agar kami bisa menghubungimu.', rvErrNet: 'Tidak bisa terhubung ke MYTHRA. Periksa koneksimu dan coba lagi.',
   close: 'Tutup',
 
-  shEye: 'Nagamu', shTitle: 'Beri nama. Tunjukkan ke dunia.', shName: 'Nama nagamu', shNative: 'Bagikan ke Instagram, TikTok, dan lainnya',
-  shNote: 'Simpan gambarnya dan unggah ke story-mu. Teman-temanmu mendapat telur mereka sendiri dari tautan ini.',
+  shEye: 'Nagamu', shTitle: 'Kartu Co-Founder-mu. Bagikan.', shName: 'Nama nagamu', shNative: 'Bagikan ke Instagram, TikTok, dan lainnya',
+  shNote: 'Pasang di story Instagram, TikTok, atau Facebook. Setiap teman yang membuka tautanmu menetaskan telurnya sendiri dan dapat nomornya.',
   shCopy: 'Salin tautan', shSave: 'Simpan gambar', copied: 'Tautan disalin', saved: 'Kartu disimpan. Unggah ke story-mu.', saveErr: 'Gambar gagal dibuat. Coba lagi.',
-  myDragon: 'Nagaku', cardHatched: 'baru saja menetas', cardFrom: 'dari dunia The Mother’s Monster', cardCta: 'Tetaskan milikmu · mythrafilm.com/egg', cardNoName: 'Nagaku menetas',
+  myDragon: 'Nagaku', cardHatched: 'baru saja menetas', cardFrom: 'dari dunia The Mother’s Monster', cardCta: 'Tetaskan telurmu · mythrafilm.com/egg', cardNoName: 'Nagaku menetas',
   shareName: 'Nagaku {name} baru saja menetas 🐉 dari dunia The Mother’s Monster. Telurmu menunggu:',
-  shareAnon: 'Nagaku baru saja menetas 🐉 dari dunia The Mother’s Monster. Telurmu menunggu:'
+  shareAnon: 'Nagaku baru saja menetas 🐉 dari dunia The Mother’s Monster. Telurmu menunggu:',
+  cfEye: 'Co-Founder Naga · No. {n}',
+  cfLabel: 'Co-Founder Naga',
+  cfNo: 'No. {n}',
+  cardLine: 'Ikut menghidupkan naga pertama yang lahir dari film',
+  cardDragon: 'Naga: {name}',
+  shareCf: 'Aku sekarang Co-Founder Naga No. {n} 🐉 Aku ikut menghidupkan naga dari The Mother’s Monster sebagai hewan peliharaan pintar pertama yang lahir dari film. Tetaskan telurmu dan dapatkan nomormu:',
+  shareCfName: 'Nagaku {name} baru menetas dan aku jadi Co-Founder Naga No. {n} 🐉 Aku ikut menghidupkan naga dari The Mother’s Monster. Tetaskan telurmu dan dapatkan nomormu:'
 };
 
 const LANGS = [['en','English'],['ur','اردو'],['hi','हिन्दी'],['ar','العربية'],['es','Español'],['id','Bahasa Indonesia']];
